@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Sidenav from './Sidenav'
-import Card from '../Card';
 
 const MainLayout = () => {
 	return (
@@ -10,9 +9,7 @@ const MainLayout = () => {
 			<div className=' md:ml-[300px] w-full'>
 				<Header />
 				<div className='min-h-[90vh] py-8 px-4'>
-				<Outlet>
-					<Card />
-                </Outlet>
+					<Outlet />
 				</div>
 			</div>
 		</div>
