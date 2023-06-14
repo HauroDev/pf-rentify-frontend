@@ -1,0 +1,18 @@
+.layout {
+	display: grid;
+	grid-template-areas:
+		'side header'
+		'side container';
+}
+
+.side {
+	grid-area: side;
+}
+
+.header {
+	grid-area: header;
+}
+
+.container {
+	grid-area: container;
+}
