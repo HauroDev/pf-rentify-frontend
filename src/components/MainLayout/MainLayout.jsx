@@ -6,7 +6,7 @@ const MainLayout = () => {
 	return (
 		<div className='flex max-w-[1920px] mx-auto'>
 			<Sidenav />
-			<div className='w-4/5 lg:w-10/12'>
+			<div className=' md:ml-[300px] w-full'>
 				<Header />
 				<div className='min-h-[90vh] py-8 px-4'>
 					<Outlet />

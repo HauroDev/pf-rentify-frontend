@@ -1,26 +1,22 @@
+import SelectInput from '../SelectInput'
+import SearchInput from './SearchInput'
+
 const Sidenav = () => {
 	return (
-		<nav className='min-h-full md:w-1/5 lg:w-2/12 p-4'>
-			<h2 className='font-amaranth text-4xl'>LOGO</h2>
+		<nav className='min-h-full md:w-[171px] lg:w-2/12 p-4 fixed'>
+			<h2 className='font-amaranth text-4xl mb-8'>LOGO</h2>
 
-			<section>
+			<section className='w-10/12 flex flex-col gap-6'>
+				<SearchInput />
+
 				<div>
-					<input type='text' placeholder='Search' />
+					<SelectInput label='Country' name='location' />
 				</div>
 				<div>
-					<select name='' id=''>
-						<option value=''>Select paises</option>
-					</select>
+					<SelectInput label='Category' name='categories' />
 				</div>
 				<div>
-					<select name='' id=''>
-						<option value=''>Select categories</option>
-					</select>
-				</div>
-				<div>
-					<select name='' id=''>
-						<option value=''>Select sort</option>
-					</select>
+					<SelectInput label='Order' name='order' />
 				</div>
 			</section>
 		</nav>
