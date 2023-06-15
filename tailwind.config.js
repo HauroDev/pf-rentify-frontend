@@ -8,7 +8,7 @@ export default {
 				dark_purple: '#4700D8',
 				medium_purple: '#9900F0',
 				light_purple: '#AF88FF',
-				medium_fuchsia: '#9900F0',
+				medium_fuchsia: '#F900BF',
 				light_fuchsia: '#FF85B3',
 				text_light: '#333333',
 				body_dark: '#252525',
