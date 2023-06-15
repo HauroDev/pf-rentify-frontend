@@ -19,8 +19,8 @@ const Card = () => {
 			{products.map((product) => (
 				<div key={product.id} className='card border border-gray-200 shadow-md rounded-lg p-4'>
 					{product.isFeatured && (
-						<div className='flex items-center '>
-							<div  className='bg-dark_purple flex items-center pr-2 mb-2'>
+						<div className='flex items-center bg-dark_purple '>
+							<div  className=' flex items-center pr-2 mb-2'>
 							<FeaturedIcon className='w-10 h-10 ' />
 							<div className=' text-text_dark font-bold font-amaranth text-2xl'>Sponsored</div>
 							</div>
