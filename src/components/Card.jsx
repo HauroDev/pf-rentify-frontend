@@ -51,7 +51,7 @@ const Card = () => {
             </div>
           )}
           <img src={product.image} alt='Image of the product' className='w-full mb-2 rounded-lg' />
-          <div className='text-3xl font-cabin font-bold mb-2'>
+          <div className='flex justify-between items-end text-3xl font-cabin font-bold mb-2'>
             ${product.price}
 			<span className="text-sm text-gray_dark">
               {formatCreatedAt(product.createdAt)}
@@ -61,7 +61,8 @@ const Card = () => {
           <div className='mb-2 flex text-medium_fuchsia'>
             <p className="px-4 py-2 mr-2 bg-purple_badge rounded-lg">{getCategoryName(product.idProd)}</p>
           </div>
-          <BtnAddCartCard />
+		  <div className="flex justify-end w-full"><BtnAddCartCard /></div>
+          
         </div>
       ))}
     </div>
