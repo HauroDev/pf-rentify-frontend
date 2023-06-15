@@ -1,18 +1,14 @@
 import CartIcon from '../icons/CartIcon'
-import SunIcon from '../icons/SunIcon'
-import MoonIcon from '../icons/MoonIcon'
 import UserICon from '../icons/UserIcon'
+import BtnDarkMode from './BtnDarkMode'
 
 const Header = () => {
 	return (
-		<header>
-			<div className=' flex justify-end items-center gap-6 w-full p-4'>
-				<CartIcon className='stroke-dark_purple' />
-				<div>
-					<SunIcon className='stroke-dark_purple' />
-					<MoonIcon className='stroke-dark_purple' />
-				</div>
-				<UserICon className='stroke-dark_purple' />
+		<header className='h-[60px] fixed top-0 right-0 w-full p-4 bg-body_light dark:bg-body_dark'>
+			<div className='flex justify-end items-center gap-6 w-full'>
+				<CartIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
+				<BtnDarkMode />
+				<UserICon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
 			</div>
 		</header>
 	)
