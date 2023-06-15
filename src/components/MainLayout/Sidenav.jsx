@@ -1,10 +1,13 @@
 import SelectInput from '../SelectInput'
 import SearchBtn from './SearchBtn'
+import logoImg from '../../assets/image/logo-rentify.png'
 
 const Sidenav = () => {
 	return (
 		<nav className='min-h-full w-52 p-4 fixed z-10 bg-body_light dark:bg-body_dark'>
-			<h2 className='font-amaranth text-4xl mb-8'>LOGO</h2>
+			<div className='w-full mb-8'>
+				<img src={logoImg} alt='rentify logo' />
+			</div>
 
 			<section className='w-full flex flex-col gap-6'>
 				<SearchBtn />
