@@ -15,18 +15,27 @@ export const dataExample = {
 	],
 	products: [
 		{
-			id: 1,
-			name: 'Producto 1',
-			description: 'Descripción del producto 1',
+			idProd: 21,
+			name: "Renta de equipo de oficina",
+			description: "Todo lo necesario para poder trabajar, brindamos mantenimiento incluido",
 			image:
-				'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg',
-			price: 10.99,
-			location: 'Ubicación del producto 1',
-			statusPub: 'active',
-			statusProd: 'available',
+			'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg',
+		    price: 8.99,
+			location: "Argentina",
+			statusPub: "active",
+			statusProd: "available",
 			isFeatured: true,
-			categoryId: [1,2, 3]
-		},
+			createdAt: "2023-06-15T17:36:07.088Z",
+			updatedAt: "2023-06-15T17:36:07.088Z",
+			categories: [
+			  {
+				idCategory: 1,
+				name: "electronics",
+				createdAt: "2023-06-15T02:39:11.743Z",
+				updatedAt: "2023-06-15T02:39:11.743Z"
+			  }
+			]
+		  },
 		{
 			id: 2,
 			name: 'Producto 2',
