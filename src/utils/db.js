@@ -8,6 +8,10 @@ export const dataExample = {
 			id: 2,
 			name: 'Moda y Accesorios',
 		},
+		{
+			id: 3,
+			name: 'Niños',
+		},
 	],
 	products: [
 		{
@@ -21,7 +25,7 @@ export const dataExample = {
 			statusPub: 'active',
 			statusProd: 'available',
 			isFeatured: true,
-			categoryId: 1,
+			categoryId: [1,2, 3]
 		},
 		{
 			id: 2,
