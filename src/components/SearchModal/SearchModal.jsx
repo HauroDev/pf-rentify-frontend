@@ -46,7 +46,7 @@ const SearchModal = ({ closeModal }) => {
 				<div className=' w-full h-[calc(100%-64px)] p-4'>
 					{searchState.status === 'loading' && <h3>Loading...</h3>}
 					{searchState.status === 'error' && <h3>Error: {searchState.error}</h3>}
-					{searchState.products.length && (
+					{searchState.products.length ? (
 						<>
 							<p className='font-bold mb-3'> Results for &quot;{searchState.search}&quot;:</p>
 							<section className='grid gap-4 mb-8'>
@@ -64,6 +64,8 @@ const SearchModal = ({ closeModal }) => {
 							</section>
 							{searchState.next && <button onClick={handleMoreBtn}>More</button>}
 						</>
+					) : (
+						''
 					)}
 				</div>
 			</div>
