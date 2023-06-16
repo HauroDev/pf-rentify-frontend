@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import {
@@ -6,10 +6,12 @@ import {
 	resetDetail,
 	resetError,
 } from '../app/features/products/productsSlice'
-import imgNotFound from '../assets/image/image-not-found.jpg'
+
+import DetailsTop from '../components/Details/DetailsTop'
+import DetailsMid from '../components/Details/DetailsMid'
+import DetailComments from '../components/Details/DetailComments'
 
 const DetailProduct = () => {
-	const [imgExist, setImgExist] = useState(false)
 	const { id } = useParams()
 	const dispatch = useDispatch()
 	const productState = useSelector((state) => state.products)
@@ -21,7 +23,7 @@ const DetailProduct = () => {
 			dispatch(resetDetail())
 			dispatch(resetError())
 		}
-	}, [])
+	}, [dispatch, id])
 
 	if (productState.status === 'loading') return <h3>Loading...</h3>
 
@@ -29,24 +31,24 @@ const DetailProduct = () => {
 
 	const { productDetail } = productState
 
-	const imagen = new Image()
-	imagen.onload = () => {
-		setImgExist(true)
-	}
-	imagen.onerror = () => {
-		setImgExist(false)
-	}
-
-	imagen.src = productDetail.image
-
 	return (
-		<div>
-			<section>
-				<div>
-					<img src={imgExist ? productDetail.image : imgNotFound} alt={productDetail.name} />
-				</div>
-				<div></div>
-			</section>
+		<div className='w-full xl:w-10/12  mx-auto flex flex-col gap-8'>
+			{productState.status === 'success' && (
+				<>
+					<DetailsTop
+						idProd={productDetail.idProd}
+						image={productDetail.image}
+						location={productDetail.location}
+						name={productDetail.name}
+						price={productDetail.price}
+						updatedAt={productDetail.updatedAt}
+					/>
+
+					<DetailsMid description={productDetail.description} />
+
+					<DetailComments />
+				</>
+			)}
 		</div>
 	)
 }
