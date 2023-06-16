@@ -1,7 +1,14 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { fetchGetProductByNameAsync, setSearch } from '../app/features/search/searchSlice'
+import {
+	fetchGetMoreProductByNameAsync,
+	fetchGetProductByNameAsync,
+	setSearch,
+} from '../app/features/search/searchSlice'
+import CardsSearch from '../components/SearchView/CardsSearch'
+import Loader from '../components/Loader'
+import BtnMore from '../components/BtnMore'
 
 const SearchProducys = () => {
 	const dispatch = useDispatch()
@@ -16,18 +23,31 @@ const SearchProducys = () => {
 		}
 	}, [dispatch])
 
-	console.log(searchState)
+	if (searchState.error) return <h3>Error: {setSearch.error}</h3>
+
+	const handleMore = () => {
+		dispatch(fetchGetMoreProductByNameAsync(searchState.next))
+	}
 
 	return (
 		<div>
 			<h2 className='font-bold text-lg md:text-xl mb-3'>
 				Results for &quot;{searchState.search}&quot;:
 			</h2>
-			{searchState.products.map((product) => (
-				<div key={product.idProd}>
-					<h3>{product.name}</h3>
-				</div>
-			))}
+			{searchState.products.length ? <CardsSearch products={searchState.products} /> : ''}
+
+			{!searchState.products.length && searchState.status !== 'loading' ? (
+				<h3>There are no results</h3>
+			) : (
+				''
+			)}
+
+			{searchState.status !== 'loading' && !searchState.error && searchState.next ? (
+				<BtnMore label='More results' onclick={handleMore} />
+			) : (
+				''
+			)}
+			{searchState.status === 'loading' && <Loader />}
 		</div>
 	)
 }
