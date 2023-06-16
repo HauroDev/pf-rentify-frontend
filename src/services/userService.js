@@ -1,8 +1,8 @@
 // servicios user
 import axios from 'axios'
-import { PRODUCTS_API } from '../utils/apiRoutes'
+import { USER_API } from '../utils/apiRoutes'
 
-export const getProductByName = async (name) => {
-	const { data } = await axios.post(`${PRODUCTS_API}`)
+export const postUsers = async () => {
+	const { data } = await axios.post(`${USER_API}`)
 	return data
 }
