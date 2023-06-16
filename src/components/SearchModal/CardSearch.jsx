@@ -1,23 +1,45 @@
+/* eslint-disable react/prop-types */
 import imageNotFound from '../../assets/image/image-not-found.jpg'
-import BtnAddCartCard from '../BtnAddCartCard'
+import { isImgValid } from '../../utils/isImgValid'
+import { useEffect, useState } from 'react'
+import { formatDate } from '../../utils/formatDate'
+import { useNavigate } from 'react-router-dom'
 
-const CardSearch = () => {
+const CardSearch = ({ image, id, name, price, updatedAt, closeModal }) => {
+	const [imgValid, setImgValid] = useState(false)
+	const [date, setDate] = useState('')
+
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		isImgValid(image, setImgValid)
+		setDate(formatDate(updatedAt))
+	}, [])
+
+	const handleNavigate = () => {
+		navigate(`/product/${id}`)
+		closeModal()
+	}
+
 	return (
-		<div className='w-full bg-white dark:bg-card_dark p-4 rounded-md shadow flex'>
+		<div
+			className='w-full bg-white dark:bg-card_dark p-4 rounded-md shadow flex cursor-pointer'
+			onClick={handleNavigate}>
 			<section className='flex gap-2 items-center md:items-start w-10/12'>
 				<div className='w-16 h-16 md:w-24 md:h-24'>
-					<img src={imageNotFound} alt='not-found' className='w-full min-w-[64px] rounded' />
+					<img
+						src={imgValid ? image : imageNotFound}
+						alt={name}
+						className='w-full min-w-[64px] rounded'
+					/>
 				</div>
 				<div className='truncate'>
-					<h3 className='truncate text-lg md:text-2xl'>Nombre del producto</h3>
+					<h3 className='truncate text-lg md:text-2xl'>{name}</h3>
 					<p className='font-amaranth text-base md:text-xl'>
-						$20.00 <span className='text-xs md:text-base'>USD</span>
+						$ {price} <span className='text-xs md:text-base'>moneda</span>
 					</p>
-					<p className='text-gray_dark text-xs md:text-base md:mt-4'>fecha</p>
+					<p className='text-gray_dark text-xs md:text-base md:mt-4'>{date}</p>
 				</div>
-			</section>
-			<section className='self-end min-w-[32px] w-2/12 flex justify-end'>
-				<BtnAddCartCard />
 			</section>
 		</div>
 	)

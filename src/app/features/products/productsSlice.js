@@ -19,6 +19,7 @@ export const fetchGetAllProductsAsync = createAsyncThunk(
 		}
 	}
 )
+
 export const fetchGetProductByIdAsync = createAsyncThunk(
 	'products/fetchGetProductById',
 	async (id) => {
@@ -58,7 +59,6 @@ const productsSlice = createSlice({
 			})
 
 			// GET PRODUCT ID
-
 			.addCase(fetchGetProductByIdAsync.pending, (state) => {
 				state.status = 'loading'
 			})

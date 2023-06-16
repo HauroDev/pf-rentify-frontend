@@ -8,9 +8,6 @@ import { routesName } from '../../utils/routes_name'
 
 const Sidenav = ({ isOpen, closeModal }) => {
 	const { pathname } = useLocation()
-
-	console.log(pathname)
-
 	const modalOpenClasses = isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
 	const menuOpenClasses = isOpen ? 'left-0' : 'left-[-100vh]'
 
