@@ -54,8 +54,8 @@ const Card = () => {
             {product.isFeatured && (
               <div className='flex items-center bg-dark_purple'>
                 <div className='flex items-center pr-2'>
-                  <FeaturedIcon className='w-10 h-10' />
-                  <div className='text-text_dark font-bold font-amaranth text-2xl'>Sponsored</div>
+                  <FeaturedIcon className='w-7 h-7' />
+                  <div className='text-text_dark font-bold font-amaranth text-sm'>Sponsored</div>
                 </div>
               </div>
             )}
