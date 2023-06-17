@@ -7,7 +7,7 @@ import logoImg from '../../assets/image/logo-rentify.png'
 
 const Header = ({ openModal }) => {
 	return (
-		<header className='h-[60px] flex items-center justify-between fixed top-0 right-0 w-full p-4 bg-body_light dark:bg-body_dark'>
+		<header className='h-[60px] flex items-center justify-between fixed z-10 top-0 right-0 w-full p-4 bg-body_light dark:bg-body_dark'>
 			<div className='w-36 min-w-[130px] md:hidden'>
 				<img src={logoImg} alt='rentify logo' className='min-w-[130px]' />
 			</div>

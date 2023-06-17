@@ -7,22 +7,6 @@ import BtnAddCartCard from '../BtnAddCartCard'
 import { formatDate } from '../../utils/formatDate'
 
 const Card = ({ product }) => {
-	// const [products, setProducts] = useState([]);
-
-	// useEffect(() => {
-	//   fetchData();
-	// }, []);
-
-	// const fetchData = async () => {
-	//   try {
-	//     const response = await axios.get(PRODUCTS_API);
-	//     const { results } = response.data;
-	//     setProducts(results);
-	//   } catch (error) {
-	//     console.log(error);
-	//   }
-	// };
-
 	const getCategoryNames = () => {
 		if (product && product.categories.length > 0) {
 			const categoryNames = product.categories.map((category) => {
@@ -37,14 +21,6 @@ const Card = ({ product }) => {
 			return ['No Category']
 		}
 	}
-
-	// const formatCreatedAt = (createdAt) => {
-	//   const date = new Date(createdAt);
-	//   const day = date.getDate();
-	//   const month = new Intl.DateTimeFormat('en-US', { month: 'short' }).format(date);
-	//   const year = date.getFullYear();
-	//   return `${day} ${month} ${year}`;
-	// };
 
 	return (
 		<>

@@ -2,11 +2,14 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	fetchGetAllProductsAsync,
-	resetEndpoint,
-	resetError,
+	fetchGetAllProductsToFillAsync,
+	resetProducState,
+	setOffset,
 } from '../app/features/products/productsSlice'
 import Cards from '../components/Home/Cards'
 import Loader from '../components/Loader'
+import OrderSelect from '../components/Selects/OrderSelect'
+import BtnMore from '../components/BtnMore'
 
 const Home = () => {
 	const dispatch = useDispatch()
@@ -14,23 +17,38 @@ const Home = () => {
 
 	useEffect(() => {
 		dispatch(fetchGetAllProductsAsync(productsState.endpoint))
-
-		return () => {
-			dispatch(resetError())
-		}
-	}, [productsState.endpoint])
+	}, [productsState.endpoint, dispatch])
 
 	useEffect(() => {
 		return () => {
-			dispatch(resetEndpoint())
+			dispatch(resetProducState())
 		}
 	}, [])
 
+	const handleNext = () => {
+		dispatch(fetchGetAllProductsToFillAsync(productsState.next))
+		dispatch(setOffset())
+	}
 	return (
-		<div>
-			{productsState.products.length && productsState.status !== 'loading' ? <Cards /> : ''}
-			{productsState.status === 'loading' && <Loader />}
-			{productsState.status === 'error' && <h3>Error: {productsState.error}</h3>}
+		<div className='pb-12'>
+			<div className='flex justify-end'>
+				<section className='w-52 mb-8 absolute'>
+					<OrderSelect />
+				</section>
+			</div>
+			<div className='mt-20 mb-8'>
+				{productsState.products.length ? <Cards /> : ''}
+				{productsState.status === 'loading' && <Loader />}
+				{productsState.status === 'error' && <h3>Error: {productsState.error}</h3>}
+			</div>
+
+			<div>
+				{productsState.next && productsState.status !== 'loading' ? (
+					<BtnMore label='More products' onclick={handleNext} />
+				) : (
+					''
+				)}
+			</div>
 		</div>
 	)
 }
