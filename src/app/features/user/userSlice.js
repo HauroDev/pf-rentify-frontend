@@ -3,31 +3,39 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { postUsers } from '../../../services/userService'
 
 const initialState={
-
-    users:[]
+    user:{},
+    login:false
 }
 
 export const CreatePostUser= createAsyncThunk (
 'user/CreatPostUser',
-async () => {
+async ( user) => {
     try {
-        return await postUsers
+        console.log(user);
+        return await postUsers( user)
     } catch (error) {
         return Promise.reject(error)
     }
 }
 )
-
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        // reinico del stado
+        resetUser:(state)=>{
+            state.user = action.payload 
+        }
+    },
     extraReducers: (builder) => {
       builder.addCase(CreatePostUser.fulfilled, (state, action) => {
         // Actualizar el estado con los datos de la respuesta si es necesario
-        state.users.push(action.payload);
+        state.user= action.payload
+        state.login=true;
       });
     }
   });
-  
+  // exportacion de actions
+  export const { resetUser} = userSlice.actions
+
   export default userSlice.reducer;
