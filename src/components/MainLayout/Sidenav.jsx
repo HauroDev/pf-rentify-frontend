@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import SelectInput from '../SelectInput'
 import SearchBtn from './SearchBtn'
 import logoImg from '../../assets/image/logo-rentify.png'
 import CloseIcon from '../icons/CloseIcon'
 import { Link, useLocation } from 'react-router-dom'
 import { routesName } from '../../utils/routes_name'
+import SelectCategoryFilter from '../Selects/SelectCategoryFilter'
+import SelectCountry from '../Selects/SelectCountry'
 // import OrderSelect from '../Selects/OrderSelect'
 
 const Sidenav = ({ isOpen, closeModal }) => {
@@ -29,11 +30,11 @@ const Sidenav = ({ isOpen, closeModal }) => {
 				<section className='w-full flex flex-col gap-6'>
 					<SearchBtn />
 					{pathname === routesName.home && (
-						<div className='w-full flex flex-col gap-6'>
-							<SelectInput label='Country' name='location' />
+						<>
+							<SelectCountry />
 
-							<SelectInput label='Category' name='categories' />
-						</div>
+							<SelectCategoryFilter />
+						</>
 					)}
 					{pathname !== routesName.home && (
 						<Link
