@@ -1,9 +1,7 @@
 /* eslint-disable react/prop-types */
-
 import { Link } from 'react-router-dom'
 import FeaturedIcon from '../icons/FeaturedIcon'
 import BtnAddCartCard from '../BtnAddCartCard'
-
 import { formatDate } from '../../utils/formatDate'
 
 const Card = ({ product }) => {
