@@ -1,10 +1,14 @@
-import { resetOrder, setEndpoint } from '../../app/features/products/productsSlice'
 import { useModal } from '../../hooks/useModal'
-import { orderByOptions } from '../../utils/order'
 import { useSelector, useDispatch } from 'react-redux'
-import CustomSelect from './CustomSelect'
+import { resetOrder, setEndpoint } from '../../app/features/products/productsSlice'
 import { setOrder, resetOffset } from '../../app/features/products/productsSlice'
-import { retunrOffsetAndLimit } from '../../utils/filterAndPag'
+import {
+	retunrOffsetAndLimit,
+	returnCategoriesQuery,
+	returnOrderQuery,
+} from '../../utils/filterAndPag'
+import { orderByOptions } from '../../utils/order'
+import CustomSelect from './CustomSelect'
 
 const OrderSelect = () => {
 	const [isOpen, openModal, closeModal] = useModal()
@@ -20,7 +24,9 @@ const OrderSelect = () => {
 		dispatch(resetOffset())
 		const endpointSplited = productState.endpoint.split('?')[0]
 		const offsetLimit = retunrOffsetAndLimit(0, productState.limit)
-		dispatch(setEndpoint(`${endpointSplited}?orderBy=&orderType=&${offsetLimit}`))
+		const categQuery = productState.idCategory ? returnCategoriesQuery(productState.idCategory) : ''
+		const orderQuery = ''
+		dispatch(setEndpoint(`${endpointSplited}?${orderQuery}&${offsetLimit}&${categQuery}`))
 		dispatch(resetOrder())
 		closeModal()
 	}
@@ -29,7 +35,9 @@ const OrderSelect = () => {
 		dispatch(resetOffset())
 		const endpointSplited = productState.endpoint.split('?')[0]
 		const offsetLimit = retunrOffsetAndLimit(0, productState.limit)
-		dispatch(setEndpoint(`${endpointSplited}?orderBy=${by}&orderType=${type}&${offsetLimit}`))
+		const orderQuery = returnOrderQuery(by, type)
+		const categQuery = productState.idCategory ? returnCategoriesQuery(productState.idCategory) : ''
+		dispatch(setEndpoint(`${endpointSplited}?${orderQuery}&${offsetLimit}&${categQuery}`))
 		dispatch(setOrder({ orderBy: by, orderType: type }))
 		closeModal()
 	}

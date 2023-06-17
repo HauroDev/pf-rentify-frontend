@@ -17,6 +17,7 @@ const Home = () => {
 
 	useEffect(() => {
 		dispatch(fetchGetAllProductsAsync(productsState.endpoint))
+		console.log(productsState.endpoint)
 	}, [productsState.endpoint, dispatch])
 
 	useEffect(() => {
@@ -38,6 +39,11 @@ const Home = () => {
 			</div>
 			<div className='mt-20 mb-8'>
 				{productsState.products.length ? <Cards /> : ''}
+				{!productsState.products.length && productsState.status === 'success' ? (
+					<h3 className='text-center text-2xl'>No results</h3>
+				) : (
+					''
+				)}
 				{productsState.status === 'loading' && <Loader />}
 				{productsState.status === 'error' && <h3>Error: {productsState.error}</h3>}
 			</div>
