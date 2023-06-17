@@ -4,3 +4,4 @@ export const PRODUCTS_API = `${API_URL}/products`
 
 export const CATEGORIES_API = `${API_URL}/categories`
 
+export const USER_API=`${API_URL}/user`
