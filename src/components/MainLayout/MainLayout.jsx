@@ -7,7 +7,7 @@ const MainLayout = () => {
 	const [isOpen, openModal, closeModal] = useModal()
 
 	return (
-		<div className='flex max-w-[1920px] mx-auto'>
+		<div className='flex max-w-[1920px] mx-auto relative'>
 			<Sidenav isOpen={isOpen} closeModal={closeModal} />
 			<div className=' md:ml-52 w-full relative'>
 				<Header openModal={openModal} />

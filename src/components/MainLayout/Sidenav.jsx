@@ -5,6 +5,7 @@ import logoImg from '../../assets/image/logo-rentify.png'
 import CloseIcon from '../icons/CloseIcon'
 import { Link, useLocation } from 'react-router-dom'
 import { routesName } from '../../utils/routes_name'
+import OrderSelect from '../Selects/OrderSelect'
 
 const Sidenav = ({ isOpen, closeModal }) => {
 	const { pathname } = useLocation()
@@ -33,7 +34,7 @@ const Sidenav = ({ isOpen, closeModal }) => {
 
 							<SelectInput label='Category' name='categories' />
 
-							<SelectInput label='Order' name='order' />
+							<OrderSelect />
 						</div>
 					)}
 					{pathname !== routesName.home && (

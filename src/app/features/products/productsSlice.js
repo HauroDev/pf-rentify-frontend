@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getAllProducts, getProductById,createProduct } from '../../../services/productService'
+import { getAllProducts, getProductById, createProduct } from '../../../services/productService'
+import { PRODUCTS_API } from '../../../utils/apiRoutes'
 
 const initialState = {
 	products: [],
@@ -7,13 +8,16 @@ const initialState = {
 	status: 'idle',
 	error: null,
 	next: null,
+	endpoint: PRODUCTS_API,
+	idCategory: null,
+	order: null,
 }
 
 export const fetchGetAllProductsAsync = createAsyncThunk(
 	'products/fetchGetAllProduct',
-	async () => {
+	async (url) => {
 		try {
-			return await getAllProducts()
+			return await getAllProducts(url)
 		} catch (error) {
 			return Promise.reject(error)
 		}
@@ -47,11 +51,23 @@ const productsSlice = createSlice({
 	name: 'products',
 	initialState,
 	reducers: {
+		setEndpoint: (state, action) => {
+			state.endpoint = action.payload
+		},
+		setOrder: (state, action) => {
+			state.order = action.payload
+		},
+		resetOrder: (state) => {
+			state.order = null
+		},
 		resetDetail: (state) => {
 			state.productDetail = {}
 		},
 		resetError: (state) => {
 			state.error = null
+		},
+		resetEndpoint: (state) => {
+			state.endpoint = PRODUCTS_API
 		},
 	},
 	extraReducers: (builder) => {
@@ -90,7 +106,7 @@ const productsSlice = createSlice({
 			})
 			.addCase(fetchPostProductAsync.fulfilled, (state, action) => {
 				state.status = 'success'
-				state.products = [...state.products,action.payload]
+				state.products = [...state.products, action.payload]
 			})
 			.addCase(fetchPostProductAsync.rejected, (state, action) => {
 				state.status = 'error'
@@ -99,5 +115,6 @@ const productsSlice = createSlice({
 	},
 })
 
-export const { resetDetail, resetError } = productsSlice.actions
+export const { resetDetail, resetError, setEndpoint, setOrder, resetEndpoint, resetOrder } =
+	productsSlice.actions
 export default productsSlice.reducer

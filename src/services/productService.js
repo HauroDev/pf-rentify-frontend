@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { PRODUCTS_API } from '../utils/apiRoutes'
 
-export const getAllProducts = async () => {
-	const { data } = await axios.get(PRODUCTS_API)
+export const getAllProducts = async (url) => {
+	const { data } = await axios.get(url)
 	return data
 }
 
@@ -13,7 +13,6 @@ export const getProductById = async (id) => {
 
 //create product
 export const createProduct = async (productDetail) => {
-	const { data } = await axios.post(PRODUCTS_API,productDetail)
+	const { data } = await axios.post(PRODUCTS_API, productDetail)
 	return data
 }
-

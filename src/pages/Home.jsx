@@ -1,21 +1,36 @@
 import { useEffect } from 'react'
-import Card from '../components/Card'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchGetAllProductsAsync } from '../app/features/products/productsSlice'
+import {
+	fetchGetAllProductsAsync,
+	resetEndpoint,
+	resetError,
+} from '../app/features/products/productsSlice'
+import Cards from '../components/Home/Cards'
+import Loader from '../components/Loader'
 
 const Home = () => {
 	const dispatch = useDispatch()
 	const productsState = useSelector((state) => state.products)
 
 	useEffect(() => {
-		dispatch(fetchGetAllProductsAsync())
-	}, [dispatch])
+		dispatch(fetchGetAllProductsAsync(productsState.endpoint))
 
-	console.log(productsState)
+		return () => {
+			dispatch(resetError())
+		}
+	}, [productsState.endpoint])
+
+	useEffect(() => {
+		return () => {
+			dispatch(resetEndpoint())
+		}
+	}, [])
 
 	return (
 		<div>
-			<Card />
+			{productsState.products.length && productsState.status !== 'loading' ? <Cards /> : ''}
+			{productsState.status === 'loading' && <Loader />}
+			{productsState.status === 'error' && <h3>Error: {productsState.error}</h3>}
 		</div>
 	)
 }
