@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-const Input = ({ name, value, onchange, placeholder = '', label = null }) => {
+const Input = ({ type,name, value, onchange, placeholder = '', label = null }) => {
 	return (
 		<div className='w-full'>
 			{label && <label htmlFor={name}>{label}</label>}
 			<input
-				type='text'
+				type={type}
 				name={name}
 				id={name}
 				value={value}
