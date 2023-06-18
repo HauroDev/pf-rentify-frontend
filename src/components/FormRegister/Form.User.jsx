@@ -44,19 +44,23 @@ const FormUser = () => {
       formData
     ))
   }
-
+  // <div className="card bg-blue-400 shadow-lg  w-full h-full rounded-3xl absolute  transform -rotate-6"></div>
+  // <div className="card bg-red-400 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6"></div>
+  // <div className="relative w-full rounded-3xl  px-6 py-4 bg-gray-100 shadow-md">
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-center items-center bg-gray-100  dark:bg-body_dark" >
+    
+    <div className="relative min-h-screen flex flex-col justify-center items-center bg-gra-100  dark:bg-body_dark" >
       <div className="relative sm:max-w-sm w-full  dark:bg-body_dark">
-
-        <form className="shadow-md rounded px-4 sm:px-10 pt-8 pb-4 sm:pt-16 sm:pb-8 mb-4" onSubmit={handleSumit}>
-
+      <div className="card bg-violet-300 shadow-lg  w-full h-full rounded-2xl absolute  transform -rotate-12"></div>
+       <div className="card bg-purple-500 shadow-lg  w-full h-full rounded-2xl absolute  transform rotate-12"></div>
+       <div className="relative w-full rounded-3xl px-6 py-4 bg-gray-100 shadow-md dark:bg-body_dark border-2 border-blue-500">
+        <form className=" shadow-md rounded px-4 sm:px-10 pt-8 pb-4 sm:pt-16 sm:pb-8 mb-4" onSubmit={handleSumit}>
           <h1 className="block mt-3  text-gray-700 text-4xl text-center font-semibold mb-8  dark:text-white">
             Sign Up
           </h1>
 
-          <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white">
+          <label className="  block text-gray-700 text-sm font-bold mb-2 dark:text-white">
             Name:
           </label>
           <Input type="text"
@@ -161,6 +165,7 @@ const FormUser = () => {
             </div>
           </div>
         </form>
+      </div>
       </div>
     </div>
   )
