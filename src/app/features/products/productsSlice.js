@@ -9,8 +9,13 @@ const initialState = {
 	error: null,
 	next: null,
 	endpoint: PRODUCTS_API,
-	idCategory: null,
-	order: null,
+	idCategory: '',
+	offset: 0,
+	limit: 12,
+	order: {
+		orderBy: '',
+		orderType: '',
+	},
 }
 
 export const fetchGetAllProductsAsync = createAsyncThunk(
@@ -29,6 +34,17 @@ export const fetchGetProductByIdAsync = createAsyncThunk(
 	async (id) => {
 		try {
 			return await getProductById(id)
+		} catch (error) {
+			return Promise.reject(error)
+		}
+	}
+)
+
+export const fetchGetAllProductsToFillAsync = createAsyncThunk(
+	'products/fetchGetAllProductToFill',
+	async (url) => {
+		try {
+			return await getAllProducts(url)
 		} catch (error) {
 			return Promise.reject(error)
 		}
@@ -55,10 +71,27 @@ const productsSlice = createSlice({
 			state.endpoint = action.payload
 		},
 		setOrder: (state, action) => {
-			state.order = action.payload
+			state.order = {
+				...action.payload,
+			}
 		},
 		resetOrder: (state) => {
-			state.order = null
+			state.order = {
+				orderBy: '',
+				orderType: '',
+			}
+		},
+		setCategory: (state, action) => {
+			state.idCategory = action.payload
+		},
+		resetCategory: (state) => {
+			state.idCategory = ''
+		},
+		setOffset: (state) => {
+			state.offset = state.offset + state.limit
+		},
+		resetOffset: (state) => {
+			state.offset = 0
 		},
 		resetDetail: (state) => {
 			state.productDetail = {}
@@ -69,6 +102,7 @@ const productsSlice = createSlice({
 		resetEndpoint: (state) => {
 			state.endpoint = PRODUCTS_API
 		},
+		resetProducState: () => initialState,
 	},
 	extraReducers: (builder) => {
 		builder
@@ -97,6 +131,21 @@ const productsSlice = createSlice({
 			})
 			.addCase(fetchGetProductByIdAsync.rejected, (state, action) => {
 				state.status = 'error'
+				state.next = null
+				state.error = action.error.message
+			})
+
+			//GET PRODUCTS FILL
+			.addCase(fetchGetAllProductsToFillAsync.pending, (state) => {
+				state.status = 'loading'
+			})
+			.addCase(fetchGetAllProductsToFillAsync.fulfilled, (state, action) => {
+				state.status = 'success'
+				state.products = [...state.products, ...action.payload.results]
+				state.next = action.payload.next
+			})
+			.addCase(fetchGetAllProductsToFillAsync.rejected, (state, action) => {
+				state.status = 'error'
 				state.error = action.error.message
 			})
 
@@ -115,6 +164,17 @@ const productsSlice = createSlice({
 	},
 })
 
-export const { resetDetail, resetError, setEndpoint, setOrder, resetEndpoint, resetOrder } =
-	productsSlice.actions
+export const {
+	resetDetail,
+	resetError,
+	setEndpoint,
+	setOrder,
+	resetEndpoint,
+	resetOrder,
+	setCategory,
+	resetCategory,
+	setOffset,
+	resetOffset,
+	resetProducState,
+} = productsSlice.actions
 export default productsSlice.reducer

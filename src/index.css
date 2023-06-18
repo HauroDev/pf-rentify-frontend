@@ -59,7 +59,7 @@ h6 {
 ---------------------------------------------- */
 
 .blur-in-expand {
-	animation: blur-in-expand 0.2s linear both;
+	animation: blur-in-expand 0.2s linear;
 }
 @keyframes blur-in-expand {
 	0% {

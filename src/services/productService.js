@@ -8,6 +8,7 @@ export const getAllProducts = async (url) => {
 
 export const getProductById = async (id) => {
 	const { data } = await axios.get(`${PRODUCTS_API}/${id}`)
+	console.log(data)
 	return data
 }
 

@@ -1,47 +1,68 @@
-import { resetOrder, setEndpoint } from '../../app/features/products/productsSlice'
 import { useModal } from '../../hooks/useModal'
-import { orderByOptions } from '../../utils/order'
 import { useSelector, useDispatch } from 'react-redux'
+import { resetOrder, setEndpoint } from '../../app/features/products/productsSlice'
+import { setOrder, resetOffset } from '../../app/features/products/productsSlice'
+import {
+	retunrOffsetAndLimit,
+	returnCategoriesQuery,
+	returnOrderQuery,
+} from '../../utils/filterAndPag'
+import { orderByOptions } from '../../utils/order'
 import CustomSelect from './CustomSelect'
-import { setOrder } from '../../app/features/products/productsSlice'
-import { useEffect } from 'react'
 
 const OrderSelect = () => {
 	const [isOpen, openModal, closeModal] = useModal()
 	const dispatch = useDispatch()
 	const productState = useSelector((state) => state.products)
 
-	useEffect(() => {
-		return () => {
-			// dispatch(resetOrder())
-		}
-	}, [dispatch])
-
 	const handleOpenModal = () => {
 		if (isOpen) closeModal()
 		else openModal()
 	}
 
-	const handleSelect = (by, type, label) => {
+	const handleRestart = () => {
+		dispatch(resetOffset())
 		const endpointSplited = productState.endpoint.split('?')[0]
-		dispatch(setEndpoint(`${endpointSplited}?orderBy=${by}&orderType=${type}`))
-		dispatch(setOrder(label))
+		const offsetLimit = retunrOffsetAndLimit(0, productState.limit)
+		const categQuery = productState.idCategory ? returnCategoriesQuery(productState.idCategory) : ''
+		const orderQuery = ''
+		dispatch(setEndpoint(`${endpointSplited}?${orderQuery}&${offsetLimit}&${categQuery}`))
+		dispatch(resetOrder())
+		closeModal()
+	}
+
+	const handleSelect = (by, type) => {
+		dispatch(resetOffset())
+		const endpointSplited = productState.endpoint.split('?')[0]
+		const offsetLimit = retunrOffsetAndLimit(0, productState.limit)
+		const orderQuery = returnOrderQuery(by, type)
+		const categQuery = productState.idCategory ? returnCategoriesQuery(productState.idCategory) : ''
+		dispatch(setEndpoint(`${endpointSplited}?${orderQuery}&${offsetLimit}&${categQuery}`))
+		dispatch(setOrder({ orderBy: by, orderType: type }))
 		closeModal()
 	}
 
 	return (
 		<CustomSelect
 			label='Order'
-			messageSelect={productState.order ? productState.order : 'Select Order'}
+			messageSelect={
+				productState.order.orderBy
+					? `${productState.order.orderBy.toUpperCase()} ${productState.order.orderType}`
+					: 'Sort by'
+			}
 			isOpen={isOpen}
 			handleOpenClose={handleOpenModal}>
+			<article
+				className='hover:bg-dark_purple hover:text-white px-3 py-1 selection:bg-transparent'
+				onClick={handleRestart}>
+				Default
+			</article>
 			{orderByOptions.map((opt) => (
-				<article key={opt.id}>
-					<div
-						className='hover:bg-dark_purple hover:text-light_purple px-3 py-1 selection:bg-transparent'
-						onClick={() => handleSelect(opt.by, opt.type, opt.label)}>
-						{opt.label}
-					</div>
+				<article
+					key={opt.id}
+					className='hover:bg-dark_purple hover:text-white px-3 py-1 selection:bg-transparent'
+					onClick={() => handleSelect(opt.by, opt.type, opt.label)}>
+					{opt.label}
 				</article>
 			))}
 		</CustomSelect>

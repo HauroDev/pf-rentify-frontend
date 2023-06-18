@@ -1,27 +1,34 @@
 /* eslint-disable react/prop-types */
-
 import { Link } from 'react-router-dom'
 import FeaturedIcon from '../icons/FeaturedIcon'
 import BtnAddCartCard from '../BtnAddCartCard'
-
 import { formatDate } from '../../utils/formatDate'
+import { useEffect, useRef } from 'react'
 
 const Card = ({ product }) => {
-	// const [products, setProducts] = useState([]);
+	const cardRef = useRef(null)
 
-	// useEffect(() => {
-	//   fetchData();
-	// }, []);
+	useEffect(() => {
+		const card = cardRef.current
 
-	// const fetchData = async () => {
-	//   try {
-	//     const response = await axios.get(PRODUCTS_API);
-	//     const { results } = response.data;
-	//     setProducts(results);
-	//   } catch (error) {
-	//     console.log(error);
-	//   }
-	// };
+		const cb = (entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					card.classList.remove('opacity-0')
+					card.classList.add('blur-in-expand') // index.css
+					// card.classList.add('scale-up-top') // index.css
+				}
+			})
+		}
+
+		const observer = new IntersectionObserver(cb, { threshold: 0.2 })
+
+		if (card) observer.observe(card)
+
+		return () => {
+			observer.disconnect()
+		}
+	}, [])
 
 	const getCategoryNames = () => {
 		if (product && product.categories.length > 0) {
@@ -38,19 +45,12 @@ const Card = ({ product }) => {
 		}
 	}
 
-	// const formatCreatedAt = (createdAt) => {
-	//   const date = new Date(createdAt);
-	//   const day = date.getDate();
-	//   const month = new Intl.DateTimeFormat('en-US', { month: 'short' }).format(date);
-	//   const year = date.getFullYear();
-	//   return `${day} ${month} ${year}`;
-	// };
-
 	return (
 		<>
 			<div
 				key={product.idProd}
-				className='card shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4'>
+				ref={cardRef}
+				className='card opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4'>
 				<Link to={`/product/${product.idProd}`} key={product.idProd}>
 					<div className='h-48 rounded overflow-hidden mb-4'>
 						{product.isFeatured && (
