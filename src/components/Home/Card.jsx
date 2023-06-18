@@ -3,8 +3,33 @@ import { Link } from 'react-router-dom'
 import FeaturedIcon from '../icons/FeaturedIcon'
 import BtnAddCartCard from '../BtnAddCartCard'
 import { formatDate } from '../../utils/formatDate'
+import { useEffect, useRef } from 'react'
 
 const Card = ({ product }) => {
+	const cardRef = useRef(null)
+
+	useEffect(() => {
+		const card = cardRef.current
+
+		const cb = (entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					card.classList.remove('opacity-0')
+					card.classList.add('blur-in-expand') // index.css
+					// card.classList.add('scale-up-top') // index.css
+				}
+			})
+		}
+
+		const observer = new IntersectionObserver(cb, { threshold: 0.2 })
+
+		if (card) observer.observe(card)
+
+		return () => {
+			observer.disconnect()
+		}
+	}, [])
+
 	const getCategoryNames = () => {
 		if (product && product.categories.length > 0) {
 			const categoryNames = product.categories.map((category) => {
@@ -24,7 +49,8 @@ const Card = ({ product }) => {
 		<>
 			<div
 				key={product.idProd}
-				className='card shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4'>
+				ref={cardRef}
+				className='card opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4'>
 				<Link to={`/product/${product.idProd}`} key={product.idProd}>
 					<div className='h-48 rounded overflow-hidden mb-4'>
 						{product.isFeatured && (
