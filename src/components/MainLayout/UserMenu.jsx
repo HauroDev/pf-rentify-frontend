@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import UserIcon from '../icons/UserIcon';
 import LogoutIcon from '../icons/LogoutIcon';
+import React, { useEffect, useState } from 'react';
+import { isImgValid } from '../../utils/isImgValid';
+import imgNotFound from '../../assets/image/image-not-found.jpg';
 
-const UserMenu = () => {
+const UserMenu = (image) => {
+  const [imgExist, setImgExist] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(false); // Estado de inicio de sesión
+  const [isLoggedIn, setLoggedIn] = useState(true); // Estado de inicio de sesión
+
+  useEffect(() => {
+    isImgValid(image, setImgExist);
+    
+  }, [image]);
 
   const handleMenuClick = () => {
     setMenuOpen(!isMenuOpen);
@@ -22,7 +31,7 @@ const UserMenu = () => {
     <div className="absolute top-12 right-0 bg-white shadow-lg w-52">
       <div className="flex items-center gap-2 px-4 py-1 ">
         <img
-          src="https://assets.stickpng.com/images/585e4bcdcb11b227491c3396.png"
+          src={imgExist ? image : imgNotFound}
           alt="User"
           className="w-8 h-8 rounded-full"
         />
@@ -62,13 +71,19 @@ const UserMenu = () => {
     <div className="absolute top-12 right-0 bg-white shadow-lg w-52">
         <div className="flex items-center px-4 gap-2">
          <span className="text-sm">You have not logged in</span>
-      </div>
+       </div>
 
       <div className="my-2 border-b"></div>
-      <button className="block text-left w-full px-4 py-2 hover:bg-gray_medium">
-        Login
-      </button>
-      
+      <Link to="/login">
+          <button className="block text-left w-full px-4 py-2 hover:bg-gray_medium">
+                Login
+            </button>
+        </Link>
+        <Link to="/signup">
+            <button className="block text-left w-full px-4 py-2 hover:bg-gray_medium">
+                Register
+            </button>
+      </Link>
     </div>
   );
 

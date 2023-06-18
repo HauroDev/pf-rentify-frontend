@@ -17,6 +17,7 @@ export default {
 				text_dark: '#F5F6F8',
 				gray_dark: '#999999',
 				gray_medium: '#CCCCCC',
+				gray_light: '#ECECEC',
 				modal_bg_50: 'rgba(25,25,25,0.80)',
 				purple_badge: '#FFC7F2',
 			},

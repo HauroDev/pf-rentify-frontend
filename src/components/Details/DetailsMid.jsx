@@ -1,19 +1,23 @@
-import DeatilSectionContainer from './DeatilSectionContainer'
+import React from 'react';
+import DeatilSectionContainer from './DeatilSectionContainer';
+import DescriptionIcon from '../icons/DescriptionIcon';
 
-/* eslint-disable react/prop-types */
 const DetailsMid = ({ description }) => {
-	return (
-		<DeatilSectionContainer>
-			<div className='h-full min-h-40  md:min-h-[225px]  p-8 bg-white dark:bg-card_dark rounded-lg shadow-md'>
-				<h2 className='text-3xl md:text-4xl mb-8'>Description</h2>
-				<p className='md:text-lg'>{description}</p>
-			</div>
+  return (
+    <DeatilSectionContainer>
+      <div className="h-full min-h-40 md:min-h-[225px] p-8 bg-gray_light dark:bg-card_dark rounded-lg shadow-md flex flex-col">
+        <div className="flex items-center">
+          <DescriptionIcon className="mr-4" />
+          <h2 className="text-3xl md:text-4xl">Description</h2>
+        </div>
+        <div className="mt-8">
+          <p className="md:text-lg">{description}</p>
+        </div>
+      </div>
+    </DeatilSectionContainer>
+  );
+};
 
-			<div className=' min-h-40  md:min-h-[225px] p-8 bg-white dark:bg-card_dark rounded-lg shadow-md'>
-				<h4 className='text-base md:text-lg text-gray_dark'>Vendedor</h4>
-			</div>
-		</DeatilSectionContainer>
-	)
-}
+export default DetailsMid;
 
-export default DetailsMid
+
