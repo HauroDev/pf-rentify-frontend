@@ -39,7 +39,7 @@ const CustomSelect = ({
 			</div>
 			{isOpen && (
 				<div
-					className={`scale-up-top  mt-2 font-cabin bg-white border-[1px] ${classOpen} rounded-md hover:cursor-pointer dark:bg-card_dark`}>
+					className={`scale-up-top mt-2 font-cabin max-h-36 overflow-auto scrollbar-thin scrollbar-thumb-dark_purple scrollbar-track-light_purple scrollbar-thumb-rounded-md bg-white border-[1px] ${classOpen} rounded-md hover:cursor-pointer dark:bg-card_dark`}>
 					{children}
 				</div>
 			)}

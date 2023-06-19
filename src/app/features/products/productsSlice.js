@@ -12,6 +12,11 @@ const initialState = {
 	idCategory: '',
 	offset: 0,
 	limit: 12,
+
+	idCountry: '',
+	stateLoc: '',
+	location: '',
+
 	order: {
 		orderBy: '',
 		orderType: '',
@@ -89,6 +94,24 @@ const productsSlice = createSlice({
 		},
 		setOffset: (state) => {
 			state.offset = state.offset + state.limit
+		},
+		setCountry: (state, action) => {
+			state.idCountry = action.payload
+		},
+		resetCountry: (state) => {
+			state.idCountry = ''
+		},
+		setStateLoc: (state, action) => {
+			state.stateLoc = action.payload
+		},
+		setLocation: (state, action) => {
+			state.location = action.payload
+		},
+		resetLocation: (state) => {
+			state.location = ''
+		},
+		resetStateLoc: (state) => {
+			state.stateLoc = ''
 		},
 		resetOffset: (state) => {
 			state.offset = 0
@@ -176,5 +199,11 @@ export const {
 	setOffset,
 	resetOffset,
 	resetProducState,
+	setCountry,
+	resetCountry,
+	setStateLoc,
+	resetStateLoc,
+	setLocation,
+	resetLocation,
 } = productsSlice.actions
 export default productsSlice.reducer

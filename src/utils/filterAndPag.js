@@ -1,11 +1,32 @@
-export const retunrOffsetAndLimit = (offset, limit) => {
-	return `offset=${offset}&limit=${limit}`
-}
+export const filterQuery = ({
+	offset,
+	limit,
+	orderBy,
+	orderType,
+	idCategory,
+	idCountry,
+	state,
+	location,
+}) => {
+	let queryString = ''
 
-export const returnCategoriesQuery = (id) => {
-	return `idCategory=${id}`
-}
-
-export const returnOrderQuery = (by, type) => {
-	return `orderBy=${by}&orderType=${type}`
+	if (offset && limit) {
+		queryString += `&offset=${offset}&limit=${limit}`
+	}
+	if (orderBy && orderType) {
+		queryString += `&orderBy=${orderBy}&orderType=${orderType}`
+	}
+	if (idCategory) {
+		queryString += `&idCategory=${idCategory}`
+	}
+	if (idCountry) {
+		queryString += `&idCountry=${idCountry}`
+		if (state) {
+			queryString += `&state=${state}`
+			if (location) {
+				queryString += `&location=${location}`
+			}
+		}
+	}
+	return queryString
 }

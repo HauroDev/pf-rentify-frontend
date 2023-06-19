@@ -1,47 +1,43 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
 import { useModal } from '../../hooks/useModal'
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchGetAllCountriessAsync } from '../../app/features/countries/countriesSlice'
 import { getCountryStates } from '../../services/locationService'
+import { splitLocationName } from '../../utils/splitLocationName'
+import { useSelector, useDispatch } from 'react-redux'
 import {
-	setCountry,
-	resetCountry,
+	setStateLoc,
 	resetStateLoc,
 	resetLocation,
 	setEndpoint,
 } from '../../app/features/products/productsSlice'
 import { filterQuery } from '../../utils/filterAndPag'
-import SelectCustomOption from './SelectCustomOption'
+import SelectLocation from './SelectLocation'
 import CustomSelect from './CustomSelect'
-import SelectState from './SelectState'
+import SelectCustomOption from './SelectCustomOption'
 
-const SelectCountry = () => {
+const SelectState = ({ dataStates = [] }) => {
 	const [isOpen, openModal, closeModal] = useModal()
-	const [countryName, setCountryName] = useState('')
-	const [countryApi, setCountryapi] = useState(null)
-	const [dataStates, setDataStates] = useState([])
+	const [stateName, setStateName] = useState('')
+	const [stateApi, setStateapi] = useState(null)
+	const [dataCities, setDataCities] = useState([])
 	const dispatch = useDispatch()
-	const countriesState = useSelector((state) => state.countries)
 	const productState = useSelector((state) => state.products)
 
-	const getData = async (id) => {
-		try {
-			const data = await getCountryStates(id)
-			setDataStates(data)
-		} catch (error) {
-			console.log(error)
-		}
-	}
-
 	useEffect(() => {
-		if (!countriesState.countries.length) {
-			dispatch(fetchGetAllCountriessAsync())
+		const getData = async (id) => {
+			try {
+				const data = await getCountryStates(id)
+				setDataCities(data)
+			} catch (error) {
+				console.log(error)
+			}
 		}
-		if (countryApi) {
-			setDataStates([])
-			getData(countryApi)
+
+		if (stateApi) {
+			setDataCities([])
+			getData(stateApi)
 		}
-	}, [countryApi])
+	}, [stateApi])
 
 	const handleOpenModal = () => {
 		if (isOpen) closeModal()
@@ -49,10 +45,8 @@ const SelectCountry = () => {
 	}
 
 	const handleRestart = () => {
-		dispatch(resetCountry())
-		setCountryapi(null)
-		setCountryName('')
-		setDataStates([])
+		setStateapi(null)
+		setStateName('')
 		const endpointSplited = productState.endpoint.split('?')[0]
 		const query = filterQuery({
 			offset: 0,
@@ -60,20 +54,21 @@ const SelectCountry = () => {
 			orderBy: productState.order.orderBy,
 			orderType: productState.order.orderType,
 			idCategory: productState.idCategory,
-			idCountry: '',
-			location: '',
+			idCountry: productState.idCountry,
 			state: '',
+			location: '',
 		})
+
 		dispatch(setEndpoint(`${endpointSplited}?${query}`))
-		dispatch(resetCountry())
 		dispatch(resetStateLoc())
 		dispatch(resetLocation())
 		closeModal()
 	}
 
-	const handleSelect = (id, idApi, name) => {
-		setCountryapi(idApi)
-		setCountryName(name)
+	const handleSelect = (idApi, name) => {
+		const nameSplitet = splitLocationName(name)
+		setStateapi(idApi)
+		setStateName(nameSplitet)
 		const endpointSplited = productState.endpoint.split('?')[0]
 		const query = filterQuery({
 			offset: 0,
@@ -81,13 +76,13 @@ const SelectCountry = () => {
 			orderBy: productState.order.orderBy,
 			orderType: productState.order.orderType,
 			idCategory: productState.idCategory,
-			idCountry: id,
+			idCountry: productState.idCountry,
+			state: nameSplitet,
 			location: '',
-			state: '',
 		})
+
 		dispatch(setEndpoint(`${endpointSplited}?${query}`))
-		dispatch(setCountry(id))
-		dispatch(resetStateLoc())
+		dispatch(setStateLoc(nameSplitet))
 		dispatch(resetLocation())
 		closeModal()
 	}
@@ -97,22 +92,23 @@ const SelectCountry = () => {
 			<CustomSelect
 				handleOpenClose={handleOpenModal}
 				isOpen={isOpen}
-				label='Country'
+				label='State'
 				positionLabel='left'
-				messageSelect={countryName || 'Select Country'}>
-				<SelectCustomOption label='All countries' onclick={handleRestart} />
+				messageSelect={stateName || 'Select state'}>
+				<SelectCustomOption label='All states' onclick={handleRestart} />
 
-				{countriesState.countries.map((country) => (
+				{dataStates.map((state) => (
 					<SelectCustomOption
-						key={country.idCountry}
-						label={country.name}
-						onclick={() => handleSelect(country.idCountry, country.geonameId, country.name)}
+						key={state.geonameId}
+						label={splitLocationName(state.adminName1)}
+						onclick={() => handleSelect(state.geonameId, state.adminName1)}
 					/>
 				))}
 			</CustomSelect>
-			{dataStates.length ? <SelectState dataStates={dataStates} /> : ''}
+
+			{stateApi && dataCities.length ? <SelectLocation dataCities={dataCities} /> : ''}
 		</>
 	)
 }
 
-export default SelectCountry
+export default SelectState

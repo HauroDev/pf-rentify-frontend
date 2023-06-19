@@ -2,13 +2,10 @@ import { useModal } from '../../hooks/useModal'
 import { useSelector, useDispatch } from 'react-redux'
 import { resetOrder, setEndpoint } from '../../app/features/products/productsSlice'
 import { setOrder, resetOffset } from '../../app/features/products/productsSlice'
-import {
-	retunrOffsetAndLimit,
-	returnCategoriesQuery,
-	returnOrderQuery,
-} from '../../utils/filterAndPag'
+import { filterQuery } from '../../utils/filterAndPag'
 import { orderByOptions } from '../../utils/order'
 import CustomSelect from './CustomSelect'
+import SelectCustomOption from './SelectCustomOption'
 
 const OrderSelect = () => {
 	const [isOpen, openModal, closeModal] = useModal()
@@ -23,22 +20,36 @@ const OrderSelect = () => {
 	const handleRestart = () => {
 		dispatch(resetOffset())
 		const endpointSplited = productState.endpoint.split('?')[0]
-		const offsetLimit = retunrOffsetAndLimit(0, productState.limit)
-		const categQuery = productState.idCategory ? returnCategoriesQuery(productState.idCategory) : ''
-		const orderQuery = ''
-		dispatch(setEndpoint(`${endpointSplited}?${orderQuery}&${offsetLimit}&${categQuery}`))
+		const query = filterQuery({
+			offset: 0,
+			limit: productState.limit,
+			orderBy: '',
+			orderType: '',
+			idCategory: productState.idCategory,
+			idCountry: productState.idCountry,
+			location: productState.location,
+			state: productState.stateLoc,
+		})
+		dispatch(setEndpoint(`${endpointSplited}?${query}`))
 		dispatch(resetOrder())
 		closeModal()
 	}
 
 	const handleSelect = (by, type) => {
-		dispatch(resetOffset())
 		const endpointSplited = productState.endpoint.split('?')[0]
-		const offsetLimit = retunrOffsetAndLimit(0, productState.limit)
-		const orderQuery = returnOrderQuery(by, type)
-		const categQuery = productState.idCategory ? returnCategoriesQuery(productState.idCategory) : ''
-		dispatch(setEndpoint(`${endpointSplited}?${orderQuery}&${offsetLimit}&${categQuery}`))
+		const query = filterQuery({
+			offset: 0,
+			limit: productState.limit,
+			orderBy: by,
+			orderType: type,
+			idCategory: productState.idCategory,
+			idCountry: productState.idCountry,
+			location: productState.location,
+			state: productState.stateLoc,
+		})
+		dispatch(resetOffset())
 		dispatch(setOrder({ orderBy: by, orderType: type }))
+		dispatch(setEndpoint(`${endpointSplited}?${query}`))
 		closeModal()
 	}
 
@@ -52,18 +63,14 @@ const OrderSelect = () => {
 			}
 			isOpen={isOpen}
 			handleOpenClose={handleOpenModal}>
-			<article
-				className='hover:bg-dark_purple hover:text-white px-3 py-1 selection:bg-transparent'
-				onClick={handleRestart}>
-				Default
-			</article>
+			<SelectCustomOption label='Default' onclick={handleRestart} />
+
 			{orderByOptions.map((opt) => (
-				<article
+				<SelectCustomOption
 					key={opt.id}
-					className='hover:bg-dark_purple hover:text-white px-3 py-1 selection:bg-transparent'
-					onClick={() => handleSelect(opt.by, opt.type, opt.label)}>
-					{opt.label}
-				</article>
+					label={opt.label}
+					onclick={() => handleSelect(opt.by, opt.type)}
+				/>
 			))}
 		</CustomSelect>
 	)

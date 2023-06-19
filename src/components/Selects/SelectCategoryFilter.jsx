@@ -8,13 +8,10 @@ import {
 	setCategory,
 	resetCategory,
 } from '../../app/features/products/productsSlice'
-import {
-	retunrOffsetAndLimit,
-	returnCategoriesQuery,
-	returnOrderQuery,
-} from '../../utils/filterAndPag'
+import { filterQuery } from '../../utils/filterAndPag'
 import CustomSelect from './CustomSelect'
 import Loader from '../Loader'
+import SelectCustomOption from './SelectCustomOption'
 
 const SelectCategoryFilter = () => {
 	const [isOpen, openModal, closeModal] = useModal()
@@ -38,29 +35,39 @@ const SelectCategoryFilter = () => {
 		dispatch(resetOffset())
 		setLabelCategory('')
 		const endpointSplited = productState.endpoint.split('?')[0]
-		const offsetLimit = retunrOffsetAndLimit(0, productState.limit)
-		const categQuery = ''
-		const orderQuery = productState.order.orderBy
-			? returnOrderQuery(productState.order.orderBy, productState.order.orderType)
-			: ''
-		dispatch(setEndpoint(`${endpointSplited}?${orderQuery}&${offsetLimit}&${categQuery}`))
+
+		const query = filterQuery({
+			offset: 0,
+			limit: productState.limit,
+			orderBy: productState.order.orderBy,
+			orderType: productState.order.orderType,
+			idCategory: '',
+			idCountry: productState.idCountry,
+			location: productState.location,
+			state: productState.stateLoc,
+		})
+		dispatch(setEndpoint(`${endpointSplited}?${query}`))
 		dispatch(resetCategory())
 		closeModal()
 	}
 
 	const handleSelect = (id, name) => {
-		console.log(name)
 		setLabelCategory(name)
-		dispatch(resetCategory())
 		dispatch(resetOffset())
 		dispatch(setCategory(id))
-		const offsetLimit = retunrOffsetAndLimit(0, productState.limit)
 		const endpointSplited = productState.endpoint.split('?')[0]
-		const categQuery = returnCategoriesQuery(id)
-		const orderQuery = productState.order.orderBy
-			? returnOrderQuery(productState.order.orderBy, productState.order.orderType)
-			: ''
-		dispatch(setEndpoint(`${endpointSplited}?${orderQuery}&${offsetLimit}&${categQuery}`))
+
+		const query = filterQuery({
+			offset: 0,
+			limit: productState.limit,
+			orderBy: productState.order.orderBy,
+			orderType: productState.order.orderType,
+			idCategory: id,
+			idCountry: productState.idCountry,
+			location: productState.location,
+			state: productState.stateLoc,
+		})
+		dispatch(setEndpoint(`${endpointSplited}?${query}`))
 		closeModal()
 	}
 
@@ -72,19 +79,15 @@ const SelectCategoryFilter = () => {
 				label='Categories'
 				positionLabel='left'
 				messageSelect={labelCategory || 'Select Category'}>
-				<article
-					className='hover:bg-dark_purple hover:text-white px-3 py-1 selection:bg-transparent'
-					onClick={handleRestart}>
-					Default
-				</article>
+				<SelectCustomOption label='Default' onclick={handleRestart} />
+
 				{categoriesState.status === 'success' ? (
 					categoriesState.categories.map((category) => (
-						<article
+						<SelectCustomOption
 							key={category.idCategory}
-							className='hover:bg-dark_purple hover:text-white px-3 py-1 selection:bg-transparent capitalize'
-							onClick={() => handleSelect(category.idCategory, category.name)}>
-							{category.name}
-						</article>
+							label={category.name}
+							onclick={() => handleSelect(category.idCategory, category.name)}
+						/>
 					))
 				) : categoriesState.status === 'loading' ? (
 					<Loader />
