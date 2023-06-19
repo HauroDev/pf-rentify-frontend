@@ -9,6 +9,7 @@ import {
 	resetStateLoc,
 	resetLocation,
 	setEndpoint,
+	resetOffset,
 } from '../../app/features/products/productsSlice'
 import { filterQuery } from '../../utils/filterAndPag'
 import SelectLocation from './SelectLocation'
@@ -60,6 +61,7 @@ const SelectState = ({ dataStates = [] }) => {
 		})
 
 		dispatch(setEndpoint(`${endpointSplited}?${query}`))
+		dispatch(resetOffset())
 		dispatch(resetStateLoc())
 		dispatch(resetLocation())
 		closeModal()
@@ -82,6 +84,7 @@ const SelectState = ({ dataStates = [] }) => {
 		})
 
 		dispatch(setEndpoint(`${endpointSplited}?${query}`))
+		dispatch(resetOffset())
 		dispatch(setStateLoc(nameSplitet))
 		dispatch(resetLocation())
 		closeModal()

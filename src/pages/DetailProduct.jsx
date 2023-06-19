@@ -1,58 +1,79 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import {
-	fetchGetProductByIdAsync,
-	resetDetail,
-	resetError,
-} from '../app/features/products/productsSlice'
+import { getProductById } from '../services/productService'
 
 import DetailsTop from '../components/Details/DetailsTop'
 import DetailsMid from '../components/Details/DetailsMid'
 import DetailComments from '../components/Details/DetailComments'
+import Loader from '../components/Loader'
+
+const initalState = {
+	product: {},
+	status: 'idle',
+	error: null,
+}
 
 const DetailProduct = () => {
+	const [state, setState] = useState(initalState)
 	const { id } = useParams()
-	const dispatch = useDispatch()
-	const productState = useSelector((state) => state.products)
+
+	const getProduct = async (id, set) => {
+		set({
+			status: 'loading',
+			product: {},
+			error: null,
+		})
+		try {
+			const data = await getProductById(id)
+			console.log(data)
+			set({
+				status: 'success',
+				product: { ...data },
+				error: null,
+			})
+		} catch (error) {
+			set({
+				status: 'error',
+				product: {},
+				error: error.response.data.message,
+			})
+		}
+	}
 
 	useEffect(() => {
-		dispatch(fetchGetProductByIdAsync(id))
-
+		getProduct(id, setState)
 		return () => {
-			dispatch(resetDetail())
-			dispatch(resetError())
+			setState(initalState)
 		}
-	}, [dispatch, id])
+	}, [id])
 
-	if (productState.status === 'loading') return <h3>Loading...</h3>
+	if (state.status === 'loading') return <Loader />
 
-	if (productState.error) return <h3>Error: {productState.error}</h3>
-
-	const { productDetail } = productState
+	if (state.status === 'error') return <h3>Error: {state.error}</h3>
 
 	return (
-		<div className='w-full xl:w-10/12  mx-auto flex flex-col gap-8'>
-			{productState.status === 'success' && (
-				<>
-					<DetailsTop
-						idProd={productDetail.idProd}
-						image={productDetail.image}
-						location={productDetail.location}
-						name={productDetail.name}
-						price={productDetail.price}
-						updatedAt={productDetail.updatedAt}
-					/>
+		<>
+			{state.status === 'success' && (
+				<div className='w-full xl:w-10/12  mx-auto flex flex-col gap-8'>
+					{state.product.idProd && (
+						<>
+							<DetailsTop
+								idProd={state.product.idProd}
+								image={state.product.image}
+								location={state.product.location}
+								name={state.product.name}
+								price={state.product.price}
+								updatedAt={state.product.updatedAt}
+							/>
 
-					<DetailsMid description={productDetail.description} />
+							<DetailsMid description={state.product.description} />
 
-					{productDetail.users.length > 0 ? <DetailComments 
-						user={productDetail.users[0]} 
-					
-					/> : ''}
-				</>
+							<DetailComments user={state.product.users[0]} />
+						</>
+					)}
+				</div>
 			)}
-		</div>
+		</>
 	)
 }
 
