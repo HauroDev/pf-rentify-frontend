@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import { fetchGetAllCategoriesAsync } from "../app/features/categories/categoriesSlice";
 import Input from "../components/Input";
 import SelectCategoryFilter from "../components/Selects/SelectCategoryFilter";
+import { fetchPostProductAsync } from "../app/features/products/productsSlice";
 
 const CreateProduct = () => {
 	const userId = '3ce1d6d0-506e-479a-ad4a-22535b6290de';
+	const countryId = 1;
 	const categoriesInfo = useSelector(state=>state.categories);
 	console.log(categoriesInfo);
 
@@ -24,6 +26,7 @@ const CreateProduct = () => {
 		image: "",
 		price: 0,
 		location: "",
+		state: "",
 		isFeatured: false,
 		category: []
 	})
@@ -34,60 +37,83 @@ const CreateProduct = () => {
 		image: "",
 		price: 0,
 		location: "",
+		state: "",
 		isFeatured: false,
 		category: []
 	})
 	//category:
+	const [categoriesChecked,setCategoriesChecked] = useState({
+		'electronics': false,
+		'books and entertainment': false,
+		'sports and fitness / health and wellness': false,
+		'fashion and accessories': false,
+		'home and decoration':false,
+		'cars and motorcycles': false,
+		'toys and kids':false,
+		'personal care':false,
+		'arts and crafts':false
+	})
 	
 
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
-	  
+
 		if (name === "category") {
-			//!aun no funciona
-		//   const categoryExists = categoriesInfo.categories.some((c) => c.idCategory === value);
-	  
-		//   if (checked && !categoryExists) {
-		// 	setInput((prevInput) => [
-		// 	  ...prevInput,
-		// 	  { idCategory: value, name: categoriesInfo.categories.find(cat=>cat.idCategory===parseInt(value))?.name },
-		// 	]);
-		//   } else if (!checked && categoryExists) {
-		// 	setInput((prevInput) =>
-		// 	prevInput.filter((category) => category.idCategory !== value)
-		// 	);
-		//   }
+			
+			setCategoriesChecked((prevInput)=>({
+				...prevInput,
+				[value]: checked
+			}))
+			
 		} else if (name === "isFeatured") {
-		  setInput((prevInput) => ({
-			...prevInput,
-			isFeatured: checked,
-		  }));
-		} else {
-		  setInput((prevInput) => ({ ...prevInput, [name]: value }));
+			setInput((prevInput) => ({
+				...prevInput,
+				isFeatured: checked,
+			}));
+		} else if(name === "price"){
+			setInput((prevInput) => ({ ...prevInput, [name]: parseFloat(value) }));
+		} else{
+			setInput((prevInput) => ({ ...prevInput, [name]: value }));
 		}
 	};
 	
-	  console.log(input)
+	console.log(input);
+	console.log(categoriesChecked);
 	const handleSubmit = (e)=>{
-		e.preventDefault()
-		console.log();
+		e.preventDefault();
+
+		let  categories = []
+		
+		for (const categoryChecked of Object.keys(categoriesChecked)) {
+			if (categoriesChecked[categoryChecked]) {
+				const category = categoriesInfo.categories.find(
+				(cat) => cat.name === categoryChecked
+				);
+				if (category) {
+					const {idCategory,name} = category
+					categories = [...categories,{idCategory,name}];
+				}
+			}
+		}
+
+		const product = {
+			"name": input.name,
+			"description": input.description,
+			"image": input.image,
+			"price": input.price,
+			"location": input.location,
+			"state": input.state,
+			"isFeatured":input.isFeatured,
+			"categories": categories,
+			"idUser": userId,
+			"idCountry": countryId,
+		}
+
+		console.log(product);
+
+		dispatch(fetchPostProductAsync(product));
 	}
-	// ! ejemplo de bd
-	// {
-	// 	"name": "Space Marines: The Omnibus",
-	// 	"description": "Mighty anthology of Space Marine short stories",
-	// 	"image": "https://m.media-amazon.com/images/I/51EE75n+6YL._SX326_BO1,204,203,200_.jpg",
-	// 	"price": 79,
-	// 	"location": "USA",
-	// 	"isFeatured":false,
-	// 	"categories": [
-	// 	  {
-	// 		"idCategory": 2,
-	// 		"name": "books and entertainment"
-	// 	  }
-	// 	],
-	// 	"idUser": "3ce1d6d0-506e-479a-ad4a-22535b6290de"
-	//   }
+	
 	return (<div>
 		<form onSubmit={handleSubmit}>
 			
@@ -136,6 +162,15 @@ const CreateProduct = () => {
 				onchange={handleChange}
 				label="Location: "
 			/>
+
+			<Input 
+				type="text"
+				name="state"
+				value={input.state}
+				placeholder="State..."
+				onchange={handleChange}
+				label="State: "
+			/>
 			
 			<div className='w-full'>
 				<label htmlFor="isFeatured">Is featured:</label>
@@ -158,25 +193,28 @@ const CreateProduct = () => {
 					{
 						categoriesInfo.categories.map(category => (
 							<label key={category.idCategory}>
-								<input
-          							type="checkbox"
-          							name="category"
-          							value={category.idCategory}
-          							onChange={handleChange}
-        						/>
 								{category.name}
+								<input
+									className='w-full py-1 px-2 text-lg rounded-md border-[1px] border-gray_dark outline-none focus:outline-2 focus:outline-medium_fuchsia bg-white dark:bg-body_dark'
+									type="checkbox"
+									name="category"
+									id={category.idCategory}
+									value={category.name}
+									checked={categoriesChecked[`${category.name}`]}
+									onChange={handleChange}
+								/>
 							</label>
-							
+
 						))
 					}
 				</div>
 				:
 				<p>Loading...</p>
 			}
-			// ! aun no funciona el "reciclaje de este"
-			<SelectCategoryFilter/>
+			{/* // ! aun no funciona el "reciclaje de este" */}
+			{/* <SelectCategoryFilter/> */}
 
-
+			<button type="submit">Submit Product</button>
 
 		</form>
 	</div>)
