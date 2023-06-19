@@ -20,7 +20,7 @@ const DetailsTop = ({ image, updatedAt, name, idProd, price, location }) => {
 
   return (
     <DeatilSectionContainer>
-      <div className='w-80 h-80 md:w-[450px] md:h-[450px] md:min-w-[450px]  overflow-hidden bg-white dark:bg-card_dark p-4 rounded-lg grid place-content-center'>
+      <div className='w-80 h-80 md:w-[450px] md:h-[450px] md:min-w-[450px]  overflow-hidden bg-gray_light dark:bg-card_dark p-4 rounded-lg grid place-content-center'>
         <img
           src={imgExist ? image : imgNotFound}
           alt={name}

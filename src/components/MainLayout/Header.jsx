@@ -14,8 +14,8 @@ const Header = ({ openModal }) => {
 
 			<div className='flex justify-end items-center gap-4 md:gap-6 w-full'>
 				<CartIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
-				<BtnDarkMode />
-				<UserMenu />
+				<BtnDarkMode  />
+				<UserMenu/>
 				<button className='md:hidden block' onClick={openModal}>
 					<HamburgerIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer ' />
 				</button>
