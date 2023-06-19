@@ -1,21 +1,73 @@
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { fetchGetAllCategoriesAsync } from "../app/features/categories/categoriesSlice";
+import Input from "../components/Input";
+import SelectCategoryFilter from "../components/Selects/SelectCategoryFilter";
 
 const CreateProduct = () => {
 	const userId = '3ce1d6d0-506e-479a-ad4a-22535b6290de';
+	const categoriesInfo = useSelector(state=>state.categories);
+	console.log(categoriesInfo);
 
 	const dispatch = useDispatch();
 
-	//name
-	
-	const [nameInput, setNameInput] = useState('');
-    const [descriptionInput, setDescriptionInput] = useState('');
-    const [imageInput, setImageInput] = useState('');
-    const [priceInput, setPriceInput] = useState(0);
-    const [locationInput, setLocationInput] = useState('');
-    const [isFeaturedInput, setIsFeaturedInput] = useState(false);
-    const [categoryInput, setCategoryInput] = useState('books and entertainment');
+	//
+	useEffect(()=>{
+		dispatch(fetchGetAllCategoriesAsync())
 
+	},[])
+
+	//estado de input
+	const [input,setInput] = useState({
+		name : "",
+		description: "",
+		image: "",
+		price: 0,
+		location: "",
+		isFeatured: false,
+		category: []
+	})
+	//error
+	const [errors,setErrors] = useState({
+		name : "",
+		description: "",
+		image: "",
+		price: 0,
+		location: "",
+		isFeatured: false,
+		category: []
+	})
+	//category:
+	
+
+	const handleChange = (e) => {
+		const { name, value, type, checked } = e.target;
+	  
+		if (name === "category") {
+			//!aun no funciona
+		//   const categoryExists = categoriesInfo.categories.some((c) => c.idCategory === value);
+	  
+		//   if (checked && !categoryExists) {
+		// 	setInput((prevInput) => [
+		// 	  ...prevInput,
+		// 	  { idCategory: value, name: categoriesInfo.categories.find(cat=>cat.idCategory===parseInt(value))?.name },
+		// 	]);
+		//   } else if (!checked && categoryExists) {
+		// 	setInput((prevInput) =>
+		// 	prevInput.filter((category) => category.idCategory !== value)
+		// 	);
+		//   }
+		} else if (name === "isFeatured") {
+		  setInput((prevInput) => ({
+			...prevInput,
+			isFeatured: checked,
+		  }));
+		} else {
+		  setInput((prevInput) => ({ ...prevInput, [name]: value }));
+		}
+	};
+	
+	  console.log(input)
 	const handleSubmit = (e)=>{
 		e.preventDefault()
 		console.log();
@@ -38,47 +90,91 @@ const CreateProduct = () => {
 	//   }
 	return (<div>
 		<form onSubmit={handleSubmit}>
-			<label >
-				Name:
-				<input type= "text" name="name"></input>
-			</label>
+			
+			<Input 
+				type="text"
+				name="name"
+				value={input.name}
+				placeholder="Name..."
+				onchange={handleChange}
+				label="Name: "
+			/>
 
-			<label >
-				Description:
-				<input type= "text" name="description"></input>
-			</label>
+			<Input 
+				type="text"
+				name="description"
+				value={input.description}
+				placeholder="Description..."
+				onchange={handleChange}
+				label="Description: "
+			/>
+			
 
-			<label >
-				Image URL:
-				<input type= "text" name="image"></input>
-			</label>
+			<Input 
+				type="text"
+				name="image"
+				value={input.image}
+				placeholder="Image URL..."
+				onchange={handleChange}
+				label="Image URL: "
+			/>
 
-			<label >
-				Price:
-				<input type= "number" name="price"></input>
-			</label>
+			<Input 
+				type="number"
+				name="price"
+				value={input.price}
+				placeholder="Price..."
+				onchange={handleChange}
+				label="Price: "
+			/>
 
-			<label >
-				Location:
-				<input type= "text" name="location"></input>
-			</label>
-
-			<label>
-				{/* cambiar */}
-				Is featured?:
+            <Input 
+				type="text"
+				name="location"
+				value={input.location}
+				placeholder="Location..."
+				onchange={handleChange}
+				label="Location: "
+			/>
+			
+			<div className='w-full'>
+				<label htmlFor="isFeatured">Is featured:</label>
 				<input
-				type="checkbox"
-				onClick={()=>{}}
+					type="checkbox"
+					name="isFeatured"
+					id="isFeatured"
+					checked={input.isFeatured}
+					className='w-full py-1 px-2 text-lg rounded-md border-[1px] border-gray_dark outline-none focus:outline-2 focus:outline-medium_fuchsia bg-white dark:bg-body_dark'
+					onChange={handleChange}
 				/>
-			</label>
+			</div>
 
-			<label>
-				Categoría:
-				<select name="" id="">
-					<option value="books and entertainment" valueid="2">books and entertainment</option>
-				</select>
-			</label>
-
+			
+			{	
+				categoriesInfo.categories.length && categoriesInfo.status==='success'
+				?
+				<div>
+					<p>Categoría</p>
+					{
+						categoriesInfo.categories.map(category => (
+							<label key={category.idCategory}>
+								<input
+          							type="checkbox"
+          							name="category"
+          							value={category.idCategory}
+          							onChange={handleChange}
+        						/>
+								{category.name}
+							</label>
+							
+						))
+					}
+				</div>
+				:
+				<p>Loading...</p>
+			}
+			// ! aun no funciona el "reciclaje de este"
+			<SelectCategoryFilter/>
 
 
 
