@@ -46,7 +46,10 @@ const DetailProduct = () => {
 
 					<DetailsMid description={productDetail.description} />
 
-					<DetailComments />
+					<DetailComments 
+						users={productDetail.users}
+					
+					/>
 				</>
 			)}
 		</div>

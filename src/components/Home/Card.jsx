@@ -46,47 +46,49 @@ const Card = ({ product }) => {
 	}
 
 	return (
-		<>
-			<div
+		<div
+			key={product.idProd}
+			ref={cardRef}
+			className='card  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4'>
+			<Link
+				to={`/product/${product.idProd}`}
 				key={product.idProd}
-				ref={cardRef}
-				className='card opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4'>
-				<Link to={`/product/${product.idProd}`} key={product.idProd}>
-					<div className='h-48 rounded overflow-hidden mb-4'>
-						{product.isFeatured && (
-							<div className='flex items-center gap-2 bg-dark_purple py-1'>
-								{/* <div className='flex items-center pr-2'> */}
-								<FeaturedIcon className='w-7 h-7' />
-								<div className='text-text_dark font-bold font-amaranth text-sm'>Sponsored</div>
-								{/* </div> */}
-							</div>
-						)}
-						<img src={product.image} alt={product.name} className='object-cover w-full h-full' />
-					</div>
+				className='flex flex-col justify-between h-full'>
+				<div className='h-48 rounded overflow-hidden mb-4'>
+					{product.isFeatured && (
+						<div className='flex items-center gap-2 bg-dark_purple py-1'>
+							<FeaturedIcon className='w-7 h-7' />
+							<div className='text-text_dark font-bold font-amaranth text-sm'>Sponsored</div>
+						</div>
+					)}
+					<img src={product.image} alt={product.name} className='object-cover w-full h-full' />
+				</div>
 
-					<div className='flex justify-between items-end text-2xl font-cabin font-bold mb-2'>
-						${product.price}
-						<span className='text-sm text-gray_dark mb-2'>{formatDate(product.updatedAt)}</span>
-					</div>
+				<div className='flex justify-between items-end text-2xl font-cabin font-bold mb-2'>
+					${product.price}
+					<span className='text-sm text-gray_dark mb-2'>{formatDate(product.updatedAt)}</span>
+				</div>
 
-					<div className='text-2xl font-amaranth font-bold mb-2'>
-						<p className='truncate max-w-full'>{product.name}</p>
-					</div>
-					{/* Categories */}
-					<div className='mb-2 flex gap-1 flex-wrap text-medium_fuchsia truncate '>
-						{getCategoryNames(product.idProd).map((category, index) => (
-							<p key={index} className='text-sm px-2 py-1 bg-purple_badge rounded-lg truncate w-24'>
-								{category}
-							</p>
-						))}
-					</div>
+				<div className='text-2xl font-amaranth font-bold mb-2'>
+					<p className='truncate max-w-full'>{product.name}</p>
+				</div>
+				{/* Categories */}
+				<div className='mb-2 flex gap-1 flex-wrap text-medium_fuchsia truncate '>
+					{getCategoryNames(product.idProd).map((category, index) => (
+						<p key={index} className='text-sm px-2 py-1 bg-purple_badge rounded-lg truncate w-24'>
+							{category}
+						</p>
+					))}
+				</div>
 
-					<div className='flex justify-end'>
-						<BtnAddCartCard />
-					</div>
-				</Link>
-			</div>
-		</>
+				<div className='flex justify-between items-end'>
+					<p className='text-sm text-gray_dark'>
+						{product.location},{product.state}
+					</p>
+					<BtnAddCartCard />
+				</div>
+			</Link>
+		</div>
 	)
 }
 

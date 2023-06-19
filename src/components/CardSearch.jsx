@@ -25,9 +25,9 @@ const CardSearch = ({ image, id, name, price, updatedAt, closeModal, isOnModal =
 
 	return (
 		<div
-			className='w-full bg-white dark:bg-card_dark p-4 rounded-md shadow flex cursor-pointer max-h-[150px]'
+			className='w-full bg-white dark:bg-card_dark p-4 rounded-md shadow cursor-pointer max-h-[130px]'
 			onClick={handleNavigate}>
-			<section className='flex gap-2 items-center md:items-start w-10/12'>
+			<section className='flex gap-2 items-center md:items-start w-full truncate'>
 				<div className='w-16 h-16 md:w-24 md:h-24 overflow-hidden rounded flex items-center'>
 					<img
 						src={imgValid ? image : imageNotFound}

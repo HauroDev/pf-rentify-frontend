@@ -23,11 +23,11 @@ const Sidenav = ({ isOpen, closeModal }) => {
 			</div>
 
 			<nav
-				className={`min-h-full w-52 p-4 fixed z-20 bg-body_light dark:bg-body_dark md:left-0 ${menuOpenClasses} transition-all`}>
+				className={`h-full w-52 p-4 fixed z-20 bg-body_light dark:bg-body_dark md:left-0 ${menuOpenClasses} transition-all overflow-auto scrollbar-thin scrollbar-thumb-light_purple scrollbar-thumb-rounded-md`}>
 				<div className='w-36 min-w-[130px] mb-8'>
 					<img src={logoImg} alt='rentify logo' className='min-w-[130px]' />
 				</div>
-				<section className='w-full flex flex-col gap-6'>
+				<section className='w-full pr-4 flex flex-col gap-6 '>
 					<SearchBtn />
 					{pathname === routesName.home && (
 						<>

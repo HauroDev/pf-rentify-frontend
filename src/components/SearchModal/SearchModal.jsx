@@ -36,7 +36,7 @@ const SearchModal = ({ closeModal }) => {
 
 	return (
 		<ModalContainer>
-			<div className='blur-in-expand overflow-auto relative mx-auto h-[480px] md:h-[650px] w-full md:w-8/12 max-w-[650px] rounded-md bg-body_light dark:bg-body_dark shadow-xl'>
+			<div className='blur-in-expand overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-dark_purple scrollbar-track-light_purple scrollbar-track-rounded-lg relative mx-auto min-h-[300px] max-h-[350px] w-full md:w-8/12 max-w-[650px] rounded-md bg-body_light dark:bg-body_dark shadow-xl'>
 				<div className='pb-4'>
 					<section className='flex items-center gap-2 px-4 py-2 border-b-[1px] h-16 border-b-gray_dark'>
 						<FormSearch />
@@ -53,7 +53,7 @@ const SearchModal = ({ closeModal }) => {
 						{searchState.products.length ? (
 							<>
 								<p className='font-bold mb-3'> Results for &quot;{searchState.search}&quot;:</p>
-								<section className='grid gap-4 mb-4'>
+								<section className='grid gap-4 mb-4 '>
 									{searchState.products.map((product) => (
 										<CardSearch
 											key={product.idProd}
