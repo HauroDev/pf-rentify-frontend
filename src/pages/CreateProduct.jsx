@@ -2,21 +2,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { fetchGetAllCategoriesAsync } from "../app/features/categories/categoriesSlice";
 import Input from "../components/Input";
-import SelectCategoryFilter from "../components/Selects/SelectCategoryFilter";
+import { fetchGetAllCountriessAsync } from "../app/features/countries/countriesSlice";
 import { fetchPostProductAsync } from "../app/features/products/productsSlice";
+import validationProducts from "../utils/validationProducts";
+
 
 const CreateProduct = () => {
 	const userId = '3ce1d6d0-506e-479a-ad4a-22535b6290de';
 	const countryId = 1;
 	const categoriesInfo = useSelector(state=>state.categories);
+	const {countries} = useSelector(state=>state.countries);
 	console.log(categoriesInfo);
+	console.log(countries);
 
 	const dispatch = useDispatch();
 
 	//
 	useEffect(()=>{
 		dispatch(fetchGetAllCategoriesAsync())
-
+		dispatch(fetchGetAllCountriessAsync())
 	},[])
 
 	//estado de input
@@ -28,7 +32,7 @@ const CreateProduct = () => {
 		location: "",
 		state: "",
 		isFeatured: false,
-		category: []
+		
 	})
 	//error
 	const [errors,setErrors] = useState({
@@ -39,7 +43,7 @@ const CreateProduct = () => {
 		location: "",
 		state: "",
 		isFeatured: false,
-		category: []
+		
 	})
 	//category:
 	const [categoriesChecked,setCategoriesChecked] = useState({
@@ -70,15 +74,24 @@ const CreateProduct = () => {
 				...prevInput,
 				isFeatured: checked,
 			}));
+
+			// setErrors((prevInput) => (validationProducts({
+			// 	...prevInput,
+			// 	isFeatured: checked,
+			// },countries)))
+
 		} else if(name === "price"){
 			setInput((prevInput) => ({ ...prevInput, [name]: parseFloat(value) }));
+			// setErrors((prevInput) => (validationProducts({ ...prevInput, [name]: parseFloat(value)},countries)));
 		} else{
 			setInput((prevInput) => ({ ...prevInput, [name]: value }));
+			// setErrors((prevInput) => (validationProducts({ ...prevInput, [name]: value },countries)));
 		}
 	};
 	
 	console.log(input);
 	console.log(categoriesChecked);
+	console.log(errors)
 	const handleSubmit = (e)=>{
 		e.preventDefault();
 
@@ -114,8 +127,8 @@ const CreateProduct = () => {
 		dispatch(fetchPostProductAsync(product));
 	}
 	
-	return (<div>
-		<form onSubmit={handleSubmit}>
+	return (<div className="flex justify-center items-center ">
+		<form onSubmit={handleSubmit} className="bg-gray_medium shadow-md rounded-md h-600 w-700 p-8">
 			
 			<Input 
 				type="text"
@@ -153,14 +166,14 @@ const CreateProduct = () => {
 				onchange={handleChange}
 				label="Price: "
 			/>
-
+			
             <Input 
 				type="text"
 				name="location"
 				value={input.location}
 				placeholder="Location..."
 				onchange={handleChange}
-				label="Location: "
+				label="Location: (por ahora solo location: Argentina)"
 			/>
 
 			<Input 
@@ -173,13 +186,13 @@ const CreateProduct = () => {
 			/>
 			
 			<div className='w-full'>
-				<label htmlFor="isFeatured">Is featured:</label>
+				<label htmlFor="isFeatured" className="block mb-2">Is featured:</label>
 				<input
 					type="checkbox"
 					name="isFeatured"
 					id="isFeatured"
 					checked={input.isFeatured}
-					className='w-full py-1 px-2 text-lg rounded-md border-[1px] border-gray_dark outline-none focus:outline-2 focus:outline-medium_fuchsia bg-white dark:bg-body_dark'
+					className="mr-2"
 					onChange={handleChange}
 				/>
 			</div>
@@ -188,14 +201,14 @@ const CreateProduct = () => {
 			{	
 				categoriesInfo.categories.length && categoriesInfo.status==='success'
 				?
-				<div>
+				<div className="flex flex-col">
 					<p>Categoría</p>
 					{
 						categoriesInfo.categories.map(category => (
-							<label key={category.idCategory}>
-								{category.name}
+							<label key={category.idCategory} className="flex items-center">
+								<span className="capitalize	">{category.name}</span>
 								<input
-									className='w-full py-1 px-2 text-lg rounded-md border-[1px] border-gray_dark outline-none focus:outline-2 focus:outline-medium_fuchsia bg-white dark:bg-body_dark'
+									className="ml-auto mr-2"
 									type="checkbox"
 									name="category"
 									id={category.idCategory}
@@ -214,7 +227,7 @@ const CreateProduct = () => {
 			{/* // ! aun no funciona el "reciclaje de este" */}
 			{/* <SelectCategoryFilter/> */}
 
-			<button type="submit">Submit Product</button>
+			<button type="submit" className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>Submit Product</button>
 
 		</form>
 	</div>)
