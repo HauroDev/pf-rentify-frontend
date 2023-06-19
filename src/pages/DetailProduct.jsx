@@ -46,10 +46,10 @@ const DetailProduct = () => {
 
 					<DetailsMid description={productDetail.description} />
 
-					<DetailComments 
-						users={productDetail.users}
+					{productDetail.users.length > 0 ? <DetailComments 
+						user={productDetail.users[0]} 
 					
-					/>
+					/> : ''}
 				</>
 			)}
 		</div>
