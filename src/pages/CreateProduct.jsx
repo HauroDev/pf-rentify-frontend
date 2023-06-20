@@ -23,29 +23,7 @@ const CreateProduct = () => {
 		dispatch(fetchGetAllCountriessAsync())
 	},[])
 
-	//estado de input
-	const [input,setInput] = useState({
-		name : "",
-		description: "",
-		image: "",
-		price: 0,
-		location: "",
-		state: "",
-		isFeatured: false,
-		
-	})
-	//error
-	const [errors,setErrors] = useState({
-		name : "",
-		description: "",
-		image: "",
-		price: 0,
-		location: "",
-		state: "",
-		isFeatured: false,
-		
-	})
-	//category:
+	//category input:
 	const [categoriesChecked,setCategoriesChecked] = useState({
 		'electronics': false,
 		'books and entertainment': false,
@@ -57,41 +35,76 @@ const CreateProduct = () => {
 		'personal care':false,
 		'arts and crafts':false
 	})
+
+	// Estados para las propiedades de input
+	const [inputName, setInputName] = useState("");
+	const [inputDescription, setInputDescription] = useState("");
+	const [inputImage, setInputImage] = useState("");
+	const [inputPrice, setInputPrice] = useState(0);
+	const [inputLocation, setInputLocation] = useState("");
+	const [inputState, setInputState] = useState("");
+	const [inputIsFeatured, setInputIsFeatured] = useState(false);
+
+	// Estados para los mensajes de error de cada propiedad
+	const [inputNameError, setInputNameError] = useState("");
+	const [inputDescriptionError, setInputDescriptionError] = useState("");
+	const [inputImageError, setInputImageError] = useState("");
+	const [inputPriceError, setInputPriceError] = useState(0);
+	const [inputLocationError, setInputLocationError] = useState("");
+	const [inputStateError, setInputStateError] = useState("");
+	const [inputIsFeaturedError, setInputIsFeaturedError] = useState(false);
 	
 
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
-
-		if (name === "category") {
+		switch (name) {
 			
-			setCategoriesChecked((prevInput)=>({
-				...prevInput,
-				[value]: checked
-			}))
+			case "name":
+				setInputName(value);
+				break;
 			
-		} else if (name === "isFeatured") {
-			setInput((prevInput) => ({
-				...prevInput,
-				isFeatured: checked,
-			}));
+			case "description":
+				setInputDescription(value);
+				break;
 
-			// setErrors((prevInput) => (validationProducts({
-			// 	...prevInput,
-			// 	isFeatured: checked,
-			// },countries)))
+			case "image":
+				setInputImage(value);
+				break;
+			
+			case "price":
+				setInputPrice(parseFloat(value));
+				break;
 
-		} else if(name === "price"){
-			setInput((prevInput) => ({ ...prevInput, [name]: parseFloat(value) }));
-			// setErrors((prevInput) => (validationProducts({ ...prevInput, [name]: parseFloat(value)},countries)));
-		} else{
-			setInput((prevInput) => ({ ...prevInput, [name]: value }));
-			// setErrors((prevInput) => (validationProducts({ ...prevInput, [name]: value },countries)));
+			case "location":
+				setInputLocation(value);
+				break;
+			
+			case "state":
+				setInputState(value);
+				break;
+
+			case "isFeatured":
+				setInputIsFeatured(checked);
+				break;
+			
+			case "category":
+				setCategoriesChecked((prevInput)=>({
+					...prevInput,
+					[value]: checked
+				}))
+				break;
+		
+			default:
+				break;
 		}
+
+		
 	};
 	
-	console.log(input);
-	console.log(categoriesChecked);
-	console.log(errors)
+	
+	console.log(inputIsFeatured);
+	console.log(inputPrice);
+	
 	const handleSubmit = (e)=>{
 		e.preventDefault();
 
@@ -110,13 +123,13 @@ const CreateProduct = () => {
 		}
 
 		const product = {
-			"name": input.name,
-			"description": input.description,
-			"image": input.image,
-			"price": input.price,
-			"location": input.location,
-			"state": input.state,
-			"isFeatured":input.isFeatured,
+			"name": inputName,
+			"description": inputDescription,
+			"image": inputImage,
+			"price": inputPrice,
+			"location": inputLocation,
+			"state": inputState,
+			"isFeatured":inputIsFeatured,
 			"categories": categories,
 			"idUser": userId,
 			"idCountry": countryId,
@@ -124,7 +137,7 @@ const CreateProduct = () => {
 
 		console.log(product);
 
-		dispatch(fetchPostProductAsync(product));
+		//dispatch(fetchPostProductAsync(product));
 	}
 	
 	return (<div className="flex justify-center items-center ">
@@ -133,7 +146,7 @@ const CreateProduct = () => {
 			<Input 
 				type="text"
 				name="name"
-				value={input.name}
+				value={inputName}
 				placeholder="Name..."
 				onchange={handleChange}
 				label="Name: "
@@ -142,7 +155,7 @@ const CreateProduct = () => {
 			<Input 
 				type="text"
 				name="description"
-				value={input.description}
+				value={inputDescription}
 				placeholder="Description..."
 				onchange={handleChange}
 				label="Description: "
@@ -152,7 +165,7 @@ const CreateProduct = () => {
 			<Input 
 				type="text"
 				name="image"
-				value={input.image}
+				value={inputImage}
 				placeholder="Image URL..."
 				onchange={handleChange}
 				label="Image URL: "
@@ -161,7 +174,7 @@ const CreateProduct = () => {
 			<Input 
 				type="number"
 				name="price"
-				value={input.price}
+				value={inputPrice}
 				placeholder="Price..."
 				onchange={handleChange}
 				label="Price: "
@@ -170,7 +183,7 @@ const CreateProduct = () => {
             <Input 
 				type="text"
 				name="location"
-				value={input.location}
+				value={inputLocation}
 				placeholder="Location..."
 				onchange={handleChange}
 				label="Location: (por ahora solo location: Argentina)"
@@ -179,7 +192,7 @@ const CreateProduct = () => {
 			<Input 
 				type="text"
 				name="state"
-				value={input.state}
+				value={inputState}
 				placeholder="State..."
 				onchange={handleChange}
 				label="State: "
@@ -191,7 +204,7 @@ const CreateProduct = () => {
 					type="checkbox"
 					name="isFeatured"
 					id="isFeatured"
-					checked={input.isFeatured}
+					checked={inputIsFeatured}
 					className="mr-2"
 					onChange={handleChange}
 				/>
@@ -224,8 +237,7 @@ const CreateProduct = () => {
 				:
 				<p>Loading...</p>
 			}
-			{/* // ! aun no funciona el "reciclaje de este" */}
-			{/* <SelectCategoryFilter/> */}
+			
 
 			<button type="submit" className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>Submit Product</button>
 
