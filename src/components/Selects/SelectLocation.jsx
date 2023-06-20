@@ -3,7 +3,12 @@ import { useState } from 'react'
 import { useModal } from '../../hooks/useModal'
 import { splitLocationName } from '../../utils/splitLocationName'
 import { useSelector, useDispatch } from 'react-redux'
-import { resetLocation, setEndpoint, setLocation } from '../../app/features/products/productsSlice'
+import {
+	resetLocation,
+	resetOffset,
+	setEndpoint,
+	setLocation,
+} from '../../app/features/products/productsSlice'
 import { filterQuery } from '../../utils/filterAndPag'
 import CustomSelect from './CustomSelect'
 import SelectCustomOption from './SelectCustomOption'
@@ -33,6 +38,7 @@ const SelectLocation = ({ dataCities = [] }) => {
 		})
 		setCityName('')
 		dispatch(setEndpoint(`${endpointSplited}?${query}`))
+		dispatch(resetOffset())
 		dispatch(resetLocation())
 		closeModal()
 	}
@@ -52,6 +58,7 @@ const SelectLocation = ({ dataCities = [] }) => {
 		})
 		setCityName(nameSplitet)
 		dispatch(setEndpoint(`${endpointSplited}?${query}`))
+		dispatch(resetOffset())
 		dispatch(setLocation(nameSplitet))
 		closeModal()
 	}

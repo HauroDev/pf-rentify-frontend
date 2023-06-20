@@ -9,6 +9,7 @@ import {
 	resetStateLoc,
 	resetLocation,
 	setEndpoint,
+	resetOffset,
 } from '../../app/features/products/productsSlice'
 import { filterQuery } from '../../utils/filterAndPag'
 import SelectCustomOption from './SelectCustomOption'
@@ -50,6 +51,7 @@ const SelectCountry = () => {
 
 	const handleRestart = () => {
 		dispatch(resetCountry())
+		dispatch(resetOffset())
 		setCountryapi(null)
 		setCountryName('')
 		setDataStates([])
@@ -65,6 +67,7 @@ const SelectCountry = () => {
 			state: '',
 		})
 		dispatch(setEndpoint(`${endpointSplited}?${query}`))
+		dispatch(resetOffset())
 		dispatch(resetCountry())
 		dispatch(resetStateLoc())
 		dispatch(resetLocation())

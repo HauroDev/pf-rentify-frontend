@@ -6,9 +6,11 @@ import { filterQuery } from '../../utils/filterAndPag'
 import { orderByOptions } from '../../utils/order'
 import CustomSelect from './CustomSelect'
 import SelectCustomOption from './SelectCustomOption'
+import { useState } from 'react'
 
 const OrderSelect = () => {
 	const [isOpen, openModal, closeModal] = useModal()
+	const [orderLabel, setOrderLabel] = useState(null)
 	const dispatch = useDispatch()
 	const productState = useSelector((state) => state.products)
 
@@ -31,11 +33,12 @@ const OrderSelect = () => {
 			state: productState.stateLoc,
 		})
 		dispatch(setEndpoint(`${endpointSplited}?${query}`))
+		setOrderLabel(null)
 		dispatch(resetOrder())
 		closeModal()
 	}
 
-	const handleSelect = (by, type) => {
+	const handleSelect = (by, type, label) => {
 		const endpointSplited = productState.endpoint.split('?')[0]
 		const query = filterQuery({
 			offset: 0,
@@ -47,6 +50,7 @@ const OrderSelect = () => {
 			location: productState.location,
 			state: productState.stateLoc,
 		})
+		setOrderLabel(label)
 		dispatch(resetOffset())
 		dispatch(setOrder({ orderBy: by, orderType: type }))
 		dispatch(setEndpoint(`${endpointSplited}?${query}`))
@@ -56,11 +60,7 @@ const OrderSelect = () => {
 	return (
 		<CustomSelect
 			label='Order'
-			messageSelect={
-				productState.order.orderBy
-					? `${productState.order.orderBy.toUpperCase()} ${productState.order.orderType}`
-					: 'Sort by'
-			}
+			messageSelect={orderLabel || 'Sort by'}
 			isOpen={isOpen}
 			handleOpenClose={handleOpenModal}>
 			<SelectCustomOption label='Default' onclick={handleRestart} />
@@ -69,7 +69,7 @@ const OrderSelect = () => {
 				<SelectCustomOption
 					key={opt.id}
 					label={opt.label}
-					onclick={() => handleSelect(opt.by, opt.type)}
+					onclick={() => handleSelect(opt.by, opt.type, opt.label)}
 				/>
 			))}
 		</CustomSelect>

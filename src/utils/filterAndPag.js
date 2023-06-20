@@ -28,5 +28,6 @@ export const filterQuery = ({
 			}
 		}
 	}
+	console.log(queryString)
 	return queryString
 }

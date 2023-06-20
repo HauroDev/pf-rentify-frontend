@@ -9,6 +9,7 @@ const validation = (formData) => {
   
     if (!formData.email) {
       errors.email = 'Please enter an email';
+      //^(?!\.)[a-zA-Z0-9._%+-]+@(?!-)(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?<!\.)$ alta comple
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       errors.email = 'Please enter a valid email address';
     }
