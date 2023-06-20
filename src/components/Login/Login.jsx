@@ -1,17 +1,24 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Input from "../Input"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logoImg from '../../assets/image/logo-rentify.png'
 import GoogleIcon from "../icons/google";
+import { LoginUserDB } from "../../app/features/user/userSlice";
+
 
 const LoginUser = () => {
 
     const dispatch = useDispatch();
-
+    const userState = useSelector(state => state.user)
     const [login, setLogin] = useState({
         email: '',
         password: ''
     })
+    useEffect(() => {
+        if (userState.status === 'success') {
+            localStorage.setItem('userAuth', JSON.stringify({ login: userState.login, user: userState.user }))
+        }
+    }, [userState.status])
 
     const handleChange = event => {
 
@@ -23,12 +30,16 @@ const LoginUser = () => {
 
     }
     const handleSumit = (event) => {
-        event.preventDefault()
-        console.log(login)
-        //falta la ruta
-        dispatch(loginUser(
-            login
-        ))
+        try {
+            event.preventDefault()
+            console.log(login)
+            //falta la ruta
+            dispatch(LoginUserDB({ email: login.email, password: login.password }))
+        
+        } catch (error) {
+            console.log(error.code)
+			console.log(error.message)
+        }
     }
 
 
@@ -85,7 +96,7 @@ const LoginUser = () => {
 
                         <div className="flex mt-7 justify-center w-full">
                             <button className="hover:shadow-inner transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-150">
-                                <GoogleIcon className="mr-2" /> 
+                                <GoogleIcon className="mr-2" />
                             </button>
                         </div>
 
