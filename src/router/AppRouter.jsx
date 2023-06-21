@@ -15,9 +15,9 @@ const AppRouter = () => {
 				<Route path={routesName.home} element={<Home />} />
 				<Route path={routesName.detail_product} element={<DetailProduct />} />
 				<Route path={routesName.search_products} element={<SearchProducts />} />
-				<Route path={routesName['create-product']} element={<CreateProduct />} />
+				<Route path={routesName.user['create-product']} element={<CreateProduct />} />
 				<Route path={routesName.signup} element={<SignUp />} />
-				<Route path={routesName.login} element={<Login/>} />
+				<Route path={routesName.login} element={<Login />} />
 			</Route>
 		</Routes>
 	)

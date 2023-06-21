@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 
 import { useEffect, useState } from 'react'
-import BtnAddCartCard from '../BtnAddCart'
+import BtnAddCart from '../BtnAddCart'
 import MapPinIcon from '../icons/MapPinIcon'
 import { formatDate } from '../../utils/formatDate'
 
-const DetailInfo = ({ idProd, name, price, location, updatedAt, country }) => {
+const DetailInfo = ({ idProd, name, price, location, updatedAt, country, image }) => {
 	const [date, setDate] = useState('')
 
 	useEffect(() => {
@@ -27,8 +27,18 @@ const DetailInfo = ({ idProd, name, price, location, updatedAt, country }) => {
 				<MapPinIcon className='stroke-card_dark dark:stroke-white w-4 h-4 md:w-6 md:h-6' />
 				<h4 className='text-base md:text-xl ml-2'>City: {location}</h4>
 			</div>
-			<div className='flex justify-center'>
-				<BtnAddCartCard />
+
+			<div>
+				<BtnAddCart
+					size='lg'
+					product={{
+						name: name,
+						price: price,
+						image: image,
+						idProd: idProd,
+						country: country,
+					}}
+				/>
 			</div>
 		</div>
 	)

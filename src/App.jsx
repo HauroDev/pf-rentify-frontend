@@ -1,10 +1,12 @@
 import { useDispatch } from 'react-redux'
-import AppRouter from './router/AppRouter'
 import { useEffect } from 'react'
 import { LogoutUser, resetUser, setUser } from './app/features/user/userSlice'
 import { localStorageItems } from './utils/localStorageItems'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase.config'
+import { setCart } from './app/features/cart/cartSlice'
+import { getCart } from './services/cartService'
+import AppRouter from './router/AppRouter'
 
 function App() {
 	const dispatch = useDispatch()
@@ -14,6 +16,8 @@ function App() {
 		: { loggin: false, user: {} }
 
 	useEffect(() => {
+		const cart = getCart()
+		dispatch(setCart(cart))
 		if (userAuth.login) {
 			dispatch(setUser(userAuth.user))
 		}

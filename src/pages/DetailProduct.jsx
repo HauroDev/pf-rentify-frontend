@@ -69,6 +69,7 @@ const DetailProduct = () => {
 										price={state.product.price}
 										updatedAt={state.product.updatedAt}
 										country={state.product.country}
+										image={state.product.image}
 									/>
 								</div>
 
@@ -87,6 +88,7 @@ const DetailProduct = () => {
 									price={state.product.price}
 									updatedAt={state.product.updatedAt}
 									country={state.product.country}
+									image={state.product.image}
 								/>
 							</div>
 						</div>
