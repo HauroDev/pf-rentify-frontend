@@ -23,7 +23,7 @@ export const CreateUserGoogle = createAsyncThunk('user/CreateUserGoogle',async(u
 	try {
 		return await registerGoogle(user)
 	} catch (error) {
-		return Promise,reject(error)
+		return Promise.reject(error)
 	}
 })
 
@@ -31,7 +31,7 @@ export const LoginUserDB=createAsyncThunk('user/LoginUserDB',async(user)=>{
 	try {
 		return await loginUser(user)
 	} catch (error) {
-		return Promise,reject(error)
+		return Promise.reject(error)
 	}
 })
 
@@ -39,7 +39,7 @@ export const LoginUserGoogle= createAsyncThunk('user/LoginUserGoogle',async(user
 	try {
 		return await loginGoogle(user) 
 	} catch (error) {
-		return Promise,reject(error)
+		return Promise.reject(error)
 	}
 })
 
