@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import CartIcon from '../icons/CartIcon'
 import HamburgerIcon from '../icons/HamburgerIcon'
 import UserMenu from './UserMenu';
+import CartMenu from './CartMenu';
 import BtnDarkMode from './BtnDarkMode'
 import logoImg from '../../assets/image/logo-rentify.png'
 import { useSelector } from 'react-redux';
@@ -15,7 +15,7 @@ const Header = ({ openModal }) => {
 			</div>
 
 			<div className='flex justify-end items-center gap-4 md:gap-6 w-full'>
-				<CartIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
+				<CartMenu/>
 				<BtnDarkMode  />
 				<UserMenu/>
 				<button className='md:hidden block' onClick={openModal}>
