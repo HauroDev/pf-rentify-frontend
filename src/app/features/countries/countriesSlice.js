@@ -27,7 +27,6 @@ const countriesSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(fetchGetAllCountriessAsync.fulfilled, (state, action) => {
-				console.log(action)
 				state.status = 'success'
 				state.countries = action.payload
 			})

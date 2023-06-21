@@ -5,8 +5,6 @@ import imgNotFound from '../../assets/image/image-not-found.jpg'
 import { isImgValid } from '../../utils/isImgValid'
 import DeatilSectionContainer from './DeatilSectionContainer'
 
-//Quiero que la foto se vea mas grande pero no super como hacerlo osea que ocupe todo el contenedor
-
 const DetailsTop = ({ image }) => {
 	const [imgExist, setImgExist] = useState(false)
 
