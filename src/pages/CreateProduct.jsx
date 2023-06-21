@@ -109,7 +109,6 @@ const CreateProduct = () => {
 	const [inputStateError, setInputStateError] = useState("");
 	//const [inputIsFeaturedError, setInputIsFeaturedError] = useState(false);
 	
-
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
 		switch (name) {
@@ -129,7 +128,7 @@ const CreateProduct = () => {
 			
 			case "price":
 				setInputPrice(parseFloat(value));
-				break;
+				break; 
 
 			case "location":
 				setInputLocation(value);

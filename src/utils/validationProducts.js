@@ -1,4 +1,4 @@
-const validationProducts = (input, countries) => {
+const validationProducts = (inputName, inputValue) => {
     let errors={};
 
     if(!input.name){
