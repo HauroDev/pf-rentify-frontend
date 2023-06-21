@@ -4,14 +4,13 @@ import Input from '../Input'
 import logoImg from '../../assets/image/logo-rentify.png'
 import validation from '../../utils/validation'
 import GoogleIcon from '../icons/google'
-import { registerGoogle, registerUser } from '../../services/authSevice'
 import { CreatePostUser, CreateUserGoogle } from '../../app/features/user/userSlice'
+import { localStorageItems } from '../../utils/localStorageItems'
 
 const FormUser = () => {
 	const dispatch = useDispatch()
-	const userState=useSelector(state=>state.user)
+	const userState = useSelector((state) => state.user)
 	const [formData, setFormData] = useState({
-
 		email: '',
 		password: '',
 		confirmPassword: '',
@@ -21,12 +20,16 @@ const FormUser = () => {
 		password: '',
 		confirmPassword: '',
 	})
-	useEffect(()=>{
-		if(userState.status==='success')
-		{
-			localStorage.setItem('userAuth',JSON.stringify({ login:userState.login , user:userState.user}))
+
+	useEffect(() => {
+		if (userState.status === 'success') {
+			localStorage.setItem(
+				localStorageItems.userAuth,
+				JSON.stringify({ login: true, user: userState.user })
+			)
 		}
-	},[userState.status])	
+	}, [userState.status])
+
 	const handleChange = (event) => {
 		setFormData({
 			...formData,
@@ -39,23 +42,20 @@ const FormUser = () => {
 			})
 		)
 	}
+
 	const handleSumit = async (event) => {
 		event.preventDefault()
 		try {
 			if (!formData.email || !formData.password || !formData.confirmPassword) {
-				setError({ password: 'Please fill in all fields' });
-				return;
-			  }
+				setError({ password: 'Please fill in all fields' })
+				return
+			}
 			if (formData.password !== formData.confirmPassword) {
 				setError('Passwords do not match')
-				return;
+				return
 			}
 			// { email: formData.email, password: formData.password }
-			dispatch(CreatePostUser(
-				{ email: formData.email, password: formData.password }
-			))
-
-			console.log(user)
+			dispatch(CreatePostUser({ email: formData.email, password: formData.password }))
 		} catch (error) {
 			console.log(error.code)
 			console.log(error.message)
@@ -64,9 +64,7 @@ const FormUser = () => {
 
 	const handleSignUpGoogle = async () => {
 		try {
-			dispatch(CreateUserGoogle(
-				{ email: formData.email, password: formData.password }
-			))
+			dispatch(CreateUserGoogle({ email: formData.email, password: formData.password }))
 		} catch (error) {
 			console.log(error.code)
 			console.log(error.message)
