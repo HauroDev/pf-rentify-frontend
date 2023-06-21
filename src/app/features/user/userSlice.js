@@ -1,6 +1,6 @@
 // User Slice
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { loginUser, registerGoogle, registerUser } from '../../../services/authSevice'
+import { loginUser, registerGoogle, registerUser,loginGoogle } from '../../../services/authSevice'
 
 const initialState = {
 	user: {},
@@ -35,7 +35,13 @@ export const LoginUserDB=createAsyncThunk('user/LoginUserDB',async(user)=>{
 	}
 })
 
-
+export const LoginUserGoogle= createAsyncThunk('user/LoginUserGoogle',async(user)=>{
+	try {
+		return await loginGoogle(user) 
+	} catch (error) {
+		return Promise,reject(error)
+	}
+})
 
 const userSlice = createSlice({
 	name: 'user',
@@ -91,6 +97,20 @@ const userSlice = createSlice({
 			state.status='success'
 		})
 		.addCase(LoginUserDB.rejected, (state, action) => {
+			state.status = 'error'
+			state.error = action.error.message
+		})
+		// login GOOGLE
+		.addCase(LoginUserGoogle.pending, (state) => {
+			state.status = 'loading'
+		})
+		.addCase(LoginUserGoogle.fulfilled, (state, action) => {
+			// Actualizar el estado con los datos de la respuesta si es necesario
+			state.user = action.payload
+			state.login = true
+			state.status='success'
+		})
+		.addCase(LoginUserGoogle.rejected, (state, action) => {
 			state.status = 'error'
 			state.error = action.error.message
 		})
