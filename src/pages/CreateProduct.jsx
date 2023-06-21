@@ -1,27 +1,81 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useModal } from "../hooks/useModal";
 import { fetchGetAllCategoriesAsync } from "../app/features/categories/categoriesSlice";
+import { getCountryStates} from "../services/locationService";
 import Input from "../components/Input";
 import { fetchGetAllCountriessAsync } from "../app/features/countries/countriesSlice";
-import { fetchPostProductAsync } from "../app/features/products/productsSlice";
 import validationProducts from "../utils/validationProducts";
+import SelectCustomOption from "../components/Selects/SelectCustomOption";
+import CustomSelect from "../components/Selects/CustomSelect";
+import { splitLocationName } from "../utils/splitLocationName";
+import { fetchPostProductAsync } from "../app/features/products/productsSlice";
 
 
 const CreateProduct = () => {
 	const userId = '3ce1d6d0-506e-479a-ad4a-22535b6290de';
-	const countryId = 1;
-	const categoriesInfo = useSelector(state=>state.categories);
-	const {countries} = useSelector(state=>state.countries);
-	console.log(categoriesInfo);
-	console.log(countries);
-
+	
+	//country/state
+	const [isOpen,openModal, closeModal] = useModal();
+	const [countryApiId,setCountryApiId] = useState(null);
+	const [countryName, setCountryName] = useState('');
+	const [dataStates, setDataStates] = useState([]);
+	//state / location
+	const [stateName, setStateName] = useState('')
+	const [stateApiId, setStateApiId] = useState(null)
+	const [dataLocations, setDataLocations] = useState([])
+	const [locationName,setLocationName] = useState("")
 	const dispatch = useDispatch();
+	const categoriesInfo = useSelector(state=>state.categories);
+	const countriesInfo = useSelector(state=>state.countries);
+	// función para traer info de states
+	const getData = async (id) => {
+		try {
+			const data = await getCountryStates(id)
+			setDataStates(data)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+	// función para traer info de locations
+	const getDataLoc = async (id) => {
+		try {
+			const data = await getCountryStates(id)
+			setDataLocations(data)
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	//funcion modal
+	const handleOpenModal = () => {
+		if (isOpen) closeModal()
+		else openModal()
+	}
+	
+	//
+	console.log(categoriesInfo);
+	console.log(countriesInfo);
+	console.log(dataStates);
+	console.log(dataLocations);
 
 	//
 	useEffect(()=>{
-		dispatch(fetchGetAllCategoriesAsync())
-		dispatch(fetchGetAllCountriessAsync())
-	},[])
+		if(!categoriesInfo.categories.length){
+			dispatch(fetchGetAllCategoriesAsync());
+		}
+		if(!countriesInfo.countries.length){
+			dispatch(fetchGetAllCountriessAsync());
+		}
+		if(countryApiId){
+			setDataStates([]);
+			getData(countryApiId);
+		}
+		if(stateApiId){
+			setDataLocations([]);
+			getDataLoc(stateApiId)
+		}
+	},[countryApiId,stateApiId])
 
 	//category input:
 	const [categoriesChecked,setCategoriesChecked] = useState({
@@ -41,6 +95,7 @@ const CreateProduct = () => {
 	const [inputDescription, setInputDescription] = useState("");
 	const [inputImage, setInputImage] = useState("");
 	const [inputPrice, setInputPrice] = useState(0);
+	const [inputCountry,setInputCountry] = useState(null);
 	const [inputLocation, setInputLocation] = useState("");
 	const [inputState, setInputState] = useState("");
 	const [inputIsFeatured, setInputIsFeatured] = useState(false);
@@ -49,10 +104,10 @@ const CreateProduct = () => {
 	const [inputNameError, setInputNameError] = useState("");
 	const [inputDescriptionError, setInputDescriptionError] = useState("");
 	const [inputImageError, setInputImageError] = useState("");
-	const [inputPriceError, setInputPriceError] = useState(0);
+	const [inputPriceError, setInputPriceError] = useState("");
 	const [inputLocationError, setInputLocationError] = useState("");
 	const [inputStateError, setInputStateError] = useState("");
-	const [inputIsFeaturedError, setInputIsFeaturedError] = useState(false);
+	//const [inputIsFeaturedError, setInputIsFeaturedError] = useState(false);
 	
 
 	const handleChange = (e) => {
@@ -61,6 +116,7 @@ const CreateProduct = () => {
 			
 			case "name":
 				setInputName(value);
+				setInputNameError(validationProducts(name,value))
 				break;
 			
 			case "description":
@@ -98,12 +154,43 @@ const CreateProduct = () => {
 				break;
 		}
 
-		
 	};
+	//manejo del input countries
+	const handleSelect = (id,idApi,name) => {
+		setCountryApiId(idApi);
+		setCountryName(name);
+		setInputCountry(id)
+		closeModal()
+	}
+	// const handleReset = () =>{
+	// 	setCountryApiId(null);
+	// 	setCountryName("");
+	// 	setInputCountry(null);
+	// 	setDataStates([])
+	// 	closeModal()
+	// }
+	//manejo input state
+	const handleStateSelect = (idApi,name) => {
+		const splitetName = splitLocationName(name)
+		setStateApiId(idApi);
+		setStateName(splitetName);
+		setInputState(name);
+		closeModal();
+	}
+
+	const handleLocationSelect = (name)=>{
+		const splitetName = splitLocationName(name);
+		setLocationName(splitetName);
+		setInputLocation(name);
+		closeModal()
+	}
 	
 	
 	console.log(inputIsFeatured);
 	console.log(inputPrice);
+	console.log(inputCountry);
+	console.log(inputState);
+	
 	
 	const handleSubmit = (e)=>{
 		e.preventDefault();
@@ -132,12 +219,13 @@ const CreateProduct = () => {
 			"isFeatured":inputIsFeatured,
 			"categories": categories,
 			"idUser": userId,
-			"idCountry": countryId,
+			"idCountry": inputCountry,
 		}
 
 		console.log(product);
 
-		//dispatch(fetchPostProductAsync(product));
+		dispatch(fetchPostProductAsync(product));
+		alert("producto ingresado")
 	}
 	
 	return (<div className="flex justify-center items-center ">
@@ -180,24 +268,83 @@ const CreateProduct = () => {
 				label="Price: "
 			/>
 			
-            <Input 
-				type="text"
-				name="location"
-				value={inputLocation}
-				placeholder="Location..."
-				onchange={handleChange}
-				label="Location: (por ahora solo location: Argentina)"
-			/>
+			<CustomSelect
+				handleOpenClose={handleOpenModal}
+				isOpen={isOpen}
+				label='Country'
+				positionLabel='left'
+				messageSelect={countryName || 'Select Country'}
+			>
+				{/* <SelectCustomOption label='All countries' onclick={handleReset} /> */}
+				{
+					countriesInfo.countries.map(country=>(
+						<SelectCustomOption
+							key={country.idCountry}
+							label={country.name}
+							onclick={() => handleSelect(country.idCountry, country.geonameId, country.name)}
+						/>
+					))
+				}
+			</CustomSelect>
+			{
+				dataStates.length
+				?
+				<CustomSelect
+					handleOpenClose={handleOpenModal}
+					isOpen={isOpen}
+					label='State'
+					positionLabel='left'
+					messageSelect={stateName || 'Select state'}
+				>
+					{
+						dataStates.map((state) => (
+						<SelectCustomOption
+							key={state.geonameId}
+							label={splitLocationName(state.adminName1)}
+							onclick={() => handleStateSelect(state.geonameId, state.adminName1)}
+						/>
+					))
+					}
+				</CustomSelect>
+				:
+				<CustomSelect 
+					handleOpenClose={handleOpenModal}
+					isOpen={isOpen}
+					label='State'
+					positionLabel='left'
+					messageSelect={'Select State'}	
+				></CustomSelect>
+			}
 
-			<Input 
-				type="text"
-				name="state"
-				value={inputState}
-				placeholder="State..."
-				onchange={handleChange}
-				label="State: "
-			/>
-			
+			{
+				stateApiId && dataLocations.length ?
+				<CustomSelect
+					handleOpenClose={handleOpenModal}
+					isOpen={isOpen}
+					label='Location'
+					positionLabel='left'
+					messageSelect={locationName || 'Select Location'}
+				>
+					{
+						dataLocations.map((loc) => (
+							<SelectCustomOption
+								key={loc.geonameId}
+								label={splitLocationName(loc.name)}
+								onclick={() => handleLocationSelect(loc.name)}
+							/>
+						))
+					}
+				</CustomSelect>
+				:
+				<CustomSelect 
+					handleOpenClose={handleOpenModal}
+					isOpen={isOpen}
+					label='Location'
+					positionLabel='left'
+					messageSelect={'Select Location'}	
+				></CustomSelect>
+			}
+            
 			<div className='w-full'>
 				<label htmlFor="isFeatured" className="block mb-2">Is featured:</label>
 				<input
