@@ -1,17 +1,24 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Input from "../Input"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logoImg from '../../assets/image/logo-rentify.png'
 import GoogleIcon from "../icons/google";
+import { LoginUserDB, LoginUserGoogle } from "../../app/features/user/userSlice";
+
 
 const LoginUser = () => {
 
     const dispatch = useDispatch();
-
+    const userState = useSelector(state => state.user)
     const [login, setLogin] = useState({
         email: '',
         password: ''
     })
+    useEffect(() => {
+        if (userState.status === 'success') {
+            localStorage.setItem('userAuth', JSON.stringify({ login: userState.login, user: userState.user }))
+        }
+    }, [userState.status])
 
     const handleChange = event => {
 
@@ -23,13 +30,27 @@ const LoginUser = () => {
 
     }
     const handleSumit = (event) => {
-        event.preventDefault()
-        console.log(login)
-        //falta la ruta
-        dispatch(loginUser(
-            login
-        ))
+        try {
+            event.preventDefault()
+            console.log(login)
+            //falta la ruta
+            dispatch(LoginUserDB({ email: login.email, password: login.password }))
+        
+        } catch (error) {
+            console.log(error.code)
+			console.log(error.message)
+        }
     }
+
+	const handleSignUpGoogle = async () => {
+		try {
+			dispatch( LoginUserGoogle ({  email: login.email, password: login.password }))
+		} catch (error) {
+			console.log(error.code)
+			console.log(error.message)
+		}
+	}
+
 
 
     return (
@@ -77,15 +98,17 @@ const LoginUser = () => {
                                 Enter
                             </button>
                         </div>
-
-                        <div className="bg-gray-300 w-full my-1 py-[1px] rounded-md "></div>
+                    </form>
+                    <div className="bg-gray-300 w-full my-1 py-[1px] rounded-md "></div>
                         <label className="block font-medium text-sm text-gray-600 w-full dark:text-white">
                             login with
                         </label>
 
                         <div className="flex mt-7 justify-center w-full">
-                            <button className="hover:shadow-inner transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-150">
-                                <GoogleIcon className="mr-2" /> 
+                            <button 
+                            onClick={handleSignUpGoogle}
+                            className="hover:shadow-inner transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-150">
+                                <GoogleIcon className="mr-2" />
                             </button>
                         </div>
 
@@ -97,7 +120,6 @@ const LoginUser = () => {
                                 </a>
                             </div>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>

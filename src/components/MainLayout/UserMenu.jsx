@@ -4,15 +4,20 @@ import LogoutIcon from '../icons/LogoutIcon';
 import React, { useEffect, useState } from 'react';
 import { isImgValid } from '../../utils/isImgValid';
 import imgNotFound from '../../assets/image/image-not-found.jpg';
+import { useSelector } from 'react-redux';
 
-const UserMenu = ({ image }) => {
+const UserMenu = ({  }) => {
   const [imgExist, setImgExist] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(true); // Estado de inicio de sesión
-
+  const userState=useSelector(state=>state.user)
   useEffect(() => {
-    isImgValid(image, setImgExist);
-  }, [image]);
+    if(userState.login=== true )
+    {
+    isImgValid(userState.user.image, setImgExist);
+    }
+    console.log(userState);
+  }, [userState.login]);
 
   const handleMenuClick = () => {
     setMenuOpen(!isMenuOpen);
@@ -24,15 +29,16 @@ const UserMenu = ({ image }) => {
     setMenuOpen(false);
   };
 
-  const loggedInMenu = (
+  const loggedInMenu = (user)=>(
     <div className="absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52 mt-2">
-      <div className="flex items-center pt-2 pb-1 gap-2 px-4 py-1">
+      <div className="flex items-center pt-2 pb-1 gap-2 px-4 py-1 truncate">
         <img
-          src={imgExist ? image : imgNotFound}
+          src={imgExist ? user.image : imgNotFound}
           alt="User"
           className="w-8 h-8 rounded-full"
         />
-        <span className="text-sm">Username</span>
+
+        <span className="text-sm truncate">{user.name || user.email ||""}</span>
       </div>
       <div className="my-2 border-b"></div>
       <button className="block text-left w-full px-4 py-2 hover:bg-dark_purple hover:text-white">
@@ -84,7 +90,7 @@ const UserMenu = ({ image }) => {
         className="stroke-dark_purple dark:stroke-light_purple cursor-pointer"
         onClick={handleMenuClick}
       />
-      {isMenuOpen && (isLoggedIn ? loggedInMenu : loggedOutMenu)}
+      {isMenuOpen && (userState.user.uid ? loggedInMenu(userState.user) : loggedOutMenu)}
     </div>
   );
 };

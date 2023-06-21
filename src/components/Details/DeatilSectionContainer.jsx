@@ -2,7 +2,7 @@
 
 const DeatilSectionContainer = ({ children }) => {
 	return (
-		<section className='w-full grid xl:grid-cols-2 justify-center content-center md:items-start gap-8 xl:gap-12'>
+		<section className='w-full grid justify-center content-center md:items-start gap-8 xl:gap-12 mb-8'>
 			{children}
 		</section>
 	)
