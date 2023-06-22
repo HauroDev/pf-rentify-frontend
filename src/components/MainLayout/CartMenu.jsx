@@ -59,7 +59,7 @@ const RentalCartMenu = () => {
   const cartMenuContent = (
     <div
       ref={menuRef}
-      className="absolute z-10 top-14 right-0 bg-white dark:bg-card_dark shadow-md w-96 md:w-[500px] rounded-md p-4 overflow-y-auto h-80"
+      className="absolute z-10 top-14 right-0 bg-white dark:bg-card_dark shadow-md w-96 md:w-[500px] rounded-md p-4 overflow-y-auto h-80 scrollbar-thin scrollbar-thumb-dark_purple scrollbar-thumb-rounded-md scrollbar-track-light_purple"
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-center justify-between mb-4">
@@ -98,7 +98,7 @@ const RentalCartMenu = () => {
                 <div className="truncate">
                   <h3 className="truncate text-lg md:text-2xl">{item.name}</h3>
                   <p className="font-amaranth text-base md:text-xl">
-                    $ {item.price} <span className="text-xs md:text-base">moneda</span>
+                    $ {item.price} <span className="text-xs md:text-base">{cartState.cart.currency}</span>
                   </p>
                   <section className="text-gray_dark text-xs md:text-base md:mt-0">
                     <div className="flex items-center">
@@ -142,7 +142,7 @@ const RentalCartMenu = () => {
     <div className="flex items-center justify-center">
       <button className="relative z-20" onClick={handleMenuClick}>
         {cartState.cart.items.length > 0 ? (
-          <div className="relative">
+          <div className="relative ">
             <CartIcon className="stroke-dark_purple dark:stroke-light_purple" />
             <span className="absolute -top-1 -right-1 bg-red-500 rounded-full text-white text-xs px-1">
               {cartState.cart.items.length}
