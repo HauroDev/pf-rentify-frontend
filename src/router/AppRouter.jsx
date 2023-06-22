@@ -7,6 +7,7 @@ import SearchProducts from '../pages/SearchProducts'
 import CreateProduct from '../pages/CreateProduct'
 import SignUp from '../pages/SignUp'
 import Login from '../pages/Login'
+import Profile from '../pages/Profile'
 
 const AppRouter = () => {
 	return (
@@ -17,7 +18,9 @@ const AppRouter = () => {
 				<Route path={routesName.search_products} element={<SearchProducts />} />
 				<Route path={routesName.user['create-product']} element={<CreateProduct />} />
 				<Route path={routesName.signup} element={<SignUp />} />
-				<Route path={routesName.login} element={<Login />} />
+				<Route path={routesName.login} element={<Login/>} />
+				<Route path={routesName.profile} element={<Profile/>} />
+
 			</Route>
 		</Routes>
 	)

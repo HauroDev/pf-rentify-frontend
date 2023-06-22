@@ -1,58 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CartIcon from '../icons/CartIcon';
 import DeleteIcon from '../icons/DeleteIcon';
+import { addToCart, deleteAllItemsFromCart, subFromCart } from '../../services/cartService';
+import { setCart, resetCart } from '../../app/features/cart/cartSlice';
+import {useSelector, useDispatch} from 'react-redux';
 import DeleteCartIcon from '../icons/DeleteCartIcon';
 
 const RentalCartMenu = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'New Balance 574 CORE',
-      price: '10',
-      image:
-        'https://external-preview.redd.it/UJzNtI3fOjOHPYL3VWgW1dW5o9DXYZA3lXAzHiAdYCg.jpg?auto=webp&s=0b7422c0c451a1d5f2964407f025d6c8e0be9ff2',
-      date: '21/06/2023',
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: 'Nike Air Max 270',
-      price: '15',
-      image:
-        'https://images.asos-media.com/products/nike-air-max-270-sneakers-in-black/202962702-1-black?$n_640w$&wid=513&fit=constrain',
-      date: '25/06/2023',
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: 'Adidas Stan Smith',
-      price: '12',
-      image:
-        'https://static.runnea.com/images/201802/adidas-stan-smith-footlocker-sneaker-1200x572x80xX.jpg?1',
-      date: '27/06/2023',
-      quantity: 1,
-    },
-    {
-      id: 4,
-      name: 'Puma Suede Classic',
-      price: '20',
-      image:
-        'https://falabella.scene7.com/is/image/FalabellaCO/gsc_117443502_1780155_2?wid=800&hei=800&qlt=70',
-      date: '30/06/2023',
-      quantity: 1,
-    },
-    {
-      id: 5,
-      name: 'Vans Old Skool',
-      price: '18',
-      image:
-        'https://media.revistagq.com/photos/5ca5f631f552a15d2332e804/master/w_1600%2Cc_limit/comprar_vans_old_skool_zapatillas_de_moda_skate_5593.jpg',
-      date: '02/07/2023',
-      quantity: 1,
-    },
-  ]);
-  const [subtotal, setSubtotal] = useState(0);
+  const cartState = useSelector ((state)=>state.cart)
+  const dispatch = useDispatch()
 
   const handleMenuClick = (event) => {
     event.stopPropagation();
@@ -63,42 +20,29 @@ const RentalCartMenu = () => {
   console.log('isMenuOpen:', isMenuOpen);
 
   const handleEmptyCart = () => {
-    setCartItems([]);
+    deleteAllItemsFromCart()
+	dispatch(resetCart())
   };
 
-  const handleIncreaseQuantity = (idProd) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === idProd ? { ...item, quantity: parseInt(item.quantity, 10) + 1 } : item
-      )
-    );
+  const handleIncreaseQuantity = (product) => {
+	const cart = addToCart(product)
+	dispatch(setCart(cart))
+
+   
   };
 
-  const handleDecreaseQuantity = (idProd) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === idProd
-          ? item.quantity > 1
-            ? { ...item, quantity: parseInt(item.quantity, 10) - 1 }
-            : null
-          : item
-      ).filter(Boolean)
-    );
+  const handleDecreaseQuantity = (product) => {
+   const cart = subFromCart(product)
+   dispatch(setCart(cart))
   };
 
-  const handleRemoveItem = (idProd) => {
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => item.id !== idProd)
-    );
-  };
-
-  const handleOutsideClick = () => {
+   const handleOutsideClick = () => {
     setMenuOpen(false);
   };
 
   const menuRef = useRef(null);
 
-  useEffect(() => {
+  useEffect(() => { console.log(cartState.cart)
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         handleOutsideClick();
@@ -112,22 +56,10 @@ const RentalCartMenu = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const calculateSubtotal = () => {
-      let total = 0;
-      cartItems.forEach((item) => {
-        total += parseInt(item.price, 10) * item.quantity;
-      });
-      setSubtotal(total);
-    };
-
-    calculateSubtotal();
-  }, [cartItems]);
-
   const cartMenuContent = (
     <div
       ref={menuRef}
-      className="absolute z-10 top-14 right-0 bg-white dark:bg-card_dark shadow-md w-96 md:w-[500px] rounded-md p-4 overflow-y-auto h-80"
+      className="absolute z-10 top-14 right-0 bg-white dark:bg-card_dark shadow-md w-96 md:w-[500px] rounded-md p-4 overflow-y-auto h-80 scrollbar-thin scrollbar-thumb-dark_purple scrollbar-thumb-rounded-md scrollbar-track-light_purple"
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-center justify-between mb-4">
@@ -137,7 +69,7 @@ const RentalCartMenu = () => {
         </button>
       </div>
       <div className="my-2 border-b"></div>
-      {cartItems.length === 0 ? (
+      {cartState.cart.items.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-full">
           <div className="flex items-center mb-4">
             <DeleteCartIcon className="dark:stroke-light_purple" />
@@ -152,8 +84,8 @@ const RentalCartMenu = () => {
         </div>
       ) : (
         <>
-          {cartItems.map((item) => (
-            <div key={item.id} className="px-4 py-2 mb-2">
+          {cartState.cart.items.map((item) => (
+            <div key={item.idProd} className="px-4 py-2 mb-2">
               <div className="w-full bg-white dark:bg-card_dark p-4 rounded-md shadow cursor-pointer max-h-[130px]">
               <section className="flex gap-2 items-center md:items-start w-full truncate">
                 <div className="w-24 h-24 md:w-24 md:h-24 overflow-hidden rounded flex items-center">
@@ -166,13 +98,13 @@ const RentalCartMenu = () => {
                 <div className="truncate">
                   <h3 className="truncate text-lg md:text-2xl">{item.name}</h3>
                   <p className="font-amaranth text-base md:text-xl">
-                    $ {item.price} <span className="text-xs md:text-base">moneda</span>
+                    $ {item.price} <span className="text-xs md:text-base">{cartState.cart.currency}</span>
                   </p>
-                  <p className="text-gray_dark text-xs md:text-base md:mt-0">
+                  <section className="text-gray_dark text-xs md:text-base md:mt-0">
                     <div className="flex items-center">
                       <button
                         className="px-2 py-1 text-sm text-white bg-medium_purple rounded-full"
-                        onClick={() => handleDecreaseQuantity(item.id)}
+                        onClick={() => handleDecreaseQuantity(item)}
                       >
                         -
                       </button>
@@ -181,12 +113,12 @@ const RentalCartMenu = () => {
                       </span>
                       <button
                         className="px-2 py-1 text-sm text-white bg-medium_purple rounded-full"
-                        onClick={() => handleIncreaseQuantity(item.id)}
+                        onClick={() => handleIncreaseQuantity(item)}
                       >
                         +
                       </button>
                     </div>
-                  </p>
+                  </section>
                 </div>
               </section>
             </div>
@@ -197,7 +129,7 @@ const RentalCartMenu = () => {
 
         <div className="flex items-center justify-between mb-4 mt-6">
             <span className="text-xl font-semibold">Subtotal</span>
-            <span className="text-lg font-semibold">${subtotal}</span>
+            <span className="text-lg font-semibold">${cartState.cart.total}</span>
         </div>	
 
       <button className="block text-center text-xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple">
@@ -207,13 +139,13 @@ const RentalCartMenu = () => {
   );
 
   return (
-    <div className="relative flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <button className="relative z-20" onClick={handleMenuClick}>
-        {cartItems.length > 0 ? (
-          <div className="relative">
+        {cartState.cart.items.length > 0 ? (
+          <div className="relative ">
             <CartIcon className="stroke-dark_purple dark:stroke-light_purple" />
             <span className="absolute -top-1 -right-1 bg-red-500 rounded-full text-white text-xs px-1">
-              {cartItems.length}
+              {cartState.cart.items.length}
             </span>
           </div>
         ) : (
@@ -226,3 +158,6 @@ const RentalCartMenu = () => {
 };
 
 export default RentalCartMenu;
+
+
+
