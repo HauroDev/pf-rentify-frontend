@@ -249,20 +249,20 @@ const CreateProduct = () => {
 		setInputLocationError(validationProducts("location",inputLocation))
 		setInputCategoriesErrors(validationProducts("category",categoriesChecked))
 
-		const hasAnyError = () => {
+		const hasNotErrors = () => {
 			return (
-				inputNameError ||
-				inputDescriptionError ||
-				inputImageError ||
-				inputPriceError ||
-				inputCountryError ||
-				inputLocationError ||
-				inputStateError ||
+				inputNameError &&
+				inputDescriptionError &&
+				inputImageError &&
+				inputPriceError &&
+				inputCountryError &&
+				inputLocationError &&
+				inputStateError &&
 				inputCategoriesErrors
 			);
 		};
 
-		if(imageToSubmit && !hasAnyError()){
+		if(imageToSubmit && hasNotErrors()){
 			const imgURL = await saveAndGetImage(imageToSubmit, 'products')
 			setInputImage(imgURL);
 			console.log(product)
