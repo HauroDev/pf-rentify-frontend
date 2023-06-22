@@ -52,15 +52,16 @@ const RentalCartMenu = () => {
       quantity: 1,
     },
   ]);
+  const [subtotal, setSubtotal] = useState(0);
 
   const handleMenuClick = (event) => {
-	event.stopPropagation();
-	console.log('Menu clicked');
-	setMenuOpen((prevMenuOpen) => !prevMenuOpen);
+    event.stopPropagation();
+    console.log('Menu clicked');
+    setMenuOpen((prevMenuOpen) => !prevMenuOpen);
   };
-  
+
   console.log('isMenuOpen:', isMenuOpen);
-  
+
   const handleEmptyCart = () => {
     setCartItems([]);
   };
@@ -111,6 +112,18 @@ const RentalCartMenu = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const calculateSubtotal = () => {
+      let total = 0;
+      cartItems.forEach((item) => {
+        total += parseInt(item.price, 10) * item.quantity;
+      });
+      setSubtotal(total);
+    };
+
+    calculateSubtotal();
+  }, [cartItems]);
+
   const cartMenuContent = (
     <div
       ref={menuRef}
@@ -125,7 +138,7 @@ const RentalCartMenu = () => {
       </div>
       <div className="my-2 border-b"></div>
       {cartItems.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-full mt-8">
+        <div className="flex flex-col items-center justify-center h-full">
           <div className="flex items-center mb-4">
             <DeleteCartIcon className="dark:stroke-light_purple" />
             <p className="text-text_light text-center ml-2 text-3xl dark:text-white">
@@ -138,9 +151,10 @@ const RentalCartMenu = () => {
           </p>
         </div>
       ) : (
-        cartItems.map((item) => (
-          <div key={item.id} className="px-4 py-2 mb-2">
-            <div className="w-full bg-white dark:bg-card_dark p-4 rounded-md shadow cursor-pointer max-h-[130px]">
+        <>
+          {cartItems.map((item) => (
+            <div key={item.id} className="px-4 py-2 mb-2">
+              <div className="w-full bg-white dark:bg-card_dark p-4 rounded-md shadow cursor-pointer max-h-[130px]">
               <section className="flex gap-2 items-center md:items-start w-full truncate">
                 <div className="w-24 h-24 md:w-24 md:h-24 overflow-hidden rounded flex items-center">
                   <img
@@ -176,11 +190,17 @@ const RentalCartMenu = () => {
                 </div>
               </section>
             </div>
-          </div>
-        ))
+            </div>
+          ))}
+        </>
       )}
 
-      <button className="block text-center text-xl w-full mt-8 px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple">
+        <div className="flex items-center justify-between mb-4 mt-6">
+            <span className="text-xl font-semibold">Subtotal</span>
+            <span className="text-lg font-semibold">${subtotal}</span>
+        </div>	
+
+      <button className="block text-center text-xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple">
         Continue to checkout
       </button>
     </div>
@@ -191,13 +211,13 @@ const RentalCartMenu = () => {
       <button className="relative z-20" onClick={handleMenuClick}>
         {cartItems.length > 0 ? (
           <div className="relative">
-            <CartIcon className="stroke-dark_purple dark:stroke-light_purple cursor-pointer" />
-            <span className="absolute -top-1 -right-2 bg-red-500 rounded-full text-white text-xs w-4 h-4 flex items-center justify-center">
+            <CartIcon className="stroke-dark_purple dark:stroke-light_purple" />
+            <span className="absolute -top-1 -right-1 bg-red-500 rounded-full text-white text-xs px-1">
               {cartItems.length}
             </span>
           </div>
         ) : (
-          <DeleteCartIcon className="stroke-dark_purple dark:stroke-light_purple cursor-pointer" />
+          <CartIcon className="stroke-dark_purple dark:stroke-light_purple" />
         )}
       </button>
       {isMenuOpen && cartMenuContent}
