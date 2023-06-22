@@ -21,7 +21,6 @@ const AppRouter = () => {
           element={<CreateProduct />}
         />
         <Route path={routesName.signup} element={<SignUp />} />
-
         <Route path={routesName.login} element={<Login />} />
         <Route path={routesName.profile} element={<Profile />} />
       </Route>
