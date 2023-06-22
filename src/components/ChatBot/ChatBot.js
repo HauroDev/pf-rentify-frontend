@@ -11,6 +11,7 @@ function TestBot() {
         hostUrl: "https://cdn.botpress.cloud/webchat/v0",
         messagingUrl: "https://messaging.botpress.cloud",
         clientId: "8997c940-2247-450a-8ada-4b8afd4b910e",
+        useSessionStorage: false,
       });
       window.botpressWebChat.onEvent(() => {
         window.botpressWebChat.sendEvent({ type: "show" });
