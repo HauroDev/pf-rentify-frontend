@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import UserIcon from '../icons/UserIcon'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { isImgValid } from '../../utils/isImgValid'
 import imgNotFound from '../../assets/image/image-not-found.jpg'
 import { useSelector } from 'react-redux'
@@ -11,6 +11,23 @@ const UserMenu = () => {
 	const [isMenuOpen, setMenuOpen] = useState(false)
 
 	const userState = useSelector((state) => state.user)
+	const refMenu = useRef(null)
+
+	useEffect(() => {
+		const handleClick = (event) => {
+			if (refMenu.current) {
+				if (!refMenu.current?.contains(event.target)) {
+					setMenuOpen(false)
+				}
+			}
+		}
+
+		document.addEventListener('click', handleClick, { capture: true })
+
+		return () => {
+			document.removeEventListener('click', handleClick, { capture: true })
+		}
+	}, [])
 
 	useEffect(() => {
 		if (userState.login === true) {
@@ -23,7 +40,9 @@ const UserMenu = () => {
 	}
 
 	const loggedInMenu = (user) => (
-		<div className='absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52 mt-2 rounded-md'>
+		<div
+			ref={refMenu}
+			className='absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52 mt-2 rounded-md'>
 			<div className='flex items-center pt-2 pb-1 gap-2 px-4 py-1 truncate'>
 				<img
 					src={imgExist ? user.image : imgNotFound}
@@ -52,7 +71,9 @@ const UserMenu = () => {
 	)
 
 	const loggedOutMenu = (
-		<div className='absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52 rounded-md '>
+		<div
+			ref={refMenu}
+			className='absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52 rounded-md '>
 			<div className='flex items-center px-4 pt-2 pb-1 gap-2'>
 				<span className='text-sm'>You have not logged in</span>
 			</div>
@@ -71,11 +92,8 @@ const UserMenu = () => {
 	)
 
 	return (
-		<div className='relative'>
-			<UserIcon
-				className='stroke-dark_purple dark:stroke-light_purple cursor-pointer'
-				onClick={handleMenuClick}
-			/>
+		<div ref={refMenu} className='relative icon-user' onClick={handleMenuClick}>
+			<UserIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
 			{isMenuOpen ? (userState.login ? loggedInMenu(userState.user) : loggedOutMenu) : ''}
 		</div>
 	)
