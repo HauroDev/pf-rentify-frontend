@@ -79,3 +79,7 @@ export const subFromCart = (product) => {
 	localStorage.setItem(localStorageItems.cart, JSON.stringify(cart))
 	return cart
 }
+
+export const deleteAllItemsFromCart = () => {
+	localStorage.removeItem(localStorageItems.cart)
+}
