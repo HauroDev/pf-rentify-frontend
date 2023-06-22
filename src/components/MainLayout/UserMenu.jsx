@@ -1,92 +1,102 @@
-import { Link } from 'react-router-dom';
-import UserIcon from '../icons/UserIcon';
-import LogoutIcon from '../icons/LogoutIcon';
-import React, { useEffect, useState } from 'react';
-import { isImgValid } from '../../utils/isImgValid';
-import imgNotFound from '../../assets/image/image-not-found.jpg';
+import { Link } from 'react-router-dom'
+import UserIcon from '../icons/UserIcon'
+import { useEffect, useRef, useState } from 'react'
+import { isImgValid } from '../../utils/isImgValid'
+import imgNotFound from '../../assets/image/image-not-found.jpg'
+import { useSelector } from 'react-redux'
+import BtnLogout from './BtnLogout'
 
-const UserMenu = ({ image }) => {
-  const [imgExist, setImgExist] = useState(false);
-  const [isMenuOpen, setMenuOpen] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(true); // Estado de inicio de sesión
+const UserMenu = () => {
+	const [imgExist, setImgExist] = useState(false)
+	const [isMenuOpen, setMenuOpen] = useState(false)
 
-  useEffect(() => {
-    isImgValid(image, setImgExist);
-  }, [image]);
+	const userState = useSelector((state) => state.user)
+	const refMenu = useRef(null)
 
-  const handleMenuClick = () => {
-    setMenuOpen(!isMenuOpen);
-  };
+	useEffect(() => {
+		const handleClick = (event) => {
+			if (refMenu.current) {
+				if (!refMenu.current?.contains(event.target)) {
+					setMenuOpen(false)
+				}
+			}
+		}
 
-  const handleLogout = () => {
-    // Realizar las acciones necesarias para cerrar sesión
-    setLoggedIn(false);
-    setMenuOpen(false);
-  };
+		document.addEventListener('click', handleClick, { capture: true })
 
-  const loggedInMenu = (
-    <div className="absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52 mt-2">
-      <div className="flex items-center pt-2 pb-1 gap-2 px-4 py-1">
-        <img
-          src={imgExist ? image : imgNotFound}
-          alt="User"
-          className="w-8 h-8 rounded-full"
-        />
-        <span className="text-sm">Username</span>
-      </div>
-      <div className="my-2 border-b"></div>
-      <button className="block text-left w-full px-4 py-2 hover:bg-dark_purple hover:text-white">
-        Profile
-      </button>
-      <button className="block text-left w-full px-4 py-2 hover:bg-dark_purple hover:text-white">
-        My Products
-      </button>
-      <button className="block text-left w-full px-4 py-2 hover:bg-dark_purple hover:text-white">
-        Create a Service
-      </button>
-      <div className="my-2 border-b"></div>
-      <button
-        className="flex items-center w-full px-4 py-2 hover:bg-dark_purple hover:text-white"
-        onClick={handleLogout}
-      >
-        <LogoutIcon
-          className="stroke-medium_purple dark:stroke-light_purple cursor-pointer"
-          width={24}
-          height={24}
-        />
-        <span className="ml-2">Logout</span>
-      </button>
-    </div>
-  );
+		return () => {
+			document.removeEventListener('click', handleClick, { capture: true })
+		}
+	}, [])
 
-  const loggedOutMenu = (
-    <div className="absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52">
-      <div className="flex items-center px-4 pt-2 pb-1 gap-2">
-        <span className="text-sm">You have not logged in</span>
-      </div>
-      <div className="my-2 border-b"></div>
-      <Link to="/login">
-        <button className="block text-left w-full px-4 py-2 hover:bg-dark_purple hover:text-white">
-          Login
-        </button>
-      </Link>
-      <Link to="/signup">
-        <button className="block text-left w-full px-4 py-2 hover:bg-dark_purple hover:text-white">
-          Register
-        </button>
-      </Link>
-    </div>
-  );
+	useEffect(() => {
+		if (userState.login === true) {
+			isImgValid(userState.user?.image, setImgExist)
+		}
+	}, [userState.login])
 
-  return (
-    <div className="relative">
-      <UserIcon
-        className="stroke-dark_purple dark:stroke-light_purple cursor-pointer"
-        onClick={handleMenuClick}
-      />
-      {isMenuOpen && (isLoggedIn ? loggedInMenu : loggedOutMenu)}
-    </div>
-  );
-};
+	const handleMenuClick = () => {
+		setMenuOpen(!isMenuOpen)
+	}
 
-export default UserMenu;
+	const loggedInMenu = (user) => (
+		<div
+			ref={refMenu}
+			className='absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52 mt-2 rounded-md'>
+			<div className='flex items-center pt-2 pb-1 gap-2 px-4 py-1 truncate'>
+				<img
+					src={imgExist ? user.image : imgNotFound}
+					alt='User'
+					className='w-8 h-8 rounded-full'
+				/>
+
+				<span className='text-sm truncate'>{user?.name || user?.email || ''}</span>
+			</div>
+			<div className='my-2 border-b'></div>
+			<section className='w-full flex flex-col'>
+				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
+					Profile
+				</span>
+				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
+					My Products
+				</span>
+				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
+					Create a Service
+				</span>
+			</section>
+			<div className='my-2 border-b'></div>
+
+			<BtnLogout closeModal={setMenuOpen} />
+		</div>
+	)
+
+	const loggedOutMenu = (
+		<div
+			ref={refMenu}
+			className='absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52 rounded-md '>
+			<div className='flex items-center px-4 pt-2 pb-1 gap-2'>
+				<span className='text-sm'>You have not logged in</span>
+			</div>
+			<div className='my-2 border-b'></div>
+			<Link to='/login'>
+				<button className='block text-left w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
+					Login
+				</button>
+			</Link>
+			<Link to='/signup'>
+				<button className='block text-left w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
+					Register
+				</button>
+			</Link>
+		</div>
+	)
+
+	return (
+		<div ref={refMenu} className='relative icon-user' onClick={handleMenuClick}>
+			<UserIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
+			{isMenuOpen ? (userState.login ? loggedInMenu(userState.user) : loggedOutMenu) : ''}
+		</div>
+	)
+}
+
+export default UserMenu

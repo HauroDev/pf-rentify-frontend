@@ -6,6 +6,8 @@ import DetailsTop from '../components/Details/DetailsTop'
 import DetailsMid from '../components/Details/DetailsMid'
 import DetailComments from '../components/Details/DetailComments'
 import Loader from '../components/Loader'
+import DetailOwner from '../components/Details/DetailOwner'
+import DetailInfo from '../components/Details/DetailInfo'
 
 const initalState = {
 	product: {},
@@ -54,22 +56,42 @@ const DetailProduct = () => {
 	return (
 		<>
 			{state.status === 'success' && (
-				<div className='w-full xl:w-10/12  mx-auto flex flex-col gap-8'>
+				<div className='w-full min-h-full mx-auto flex flex-col gap-8'>
 					{state.product.idProd && (
-						<>
-							<DetailsTop
-								idProd={state.product.idProd}
-								image={state.product.image}
-								location={state.product.location}
-								name={state.product.name}
-								price={state.product.price}
-								updatedAt={state.product.updatedAt}
-							/>
+						<div className='flex justify-center gap-6'>
+							<div>
+								<DetailsTop image={state.product.image} />
+								<div className='xl:hidden'>
+									<DetailInfo
+										idProd={state.product.idProd}
+										location={state.product.location}
+										name={state.product.name}
+										price={state.product.price}
+										updatedAt={state.product.updatedAt}
+										country={state.product.country}
+										image={state.product.image}
+									/>
+								</div>
 
-							<DetailsMid description={state.product.description} />
+								<DetailsMid description={state.product.description} />
 
-							<DetailComments user={state.product.users[0]} />
-						</>
+								<DetailOwner user={state.product.users[0]} />
+
+								<DetailComments />
+							</div>
+
+							<div className='hidden xl:block sticky top-12 h-full bg-white dark:bg-card_dark rounded-lg'>
+								<DetailInfo
+									idProd={state.product.idProd}
+									location={state.product.location}
+									name={state.product.name}
+									price={state.product.price}
+									updatedAt={state.product.updatedAt}
+									country={state.product.country}
+									image={state.product.image}
+								/>
+							</div>
+						</div>
 					)}
 				</div>
 			)}
