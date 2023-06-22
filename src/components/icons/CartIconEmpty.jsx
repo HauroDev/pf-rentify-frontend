@@ -4,8 +4,8 @@ function CartIconEmpty() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="36"
-      height="36"
+      width="50"
+      height="50"
       fill="none"
       stroke="#2C3E50"
       strokeLinecap="round"

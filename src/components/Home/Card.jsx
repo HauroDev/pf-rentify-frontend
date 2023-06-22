@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom'
 import FeaturedIcon from '../icons/FeaturedIcon'
-import BtnAddCartCard from '../BtnAddCartCard'
+import BtnAddCartCard from '../BtnAddCart'
 import { formatDate } from '../../utils/formatDate'
 import { useEffect, useRef } from 'react'
 
@@ -50,28 +50,27 @@ const Card = ({ product }) => {
 			key={product.idProd}
 			ref={cardRef}
 			className='card  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4'>
-			<Link
-				to={`/product/${product.idProd}`}
-				key={product.idProd}
-				className='flex flex-col justify-between h-full'>
-				<div className='h-48 rounded overflow-hidden mb-4'>
-					{product.isFeatured && (
-						<div className='flex items-center gap-2 bg-dark_purple py-1'>
-							<FeaturedIcon className='w-7 h-7' />
-							<div className='text-text_dark font-bold font-amaranth text-sm'>Sponsored</div>
-						</div>
-					)}
-					<img src={product.image} alt={product.name} className='object-cover w-full h-full' />
-				</div>
+			<div className='flex flex-col justify-between h-full'>
+				<Link to={`/product/${product.idProd}`}>
+					<div className='h-48 rounded overflow-hidden mb-4'>
+						{product.isFeatured && (
+							<div className='flex items-center gap-2 bg-dark_purple py-1'>
+								<FeaturedIcon className='w-7 h-7' />
+								<div className='text-text_dark font-bold font-amaranth text-sm'>Sponsored</div>
+							</div>
+						)}
+						<img src={product.image} alt={product.name} className='object-cover w-full h-full' />
+					</div>
+				</Link>
 
 				<div className='flex justify-between items-end text-2xl font-cabin font-bold mb-2'>
 					${product.price}
 					<span className='text-sm text-gray_dark mb-2'>{formatDate(product.updatedAt)}</span>
 				</div>
 
-				<div className='text-2xl font-amaranth font-bold mb-2'>
+				<Link to={`/product/${product.idProd}`} className='text-2xl font-amaranth font-bold mb-2'>
 					<p className='truncate max-w-full'>{product.name}</p>
-				</div>
+				</Link>
 				{/* Categories */}
 				<div className='mb-2 flex gap-1 flex-wrap text-medium_fuchsia truncate '>
 					{getCategoryNames(product.idProd).map((category, index) => (
@@ -85,9 +84,18 @@ const Card = ({ product }) => {
 					<p className='text-sm text-gray_dark'>
 						{product.location},{product.state}
 					</p>
-					<BtnAddCartCard />
+					<BtnAddCartCard
+						size='sm'
+						product={{
+							name: product.name,
+							price: product.price,
+							image: product.image,
+							idProd: product.idProd,
+							country: product.country,
+						}}
+					/>
 				</div>
-			</Link>
+			</div>
 		</div>
 	)
 }

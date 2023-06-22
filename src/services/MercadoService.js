@@ -5,3 +5,4 @@ export const postOrdenPago = async (carrito) => {
 	const { data } = await axios.post(`${USER_API}/order`, carrito)
 	return data
 }
+

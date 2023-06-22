@@ -71,11 +71,11 @@ const FormUser = () => {
 		}
 	}
 	return (
-		<div className='relative min-h-screen flex flex-col justify-center items-center bg-gra-100  dark:bg-body_dark'>
-			<div className='relative sm:max-w-sm w-full  dark:bg-body_dark'>
-				<div className='card bg-violet-300 shadow-lg  w-full h-full rounded-2xl absolute  transform -rotate-12'></div>
-				<div className='card bg-purple-500 shadow-lg  w-full h-full rounded-2xl absolute  transform rotate-12'></div>
-				<div className='relative w-full rounded-3xl px-6 py-4 bg-gray-100 shadow-md dark:bg-body_dark '>
+		<div className='relative min-h-screen flex flex-col items-center bg-gra-100  dark:bg-body_dark py-10 overflow-hidden'>
+			<div className='relative w-11/12 min-w-[300px] md:max-w-xl  dark:bg-body_dark'>
+				<div className='card bg-violet-300 shadow-lg  w-full h-full rounded-2xl absolute transform -rotate-6 md:transform md:-rotate-12'></div>
+				<div className='card bg-purple-500 shadow-lg  w-full h-full rounded-2xl absolute transform rotate-6 md:transform md:rotate-12'></div>
+				<div className='relative w-full rounded-3xl px-6 py-4 bg-gray-100 shadow-md dark:bg-card_dark '>
 					<form className='px-4 sm:px-10 pt-8 pb-4 sm:pt-16 sm:pb-8 mb-4' onSubmit={handleSumit}>
 						<img src={logoImg} alt='rentify logo' className='mx-auto mb-8' />
 						<h1 className='block mt-3  text-gray-700 text-4xl text-center font-semibold mb-8  dark:text-white'>
@@ -101,7 +101,7 @@ const FormUser = () => {
 						<div className=' text-red-700'>{error?.password && <p>{error?.password}</p>}</div>
 
 						<Input
-							type='confirmPassword'
+							type='password'
 							name='confirmPassword'
 							placeholder='Enter your confirm Password'
 							label='Confirm Password'

@@ -51,10 +51,10 @@ const LoginUser = () => {
 	}
 
 	return (
-		<div className='min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12 dark:bg-body_dark'>
+		<div className='min-h-screen bg-gray-100 flex flex-col item-center sm:py-12 dark:bg-body_dark py-10'>
 			<div className='relative py-3 sm:max-w-xl sm:mx-auto'>
 				<div className='absolute inset-0 bg-purple-500  shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl'></div>
-				<div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20 dark:bg-body_dark'>
+				<div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20 dark:bg-card_dark'>
 					<img src={logoImg} alt='rentify logo' className='mx-auto mb-8' />
 					{/* <img src="../"  alt="Logo" className="mx-auto mb-8" /> */}
 					<form onSubmit={handleSumit}>
@@ -72,7 +72,7 @@ const LoginUser = () => {
 						<div className='relative '>
 							<label>Password</label>
 							<Input
-								type='text'
+								type='password'
 								name='password'
 								placeholder='Password'
 								value={login.password}
