@@ -5,4 +5,5 @@ export const routesName = {
 	'create-product': '/user/create-product',
 	'signup': '/signup',
 	'login': '/login',
+	'profile':'/profile',
 }
