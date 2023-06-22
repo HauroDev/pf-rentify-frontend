@@ -130,13 +130,13 @@ const RentalCartMenu = () => {
                     className="px-2 py-1 text-sm text-white bg-medium_purple rounded-full"
                     onClick={() => handleIncreaseQuantity(item.id)}
                   >
-                    +
-                  </button>
+                    + 
+                  </button> 
                 </div>
                     
                     </p>
                 </div>
-                
+              
               </section>
             </div>
           </div>
