@@ -161,7 +161,7 @@ const CreateProduct = () => {
 					...prevInput,
 					[value]: checked,
 				}));
-				
+				//errors en  12 lineas más abajo
 				break
 
 			default:
@@ -169,16 +169,21 @@ const CreateProduct = () => {
 		}
 	}
 
+	useEffect(() => {
+		setInputCategoriesErrors(validationProducts("category", categoriesChecked));
+	}, [categoriesChecked]);
+
 	const handleInputFile = (event) => {
 		setImageToSubmit(event.target.files[0]);
-		//setInputImageError(validationProducts(event.target.name,imageToSubmit))
+		setInputImageError(validationProducts(event.target.name,event.target.files[0]))
 		console.log(imageToSubmit);
 	}
 	//manejo del input countries
 	const handleSelect = (id, idApi, name) => {
 		setCountryApiId(idApi)
 		setCountryName(name)
-		setInputCountry(id)
+		setInputCountry(id);
+		setInputCountryError(validationProducts("country",id))
 		setStateName("");
 		setInputState("");
 		setLocationName("");
@@ -192,6 +197,7 @@ const CreateProduct = () => {
 		setStateApiId(idApi)
 		setStateName(splitetName)
 		setInputState(name);
+		setInputStateError(validationProducts("state",name))
 		setLocationName("");
 		setInputLocation("");
 		closeModalState()
@@ -200,7 +206,8 @@ const CreateProduct = () => {
 	const handleLocationSelect = (name) => {
 		const splitetName = splitLocationName(name)
 		setLocationName(splitetName)
-		setInputLocation(name)
+		setInputLocation(name);
+		setInputLocationError(validationProducts("location",name))
 		closeModalLocation()
 	}
 
@@ -210,8 +217,7 @@ const CreateProduct = () => {
 	// console.log(inputState)
 	// console.log(userId);
 	
-
-
+	
 	const handleSubmit =  async (e) => {
 		e.preventDefault()
 
@@ -244,6 +250,8 @@ const CreateProduct = () => {
 
 		//validacion country, state,country:
 		// setInputImageError(imageToSubmit)
+		setInputNameError(validationProducts("name",inputName));
+		setInputDescriptionError(validationProducts("description",inputDescription))
 		setInputCountryError(validationProducts("country",inputCountry))
 		setInputStateError(validationProducts("state",inputState))
 		setInputLocationError(validationProducts("location",inputLocation))
@@ -251,23 +259,25 @@ const CreateProduct = () => {
 
 		const hasNotErrors = () => {
 			return (
-				inputNameError &&
-				inputDescriptionError &&
-				inputImageError &&
-				inputPriceError &&
-				inputCountryError &&
-				inputLocationError &&
-				inputStateError &&
+				inputNameError ||
+				inputDescriptionError ||
+				inputImageError ||
+				inputPriceError ||
+				inputCountryError ||
+				inputLocationError ||
+				inputStateError ||
 				inputCategoriesErrors
 			);
 		};
 
-		if(imageToSubmit && hasNotErrors()){
+		if(imageToSubmit && !hasNotErrors()){
 			const imgURL = await saveAndGetImage(imageToSubmit, 'products')
 			setInputImage(imgURL);
+			const updatedProduct = {...product,image:imgURL}
 			console.log(product)
-			//dispatch(fetchPostProductAsync(product))
-			//alert('Registered product 😊')
+			console.log(updatedProduct);
+			dispatch(fetchPostProductAsync(updatedProduct))
+			alert('Registered product 😊')
 		}else{
 			alert('Please enter the required spaces correctly 🙃😬')
 		}
