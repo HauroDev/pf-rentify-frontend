@@ -18,9 +18,13 @@ const AppRouter = () => {
 				<Route path={routesName.search_products} element={<SearchProducts />} />
 				<Route path={routesName.user['create-product']} element={<CreateProduct />} />
 				<Route path={routesName.signup} element={<SignUp />} />
+<<<<<<< HEAD
 				<Route path={routesName.login} element={<Login/>} />
 				<Route path={routesName.profile} element={<Profile/>} />
 
+=======
+				<Route path={routesName.login} element={<Login />} />
+>>>>>>> develop
 			</Route>
 		</Routes>
 	)
