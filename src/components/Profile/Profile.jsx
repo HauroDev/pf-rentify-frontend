@@ -15,7 +15,7 @@ const UserProfile = () => {
             <h2 className="text-xl text-center p-2 font-bold">Membership</h2>
           </div>
   
-          <div className="text-center">
+          <div className="text-center py-6">
             <button className="bg-blue-500 text-white rounded-md px-6 py-1 hover:shadow-inner transition duration-500 ease-in-out transform hover:-translate-x hover:scale-110">
               Edit Profile
             </button>
