@@ -13,10 +13,13 @@ import { fetchPostProductAsync } from '../app/features/products/productsSlice'
 import { saveAndGetImage } from '../services/imageFirebaseService'
 
 const CreateProduct = () => {
-	const userId = '3ce1d6d0-506e-479a-ad4a-22535b6290de'
+	//const userId = '9411cbbd-e3a0-4f98-9437-e71ca67f6ca0'
+	const [userId,setUserId] = useState('')
 
 	//country/state
-	const [isOpen, openModal, closeModal] = useModal()
+	const [isOpenCountry, openModalCountry, closeModalCountry] = useModal();
+	const [isOpenState, openModalState, closeModalState] = useModal();
+	const [isOpenLocation, openModalLocation, closeModalLocation] = useModal();
 	const [countryApiId, setCountryApiId] = useState(null)
 	const [countryName, setCountryName] = useState('')
 	const [dataStates, setDataStates] = useState([])
@@ -48,20 +51,33 @@ const CreateProduct = () => {
 		}
 	}
 
-	//funcion modal
-	const handleOpenModal = () => {
-		if (isOpen) closeModal()
-		else openModal()
+	//funcion modales para contry, state y location
+	const handleOpenModalCountry = () => {
+		if (isOpenCountry) closeModalCountry()
+		else openModalCountry()
+	}
+	const handleOpenModalState = () => {
+		if (isOpenState) closeModalState()
+		else openModalState()
+	}
+	const handleOpenModalLocation = () => {
+		if (isOpenLocation) closeModalLocation()
+		else openModalLocation()
 	}
 
 	//
-	console.log(categoriesInfo)
-	console.log(countriesInfo)
-	console.log(dataStates)
-	console.log(dataLocations)
+	// console.log(categoriesInfo)
+	// console.log(countriesInfo)
+	// console.log(dataStates)
+	// console.log(dataLocations)
+	// console.log(userState);
+	
 
 	//
 	useEffect(() => {
+		if(userState.status==="success"){
+			setUserId(userState.user.idUser)
+		}
 		if (!categoriesInfo.categories.length) {
 			dispatch(fetchGetAllCategoriesAsync())
 		}
@@ -76,7 +92,7 @@ const CreateProduct = () => {
 			setDataLocations([])
 			getDataLoc(stateApiId)
 		}
-	}, [countryApiId, stateApiId])
+	}, [countryApiId, stateApiId, userState])
 
 	//category input:
 	const [categoriesChecked, setCategoriesChecked] = useState({
@@ -89,13 +105,15 @@ const CreateProduct = () => {
 		'toys and kids': false,
 		'personal care': false,
 		'arts and crafts': false,
-	})
+	});
+	const [inputCategoriesErrors, setInputCategoriesErrors] = useState('')
 
 	// Estados para las propiedades de input
 	const [inputName, setInputName] = useState('')
 	const [inputDescription, setInputDescription] = useState('')
-	const [inputImage, setInputImage] = useState('')
-	const [inputPrice, setInputPrice] = useState(0)
+	const [inputImage, setInputImage] = useState('');
+	const [imageToSubmit,setImageToSubmit] = useState(null)
+	const [inputPrice, setInputPrice] = useState("")
 	const [inputCountry, setInputCountry] = useState(null)
 	const [inputLocation, setInputLocation] = useState('')
 	const [inputState, setInputState] = useState('')
@@ -105,7 +123,8 @@ const CreateProduct = () => {
 	const [inputNameError, setInputNameError] = useState('')
 	const [inputDescriptionError, setInputDescriptionError] = useState('')
 	const [inputImageError, setInputImageError] = useState('')
-	const [inputPriceError, setInputPriceError] = useState('')
+	const [inputPriceError, setInputPriceError] = useState('');
+	const [inputCountryError, setInputCountryError] = useState('')
 	const [inputLocationError, setInputLocationError] = useState('')
 	const [inputStateError, setInputStateError] = useState('')
 	//const [inputIsFeaturedError, setInputIsFeaturedError] = useState(false);
@@ -120,23 +139,18 @@ const CreateProduct = () => {
 
 			case 'description':
 				setInputDescription(value)
+				setInputDescriptionError(validationProducts(name,value))
 				break
 
-			case 'image':
-				setInputImage(value)
-				break
+			// case 'image':
+			// 	setInputImage(value)
+			// 	break
 
 			case 'price':
-				setInputPrice(parseFloat(value))
+				setInputPrice(parseFloat(value));
+				setInputPriceError(validationProducts(name,parseFloat(value)));
 				break
 
-			case 'location':
-				setInputLocation(value)
-				break
-
-			case 'state':
-				setInputState(value)
-				break
 
 			case 'isFeatured':
 				setInputIsFeatured(checked)
@@ -146,7 +160,8 @@ const CreateProduct = () => {
 				setCategoriesChecked((prevInput) => ({
 					...prevInput,
 					[value]: checked,
-				}))
+				}));
+				
 				break
 
 			default:
@@ -155,79 +170,107 @@ const CreateProduct = () => {
 	}
 
 	const handleInputFile = (event) => {
-		console.log(event.target.files[0])
-		setInputImage(event.target.files[0])
+		setImageToSubmit(event.target.files[0]);
+		//setInputImageError(validationProducts(event.target.name,imageToSubmit))
+		console.log(imageToSubmit);
 	}
 	//manejo del input countries
 	const handleSelect = (id, idApi, name) => {
 		setCountryApiId(idApi)
 		setCountryName(name)
 		setInputCountry(id)
-		closeModal()
+		setStateName("");
+		setInputState("");
+		setLocationName("");
+		setInputLocation("");
+		closeModalCountry()
 	}
-	// const handleReset = () =>{
-	// 	setCountryApiId(null);
-	// 	setCountryName("");
-	// 	setInputCountry(null);
-	// 	setDataStates([])
-	// 	closeModal()
-	// }
+	
 	//manejo input state
 	const handleStateSelect = (idApi, name) => {
 		const splitetName = splitLocationName(name)
 		setStateApiId(idApi)
 		setStateName(splitetName)
-		setInputState(name)
-		closeModal()
+		setInputState(name);
+		setLocationName("");
+		setInputLocation("");
+		closeModalState()
 	}
-
+	//manejo input location
 	const handleLocationSelect = (name) => {
 		const splitetName = splitLocationName(name)
 		setLocationName(splitetName)
 		setInputLocation(name)
-		closeModal()
+		closeModalLocation()
 	}
 
-	console.log(inputIsFeatured)
-	console.log(inputPrice)
-	console.log(inputCountry)
-	console.log(inputState)
+	// console.log(inputIsFeatured)
+	// console.log(inputPrice)
+	// console.log(inputCountry)
+	// console.log(inputState)
+	// console.log(userId);
+	
 
-	const handleSubmit = async (e) => {
+
+	const handleSubmit =  async (e) => {
 		e.preventDefault()
 
-		const imgURL = await saveAndGetImage(inputImage, 'products')
-		console.log(imgURL)
+		let categories = []
 
-		// let categories = []
+		for (const categoryChecked of Object.keys(categoriesChecked)) {
+			if (categoriesChecked[categoryChecked]) {
+				const category = categoriesInfo.categories.find((cat) => cat.name === categoryChecked)
+				if (category) {
+					const { idCategory, name } = category
+					categories = [...categories, { idCategory, name }]
+				}
+			}
+		}
 
-		// for (const categoryChecked of Object.keys(categoriesChecked)) {
-		// 	if (categoriesChecked[categoryChecked]) {
-		// 		const category = categoriesInfo.categories.find((cat) => cat.name === categoryChecked)
-		// 		if (category) {
-		// 			const { idCategory, name } = category
-		// 			categories = [...categories, { idCategory, name }]
-		// 		}
-		// 	}
-		// }
+		const product = {
+			name: inputName,
+			description: inputDescription,
+			image: inputImage,
+			price: inputPrice,
+			location: inputLocation,
+			state: inputState,
+			isFeatured: inputIsFeatured,
+			categories: categories,
+			idUser: userId,
+			idCountry: inputCountry,
+		}
 
-		// const product = {
-		// 	name: inputName,
-		// 	description: inputDescription,
-		// 	image: inputImage,
-		// 	price: inputPrice,
-		// 	location: inputLocation,
-		// 	state: inputState,
-		// 	isFeatured: inputIsFeatured,
-		// 	categories: categories,
-		// 	idUser: userId,
-		// 	idCountry: inputCountry,
-		// }
+		
 
-		// console.log(product)
+		//validacion country, state,country:
+		// setInputImageError(imageToSubmit)
+		setInputCountryError(validationProducts("country",inputCountry))
+		setInputStateError(validationProducts("state",inputState))
+		setInputLocationError(validationProducts("location",inputLocation))
+		setInputCategoriesErrors(validationProducts("category",categoriesChecked))
 
-		// dispatch(fetchPostProductAsync(product))
-		alert('producto ingresado')
+		const hasAnyError = () => {
+			return (
+				inputNameError ||
+				inputDescriptionError ||
+				inputImageError ||
+				inputPriceError ||
+				inputCountryError ||
+				inputLocationError ||
+				inputStateError ||
+				inputCategoriesErrors
+			);
+		};
+
+		if(imageToSubmit && !hasAnyError()){
+			const imgURL = await saveAndGetImage(imageToSubmit, 'products')
+			setInputImage(imgURL);
+			console.log(product)
+			//dispatch(fetchPostProductAsync(product))
+			//alert('Registered product 😊')
+		}else{
+			alert('Please enter the required spaces correctly 🙃😬')
+		}
 	}
 
 	return (
@@ -241,6 +284,9 @@ const CreateProduct = () => {
 					onchange={handleChange}
 					label='Name: '
 				/>
+				{inputNameError
+				? <span>{inputNameError}</span>
+				:null}
 
 				<Input
 					type='text'
@@ -250,28 +296,40 @@ const CreateProduct = () => {
 					onchange={handleChange}
 					label='Description: '
 				/>
+				{inputDescriptionError
+				? <span>{inputDescriptionError}</span>
+				:null
+				}
 
 				<Input
 					type='file'
 					name='image'
-					// value={inputImage}
+					
 					placeholder='Image URL...'
 					onchange={handleInputFile}
 					label='Image URL: '
 				/>
+				{inputImageError
+				?<span>{inputImageError}</span>
+				:null
+				}
 
 				<Input
 					type='number'
 					name='price'
-					value={''}
+					value={inputPrice}
 					placeholder='Price...'
 					onchange={handleChange}
 					label='Price: '
 				/>
+				{inputPriceError
+				? <span>{inputPriceError}</span>
+				:null
+				}
 
 				<CustomSelect
-					handleOpenClose={handleOpenModal}
-					isOpen={isOpen}
+					handleOpenClose={handleOpenModalCountry}
+					isOpen={isOpenCountry}
 					label='Country'
 					positionLabel='left'
 					messageSelect={countryName || 'Select Country'}>
@@ -284,10 +342,17 @@ const CreateProduct = () => {
 						/>
 					))}
 				</CustomSelect>
+				{inputCountryError
+				?<span>{inputCountryError}</span>
+				:null
+				}
+				
+
+
 				{dataStates.length ? (
 					<CustomSelect
-						handleOpenClose={handleOpenModal}
-						isOpen={isOpen}
+						handleOpenClose={handleOpenModalState}
+						isOpen={isOpenState}
 						label='State'
 						positionLabel='left'
 						messageSelect={stateName || 'Select state'}>
@@ -301,17 +366,21 @@ const CreateProduct = () => {
 					</CustomSelect>
 				) : (
 					<CustomSelect
-						handleOpenClose={handleOpenModal}
-						isOpen={isOpen}
+						handleOpenClose={handleOpenModalState}
+						isOpen={isOpenState}
 						label='State'
 						positionLabel='left'
 						messageSelect={'Select State'}></CustomSelect>
 				)}
+				{inputStateError
+				?<span>{inputStateError}</span>
+				:null
+				}
 
 				{stateApiId && dataLocations.length ? (
 					<CustomSelect
-						handleOpenClose={handleOpenModal}
-						isOpen={isOpen}
+						handleOpenClose={handleOpenModalLocation}
+						isOpen={isOpenLocation}
 						label='Location'
 						positionLabel='left'
 						messageSelect={locationName || 'Select Location'}>
@@ -325,12 +394,16 @@ const CreateProduct = () => {
 					</CustomSelect>
 				) : (
 					<CustomSelect
-						handleOpenClose={handleOpenModal}
-						isOpen={isOpen}
+						handleOpenClose={handleOpenModalLocation}
+						isOpen={isOpenLocation}
 						label='Location'
 						positionLabel='left'
 						messageSelect={'Select Location'}></CustomSelect>
 				)}
+				{inputLocationError
+				?<span>{inputLocationError}</span>
+				:null
+				}
 
 				<div className='w-full'>
 					<label htmlFor='isFeatured' className='block mb-2'>
@@ -367,6 +440,11 @@ const CreateProduct = () => {
 				) : (
 					<p>Loading...</p>
 				)}
+				{
+					inputCategoriesErrors
+					?<span>{inputCategoriesErrors}</span>
+					:null
+				}
 
 				<button type='submit' className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>
 					Submit Product
