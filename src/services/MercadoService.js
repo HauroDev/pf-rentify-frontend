@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { USER_API } from '../utils/apiRoutes'
+import { MCP_API } from '../utils/apiRoutes'
 
 export const postOrdenPago = async (carrito) => {
-	const { data } = await axios.post(`${USER_API}/order`, carrito)
+	const { data } = await axios.post(`${MCP_API}/order`, carrito)
 	return data
 }
 
