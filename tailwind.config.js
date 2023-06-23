@@ -17,6 +17,7 @@ export default {
 				body_light: '#F5F6F8',
 				card_dark: '#353535',
 				text_dark: '#F5F6F8',
+				text_gray: '#565959',
 				gray_dark: '#999999',
 				gray_medium: '#CCCCCC',
 				gray_light: '#ECECEC',
