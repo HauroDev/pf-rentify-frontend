@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import CartIcon from '../icons/CartIcon';
 import DeleteIcon from '../icons/DeleteIcon';
 import { addToCart, deleteAllItemsFromCart, subFromCart } from '../../services/cartService';
@@ -55,6 +56,10 @@ const RentalCartMenu = () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  const handleMenuClose = () => {
+    setMenuOpen(false);
+  };
 
   const cartMenuContent = (
     <div
@@ -131,10 +136,11 @@ const RentalCartMenu = () => {
             <span className="text-xl font-semibold">Subtotal</span>
             <span className="text-lg font-semibold">${cartState.cart.total}</span>
         </div>	
-
-      <button className="block text-center text-xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple">
-        Continue to checkout
-      </button>
+        
+    <Link to="/checkout" className="block text-center text-xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple" 
+    onClick={handleMenuClose}>
+      Continue to checkout
+    </Link>
     </div>
   );
 
