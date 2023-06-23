@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
+import CloseIcon from './icons/CloseIcon'
 
 const Toast = ({
 	toastList = [],
@@ -14,29 +15,52 @@ const Toast = ({
 		setList(toastList)
 	}, [toastList])
 
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (autoDelete && toastList.length && list.length) {
+				deleteToast(toastList[0].id)
+			}
+		}, autoDeleteTime)
+
+		return () => {
+			clearInterval(interval)
+		}
+	}, [toastList])
+
 	const positionClasses = {
-		'top-right': 't-4 r-4',
-		'bottom-right': 'b-4 r-4',
-		'top-left': 't-4 l-4',
-		'bottom-left': 'b-4 l-4',
-		'top-center': 't-4 l-1/2 -translate-x-1/2',
-		'bottom-center': 'b-4 l-1/2 -translate-x-1/2',
+		'top-right': 'top-4 right-4',
+		'bottom-right': 'bottom-4 right-4',
+		'top-left': 'top-4 left-4',
+		'bottom-left': 'bottom-4 left-4',
+		'top-center': 'top-4 left-1/2 -translate-x-1/2',
+		'bottom-center': 'bottom-4 left-1/2 -translate-x-1/2',
 	}
 
 	const colorsTypeClasses = {
-		success: 'bg-success shadow-success',
-		error: 'bg-error shadow-error',
-		warning: 'bg-warning shadow-warning',
+		success: 'bg-success',
+		danger: 'bg-danger',
+		warning: 'bg-warning-hover ',
 	}
+	const posClass = positionClasses[position] || positionClasses['top-left']
 
 	return (
-		<div className={`fixed z-10 ${positionClasses[position]}`}>
+		<div className={`fixed z-50 ${posClass}`}>
 			{list.map((toast) => (
 				<div
 					key={toast.id}
-					className={`scale-up-top relative w-80 p-4 rounded-lg ${
+					className={`scale-up-top relative w-96 p-4 rounded-lg  ${
 						colorsTypeClasses[toast.type]
-					} shadow-lg mb-4 `}></div>
+					} shadow-lg mb-4 `}>
+					<button
+						className='absolute right-5 py-0.5 hover:scale-105'
+						onClick={() => deleteToast(toast.id)}>
+						<CloseIcon className='stroke-white' />
+					</button>
+					<div className='truncate'>
+						<h3 className='text-2xl bold mb-2 text-white'>{toast.title}</h3>
+						<p className='text-base truncate text-white'>{toast.description}</p>
+					</div>
+				</div>
 			))}
 		</div>
 	)
