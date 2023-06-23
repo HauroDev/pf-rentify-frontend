@@ -95,8 +95,16 @@ const UserMenu = () => {
 
 	return (
 		<div className='relative icon-user'>
-			<button onClick={handleMenuClick}>
-				<UserIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
+			<button className='flex items-center' onClick={handleMenuClick}>
+				{!userState.user.hasOwnProperty('uid') ? (
+					<UserIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
+				) : (
+					<img
+						src={imgExist ? userState.user.image : imgNotFound}
+						alt={userState.user.name}
+						className='w-7 h-7 border-2 border-dark_purple rounded-full selection:bg-transparent'
+					/>
+				)}
 			</button>
 			{isMenuOpen && (userState.login ? loggedInMenu(userState.user) : loggedOutMenu)}
 		</div>
