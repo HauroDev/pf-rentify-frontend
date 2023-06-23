@@ -22,7 +22,7 @@ const AppRouter = () => {
         />
         <Route path={routesName.signup} element={<SignUp />} />
         <Route path={routesName.login} element={<Login />} />
-        <Route path={routesName.profile} element={<Profile />} />
+        <Route path={routesName.user["profile"]} element={<Profile />} />
       </Route>
     </Routes>
   );
