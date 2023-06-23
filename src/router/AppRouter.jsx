@@ -8,12 +8,8 @@ import CreateProduct from '../pages/CreateProduct'
 import SignUp from '../pages/SignUp'
 import Login from '../pages/Login'
 import Profile from '../pages/Profile'
-
-import CheckoutRouter from './CheckoutRouter'
 import Checkout from '../pages/Checkout'
-import PenddingCheckout from '../pages/checkout/PenddingCheckout'
-import SuccessCheckout from '../pages/checkout/SuccessCheckout'
-import ErrorCheckout from '../pages/checkout/ErrorCheckout'
+import CheckoutResponse from '../pages/checkout/CheckoutResponse'
 
 const AppRouter = () => {
 	return (
@@ -27,12 +23,10 @@ const AppRouter = () => {
 				<Route path={routesName.login} element={<Login />} />
 				<Route path={routesName.profile} element={<Profile />} />
 
-				<Route path={routesName.checkout.error} element={<ErrorCheckout />} />
-				<Route path={routesName.checkout.pending} element={<PenddingCheckout />} />
-				<Route path={routesName.checkout.successfull} element={<SuccessCheckout />} />
 				<Route path={routesName.checkout.checkout} element={<Checkout />} />
-
-
+				<Route path={routesName.checkout.error} element={<CheckoutResponse />} />
+				<Route path={routesName.checkout.pending} element={<CheckoutResponse />} />
+				<Route path={routesName.checkout.successfull} element={<CheckoutResponse />} />
 			</Route>
 		</Routes>
 	)
