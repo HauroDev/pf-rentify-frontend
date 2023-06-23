@@ -58,7 +58,6 @@ const Profile = () => {
         phone={state.user.phone}
         membership={state.user.membership}
       />
-      ;
     </>
   );
 };

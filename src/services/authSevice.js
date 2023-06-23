@@ -52,9 +52,6 @@ export const loginGoogle = async () => {
   const user = result.user;
   const LogUser = {
     email: user.email,
-    name: user.displayName || "",
-    image: user.photoURL,
-    phone: user.phoneNumber,
     uid: user.uid,
   };
 
@@ -72,12 +69,16 @@ export const loginUser = async ({ email, password }) => {
 
   const LogUser = {
     email: user.email,
-    name: user.displayName || "",
-    image: user.photoURL,
-    phone: user.phoneNumber,
     uid: user.uid,
   };
-  return LogUser;
+
+  // aqui va la route y la logica del login del back
+  const { data } = await axios.post(
+    `http://localhost:3001/api-rentify/login-google`,
+    LogUser
+  );
+  console.log(data);
+  return data;
 };
 
 export const logoutUser = async () => {
