@@ -92,7 +92,7 @@ const Checkout = () => {
                     Days: {product.quantity}
                   </span>
                   <span className="font-semibold text-2xl">
-                    ${product.price * product.quantity}
+                    ${product.price * product.quantity} <span className="text-base">{cartState.cart.currency}</span>
                   </span>
                 </div>
               </div>
@@ -104,7 +104,7 @@ const Checkout = () => {
             <div className="flex items-center justify-between mb-4">
               <span className="text-2xl"> Total ({cartState.cart.items.length} items):</span>
               <span className="text-3xl font-semibold">
-                ${cartState.cart.total}
+                ${cartState.cart.total} <span className="text-lg">{cartState.cart.currency}</span>
               </span>
             </div>
             {!preferenceId && !loading ? (
