@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { setCart } from '../app/features/cart/cartSlice'
 import { addToCart, removeFromCart } from '../services/cartService'
 import { useDispatch, useSelector } from 'react-redux'
 import CartIcon from './icons/CartIcon'
 import DeleteCartICon from './icons/DeleteCartICon'
+import { ToastContext } from '../context/ToastContext'
 
 const BtnAddCartCard = ({ size = 'md', product }) => {
 	const [isOnCart, setIsOnCart] = useState(false)
+	const { addToast } = useContext(ToastContext)
 
 	const dispatch = useDispatch()
 	const cartState = useSelector((state) => state.cart)
@@ -40,16 +42,28 @@ const BtnAddCartCard = ({ size = 'md', product }) => {
 		try {
 			const cart = addToCart(product)
 			dispatch(setCart(cart))
+			addToast({
+				title: 'Success',
+				description: `${product.name} was added to the cart`,
+				type: 'success',
+			})
 		} catch (error) {
 			console.log(error.message)
+			addToast({ title: 'Error', description: error.message, type: 'danger' })
 		}
 	}
 	const handleRemove = () => {
 		try {
 			const cart = removeFromCart(product)
 			dispatch(setCart(cart))
+			addToast({
+				title: 'Warning',
+				description: `${product.name} was removed from the cart`,
+				type: 'warning',
+			})
 		} catch (error) {
 			console.log(error.message)
+			addToast({ title: 'Error', description: error.message, type: 'error' })
 		}
 	}
 
