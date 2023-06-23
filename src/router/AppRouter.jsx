@@ -25,6 +25,7 @@ const AppRouter = () => {
         <Route path={routesName.signup} element={<SignUp />} />
         <Route path={routesName.login} element={<Login />} />
         <Route path={routesName.user["profile"]} element={<Profile />} />
+
         <Route path={routesName.checkout.checkout} element={<Checkout />} />
         <Route
           path={routesName.checkout.error}

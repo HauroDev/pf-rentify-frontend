@@ -6,7 +6,8 @@ export const routesName = {
   login: "/login",
   user: {
     "create-product": "/user/create-product",
-    profile: "/profile/:id",
+
+    "profile": "/profile/:id",
   },
   checkout: {
     checkout: "/checkout",
