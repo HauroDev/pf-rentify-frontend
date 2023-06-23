@@ -8,4 +8,10 @@ export const routesName = {
     "create-product": "/user/create-product",
     profile: "/profile/:id",
   },
+  checkout: {
+    checkout: "/checkout",
+    error: "/checkout/error",
+    pending: "/checkout/pending",
+    successfull: "/checkout/successfull",
+  },
 };

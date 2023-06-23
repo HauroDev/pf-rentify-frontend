@@ -8,6 +8,8 @@ import CreateProduct from "../pages/CreateProduct";
 import SignUp from "../pages/SignUp";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
+import Checkout from "../pages/Checkout";
+import CheckoutResponse from "../pages/checkout/CheckoutResponse";
 
 const AppRouter = () => {
   return (
@@ -23,6 +25,19 @@ const AppRouter = () => {
         <Route path={routesName.signup} element={<SignUp />} />
         <Route path={routesName.login} element={<Login />} />
         <Route path={routesName.user["profile"]} element={<Profile />} />
+        <Route path={routesName.checkout.checkout} element={<Checkout />} />
+        <Route
+          path={routesName.checkout.error}
+          element={<CheckoutResponse />}
+        />
+        <Route
+          path={routesName.checkout.pending}
+          element={<CheckoutResponse />}
+        />
+        <Route
+          path={routesName.checkout.successfull}
+          element={<CheckoutResponse />}
+        />
       </Route>
     </Routes>
   );

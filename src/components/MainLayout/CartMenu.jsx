@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import CartIcon from '../icons/CartIcon';
 import DeleteIcon from '../icons/DeleteIcon';
 import { addToCart, deleteAllItemsFromCart, subFromCart } from '../../services/cartService';
@@ -56,6 +57,10 @@ const RentalCartMenu = () => {
     };
   }, []);
 
+  const handleMenuClose = () => {
+    setMenuOpen(false);
+  };
+
   const cartMenuContent = (
     <div
       ref={menuRef}
@@ -109,7 +114,7 @@ const RentalCartMenu = () => {
                         -
                       </button>
                       <span className="px-2 py-1 text-lg font-semibold">
-                        {item.quantity}
+                        {item.quantity} 
                       </span>
                       <button
                         className="px-2 py-1 text-sm text-white bg-medium_purple rounded-full"
@@ -117,6 +122,7 @@ const RentalCartMenu = () => {
                       >
                         +
                       </button>
+                      <span className="text-base ml-1">days</span>
                     </div>
                   </section>
                 </div>
@@ -129,12 +135,13 @@ const RentalCartMenu = () => {
 
         <div className="flex items-center justify-between mb-4 mt-6">
             <span className="text-xl font-semibold">Subtotal</span>
-            <span className="text-lg font-semibold">${cartState.cart.total}</span>
+            <span className="text-xl font-semibold">${cartState.cart.total} <span className="text-xs md:text-base ml-1">{cartState.cart.currency}</span></span> 
         </div>	
-
-      <button className="block text-center text-xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple">
-        Continue to checkout
-      </button>
+        
+    <Link to="/checkout" className="block text-center text-xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple" 
+    onClick={handleMenuClose}>
+      Continue to checkout
+    </Link>
     </div>
   );
 

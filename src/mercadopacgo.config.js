@@ -1,0 +1,1 @@
+export const MERCADOPAGO_PUBLIC_KEY= 'TEST-1e6ffc13-48cb-4754-8c94-09f0d7be6ca8'
