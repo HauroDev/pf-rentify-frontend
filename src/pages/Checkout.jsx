@@ -55,11 +55,11 @@ const Checkout = () => {
 			) : (
 				<div className='container mx-auto p-4 '>
 					<div className='grid grid-cols-1 xl:grid-cols-12 gap-4 '>
-						<div className='md:col-span-8  bg-white '>
+						<div className='md:col-span-8  bg-white dark:bg-card_dark '>
 							<div className='border-b px-4 py-4'>
 								<h2 className='text-4xl font'>Rental Cart</h2>
 								<div className='flex items-center justify-end'>
-									<span className='text-xl text-text_gray'>Price</span>
+									<span className='text-xl text-text_gray dark:text-gray_dark'>Price</span>
 								</div>
 							</div>
 							{cartState.cart.items.map((product) => (
@@ -74,10 +74,10 @@ const Checkout = () => {
 									<div className='flex flex-col justify-between p-4 w-2/3'>
 										<div>
 											<h3 className='text-2xl'>{product.name}</h3>
-											<p className='text-text_gray'>${product.price}</p>
+											<p className='text-text_gray dark:text-gray_dark'>${product.price}</p>
 										</div>
 										<div className='flex items-center justify-between mt-4'>
-											<span className='text-text_gray'>Days: {product.quantity}</span>
+											<span className='text-text_gray dark:text-gray_dark'>Days: {product.quantity}</span>
 											<span className='font-semibold text-2xl'>
 												${product.price * product.quantity}{' '}
 												<span className='text-base'>{cartState.cart.currency}</span>
@@ -88,7 +88,7 @@ const Checkout = () => {
 							))}
 						</div>
 						<div className='md:col-span-4 '>
-							<div className='bg-white rounded-md shadow p-4 min-h-[200px] max-h-[250px]'>
+							<div className='bg-white dark:bg-card_dark rounded-md shadow p-4 min-h-[200px] max-h-[250px]'>
 								<div className='flex items-center justify-between mb-4'>
 									<span className='text-2xl'> Total ({cartState.cart.items.length} items):</span>
 									<span className='text-3xl font-semibold'>
@@ -98,7 +98,7 @@ const Checkout = () => {
 								</div>
 								{!preferenceId && !loading ? (
 									<button
-										className='text-center text-2xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple'
+										className='text-center text-xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple'
 										onClick={handleCheckout}>
 										Checkout
 									</button>
