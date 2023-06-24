@@ -9,6 +9,7 @@ import { postOrdenPago } from '../services/MercadoService';
 import Loader from '../components/Loader';
 import { addToCart, deleteAllItemsFromCart, subFromCart } from '../services/cartService';
 import { setCart, resetCart } from '../app/features/cart/cartSlice';
+import DeleteIcon from '../components/icons/DeleteIcon';
 
 initMercadoPago(MERCADOPAGO_PUBLIC_KEY);
 
@@ -17,6 +18,7 @@ const Checkout = () => {
   const [isReady, setIsReady] = useState(false);
   const [preferenceId, setPreferenceId] = useState(null);
   const [loading, setIsLoading] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const dispatch = useDispatch();
 
   const handleOnReady = () => {
@@ -54,6 +56,7 @@ const Checkout = () => {
   const handleEmptyCart = () => {
     deleteAllItemsFromCart();
     dispatch(resetCart());
+    setIsHovered(false);
   };
 
   const handleIncreaseDays = (product) => {
@@ -74,12 +77,27 @@ const Checkout = () => {
         <div className='container mx-auto p-4 '>
           <div className='grid grid-cols-1 xl:grid-cols-12 gap-4 '>
             <div className='md:col-span-8 bg-white dark:bg-card_dark rounded-md'>
-              <div className='border-b px-4 py-4'>
-                <h2 className='text-4xl font'>Rental Cart</h2>
-                <div className='flex items-center justify-end'>
-                  <span className='text-xl text-text_gray dark:text-gray_dark'>Price</span>
-                </div>
+            <div className='border-b px-4 py-4'>
+              <h2 className='text-4xl font'>Rental Cart</h2>
+             <div className='flex mt-4 justify-between items-center'>
+             <button
+                  onClick={handleEmptyCart}
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                  className="flex items-center"
+                >
+                  <DeleteIcon className="stroke-dark_purple dark:stroke-light_purple cursor-pointer" />
+                  {isHovered && (
+                    <div className="ml-2">
+                      <span className="text-md text-text_gray dark:text-gray_dark">Empty Cart</span>
+                    </div>
+                  )}
+              </button>
+
+
+                <span className='text-xl text-text_gray dark:text-gray_dark'>Price</span>
               </div>
+            </div>
               {cartState.cart.items.map((product) => (
                 <div key={product.idProd} className='flex px-4 py-6 border-b h-[180px]'>
                   <div className='w-1/3'>
@@ -95,10 +113,10 @@ const Checkout = () => {
                       <p className='text-text_gray dark:text-gray_dark'>${product.price}</p>
                     </div>
                     <div className='flex items-center justify-between mt-4'>
-                    <div className='flex items-center gap-4'>
-                      <button onClick={() => handleDecreaseDays(product)}>-</button>
+                    <div className='flex items-center gap-4 text-text_gray dark:text-gray_dark '>
+                      <button className="px-2 py-1 text-md text-white bg-medium_purple rounded-full" onClick={() => handleDecreaseDays(product)}>-</button>
                       <span>{product.quantity}</span>
-                      <button onClick={() => handleIncreaseDays(product)}>+</button>
+                      <button className="px-2 py-1 text-sm text-white bg-medium_purple rounded-full" onClick={() => handleIncreaseDays(product)}>+</button>
                       <span>days</span>
                     </div>
                       <span className='font-semibold text-2xl'>
