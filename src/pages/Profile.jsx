@@ -76,7 +76,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    getProductId(id, stateProduct);
+    getProductId(id, setStateProduct);
     return () => {
       setStateProduct(initalStateProduct);
     };
