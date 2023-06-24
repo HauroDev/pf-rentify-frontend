@@ -85,3 +85,29 @@ export const logoutUser = async () => {
   await signOut(auth);
   return null;
 };
+
+
+
+
+// const userSnapshot = await getDoc(doc(db, 'users', user.uid));
+// if (!userSnapshot.exists()) {
+//   throw new Error('auth/user-not-found');
+// }
+
+// // Aquí va la lógica de inicio de sesión del backend
+
+// return loggedInUser;
+// } catch (error) {
+// throw error;
+// }
+// };
+
+// export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (user) => {
+// try {
+// return await loginGoogle(user);
+// } catch (error) {
+// console.log('Error during Google login:', error);
+// throw error;
+// }
+// });
+
