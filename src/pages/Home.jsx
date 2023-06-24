@@ -10,7 +10,7 @@ import Cards from "../components/Home/Cards";
 import Loader from "../components/Loader";
 import OrderSelect from "../components/Selects/OrderSelect";
 import BtnMore from "../components/BtnMore";
-import TestBot from "../components/ChatBot/ChatBot";
+
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const Home = () => {
           ""
         )}
       </div>
-      <TestBot />
+      
     </div>
   );
 };
