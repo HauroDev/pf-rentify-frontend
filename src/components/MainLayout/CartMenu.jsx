@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import CartIcon from '../icons/CartIcon'
 import DeleteIcon from '../icons/DeleteIcon'
 import { addToCart, deleteAllItemsFromCart, subFromCart } from '../../services/cartService'
 import { setCart, resetCart } from '../../app/features/cart/cartSlice'
 import { useSelector, useDispatch } from 'react-redux'
-import DeleteCartIcon from '../icons/DeleteCartIcon'
+import DeleteCartIcon from '../icons/DeleteCartICon'
 
 const RentalCartMenu = () => {
 	const [isMenuOpen, setMenuOpen] = useState(false)
