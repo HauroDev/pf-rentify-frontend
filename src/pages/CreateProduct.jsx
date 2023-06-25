@@ -11,6 +11,7 @@ import CustomSelect from '../components/Selects/CustomSelect'
 import { splitLocationName } from '../utils/splitLocationName'
 import { fetchPostProductAsync } from '../app/features/products/productsSlice'
 import { saveAndGetImage } from '../services/imageFirebaseService'
+import AddCrossIcon from '../components/icons/AddCrossIcon'
 
 const CreateProduct = () => {
 	//const userId = '9411cbbd-e3a0-4f98-9437-e71ca67f6ca0'
@@ -211,7 +212,7 @@ const CreateProduct = () => {
 		closeModalLocation()
 	}
 	
-	console.log(selectedCategories);
+	
 	// console.log(inputIsFeatured)
 	// console.log(inputPrice)
 	// console.log(inputCountry)
@@ -459,6 +460,7 @@ const CreateProduct = () => {
 				}
 
 				
+				<AddCrossIcon/>
 				<button type='submit' className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>
 					Submit Product
 				</button>
