@@ -88,6 +88,7 @@ export const logoutUser = async () => {
 
 
 
+
 // const userSnapshot = await getDoc(doc(db, 'users', user.uid));
 // if (!userSnapshot.exists()) {
 //   throw new Error('auth/user-not-found');
