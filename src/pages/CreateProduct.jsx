@@ -173,9 +173,6 @@ const CreateProduct = () => {
 		setInputCategoriesErrors(validationProducts("category", categoriesChecked));
 	}, [categoriesChecked]);
 
-	
-	
-
 	const handleInputFile = (event) => {
 		setImageToSubmit(event.target.files[0]);
 		setInputImageError(validationProducts(event.target.name,event.target.files[0]))
@@ -219,7 +216,8 @@ const CreateProduct = () => {
 	// console.log(inputCountry)
 	// console.log(inputState)
 	// console.log(userId);
-	
+	console.log(userState);
+	console.log(userId);
 	
 	const handleSubmit =  async (e) => {
 		e.preventDefault()
@@ -298,7 +296,7 @@ const CreateProduct = () => {
 					label='Name: '
 				/>
 				{inputNameError
-				? <span className="text-red-500 text-sm">{inputNameError}</span>
+				? <span>{inputNameError}</span>
 				:null}
 
 				<Input
@@ -310,7 +308,7 @@ const CreateProduct = () => {
 					label='Description: '
 				/>
 				{inputDescriptionError
-				? <span className="text-red-500 text-sm">{inputDescriptionError}</span>
+				? <span>{inputDescriptionError}</span>
 				:null
 				}
 
@@ -323,7 +321,7 @@ const CreateProduct = () => {
 					label='Image URL: '
 				/>
 				{inputImageError
-				?<span className="text-red-500 text-sm">{inputImageError}</span>
+				?<span>{inputImageError}</span>
 				:null
 				}
 
@@ -336,7 +334,7 @@ const CreateProduct = () => {
 					label='Price: '
 				/>
 				{inputPriceError
-				? <span className="text-red-500 text-sm">{inputPriceError}</span>
+				? <span>{inputPriceError}</span>
 				:null
 				}
 
@@ -356,7 +354,7 @@ const CreateProduct = () => {
 					))}
 				</CustomSelect>
 				{inputCountryError
-				?<span className="text-red-500 text-sm">{inputCountryError}</span>
+				?<span>{inputCountryError}</span>
 				:null
 				}
 				
@@ -386,7 +384,7 @@ const CreateProduct = () => {
 						messageSelect={'Select State'}></CustomSelect>
 				)}
 				{inputStateError
-				?<span className="text-red-500 text-sm">{inputStateError}</span>
+				?<span>{inputStateError}</span>
 				:null
 				}
 
@@ -414,7 +412,7 @@ const CreateProduct = () => {
 						messageSelect={'Select Location'}></CustomSelect>
 				)}
 				{inputLocationError
-				?<span className="text-red-500 text-sm">{inputLocationError}</span>
+				?<span>{inputLocationError}</span>
 				:null
 				}
 
@@ -455,7 +453,7 @@ const CreateProduct = () => {
 				)}
 				{
 					inputCategoriesErrors
-					?<p className="text-red-500 text-sm">{inputCategoriesErrors}</p>
+					?<span>{inputCategoriesErrors}</span>
 					:null
 				}
 
