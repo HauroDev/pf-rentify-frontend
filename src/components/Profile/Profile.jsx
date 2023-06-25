@@ -1,4 +1,6 @@
 import PremiumIcon from "../icons/PremiumIcon";
+import CardProfile from "./CardProfile";
+
 const UserProfile = ({ image, name, phone, membership }) => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row justify-between">
@@ -22,16 +24,15 @@ const UserProfile = ({ image, name, phone, membership }) => {
         </div>
 
         <div className="text-center py-6">
-          <button className="bg-blue-500 text-white rounded-md px-6 py-1 hover:shadow-inner transition duration-500 ease-in-out transform hover:-translate-x hover:scale-110">
+          <button className="bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg">
             Edit Profile
           </button>
         </div>
       </div>
       <div className="flex-grow bg-white border dark:bg-card_dark border-gray-300 rounded-lg m-4 flex flex-col justify-center items-center">
         <h2 className="text-xl p-12 font-bold text-center">
-          Mis últimos datos
+          <CardProfile />
         </h2>
-        <h1>Listar mis datos</h1>
       </div>
     </div>
   );
