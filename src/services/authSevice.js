@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import { auth, providerGoogle } from "../firebase.config";
 import axios from "axios";
-import { USER_API } from "../utils/apiRoutes";
+import { USER_API,LOGIN_API } from "../utils/apiRoutes";
 
 export const registerUser = async ({ email, password }) => {
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -56,8 +56,7 @@ export const loginGoogle = async () => {
   };
 
   // aqui va la route y la logica del login del back
-  const { data } = await axios.post(
-    `http://localhost:3001/api-rentify/login-google`,
+  const { data } = await axios.post(LOGIN_API ,
     LogUser
   );
   console.log(data);
@@ -74,8 +73,7 @@ export const loginUser = async ({ email, password }) => {
 
   // aqui va la route y la logica del login del back
   const { data } = await axios.post(
-    `http://localhost:3001/api-rentify/login-google`,
-    LogUser
+    LOGIN_API, LogUser
   );
   console.log(data);
   return data;
