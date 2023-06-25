@@ -5,6 +5,7 @@ import logoImg from '../../assets/image/logo-rentify.png'
 import GoogleIcon from '../icons/google'
 import { LoginUserDB, LoginUserGoogle } from '../../app/features/user/userSlice'
 import { localStorageItems } from '../../utils/localStorageItems'
+import validationLogin from '../../utils/validacionLogin'
 
 const LoginUser = () => {
 	const dispatch = useDispatch()
@@ -13,6 +14,12 @@ const LoginUser = () => {
 		email: '',
 		password: '',
 	})
+
+	const [error, setError] = useState({
+		email: '',
+		password: '',
+	})
+
 	useEffect(() => {
 		if (userState.status === 'success') {
 			localStorage.setItem(
@@ -27,6 +34,12 @@ const LoginUser = () => {
 			...login,
 			[event.target.name]: event.target.value,
 		})
+		setError(
+			validationLogin({
+				...login,
+				[event.target.name]: event.target.value,
+			})
+		)
 		//faltan errores validacio
 	}
 	const handleSumit = (event) => {
@@ -68,6 +81,8 @@ const LoginUser = () => {
 								value={login.email}
 								onchange={handleChange}
 							/>
+							<div className=' text-red-700'>{error.email && <p>{error.email}</p>}</div>
+
 						</div>
 						<div className='relative '>
 							<label>Password</label>
@@ -78,6 +93,8 @@ const LoginUser = () => {
 								value={login.password}
 								onchange={handleChange}
 							/>
+							<div className=' text-red-700'>{error?.password && <p>{error?.password}</p>}</div>
+
 						</div>
 						<div className='relative text-center py-3'>
 							<button

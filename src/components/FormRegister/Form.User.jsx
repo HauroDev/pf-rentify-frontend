@@ -51,10 +51,10 @@ const FormUser = () => {
 				return
 			}
 			if (formData.password !== formData.confirmPassword) {
-				setError('Passwords do not match')
+				setError({confirmPassword:'Passwords do not match'})
 				return
 			}
-			// { email: formData.email, password: formData.password }
+			
 			dispatch(CreatePostUser({ email: formData.email, password: formData.password }))
 		} catch (error) {
 			console.log(error.code)
@@ -105,10 +105,10 @@ const FormUser = () => {
 							name='confirmPassword'
 							placeholder='Enter your confirm Password'
 							label='Confirm Password'
-							value={formData.confirmpassword}
+							value={formData.confirmPassword}
 							onchange={handleChange}
 						/>
-						<div className=' text-red-700'>{error?.password && <p>{error?.password}</p>}</div>
+						<div className=' text-red-700'>{error?.confirmPassword && <p>{error?.confirmPassword}</p>}</div>
 						<div className='flex mt-7 justify-center w-full'>
 							<button
 								type='submit'
