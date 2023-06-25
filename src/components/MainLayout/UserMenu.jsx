@@ -5,6 +5,7 @@ import { isImgValid } from '../../utils/isImgValid'
 import imgNotFound from '../../assets/image/image-not-found.jpg'
 import { useSelector } from 'react-redux'
 import BtnLogout from './BtnLogout'
+import { routesName } from '../../utils/routes_name'
 
 const UserMenu = () => {
 	const [imgExist, setImgExist] = useState(false)
@@ -61,9 +62,11 @@ const UserMenu = () => {
 				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
 					My Products
 				</span>
-				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
+				<Link
+					to={routesName.user['create-product']}
+					className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
 					Create a Service
-				</span>
+				</Link>
 			</section>
 			<div className='my-2 border-b'></div>
 
