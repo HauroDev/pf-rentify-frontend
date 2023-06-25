@@ -37,7 +37,7 @@ const UserMenu = () => {
 		event.stopPropagation()
 		setMenuOpen((prev) => !prev)
 	}
-	console.log('user menu open', isMenuOpen)
+	// console.log('user menu open', isMenuOpen)
 
 	const loggedInMenu = (user) => (
 		<div
