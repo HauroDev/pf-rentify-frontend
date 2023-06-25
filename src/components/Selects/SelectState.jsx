@@ -30,7 +30,7 @@ const SelectState = ({ dataStates = [] }) => {
 				const data = await getCountryStates(id)
 				setDataCities(data)
 			} catch (error) {
-				console.log(error)
+				// console.log(error)
 			}
 		}
 
