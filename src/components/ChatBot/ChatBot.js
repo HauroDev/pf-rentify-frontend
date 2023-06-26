@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-function TestBot() {
+function EliBot() {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://cdn.botpress.cloud/webchat/v0/inject.js";
@@ -12,6 +12,9 @@ function TestBot() {
         messagingUrl: "https://messaging.botpress.cloud",
         clientId: "8997c940-2247-450a-8ada-4b8afd4b910e",
         useSessionStorage: false,
+        enableTranscriptDownload: false,
+        closeOnEscape:true,
+        
       });
       window.botpressWebChat.onEvent(() => {
         window.botpressWebChat.sendEvent({ type: "show" });
@@ -25,4 +28,4 @@ function TestBot() {
   return null;
 }
 
-export default TestBot;
+export default EliBot;

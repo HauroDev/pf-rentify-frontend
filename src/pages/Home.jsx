@@ -9,6 +9,7 @@ import {
 import Cards from '../components/Home/Cards'
 import Loader from '../components/Loader'
 import OrderSelect from '../components/Selects/OrderSelect'
+//import EliBot from '../components/ChatBot/ChatBot'
 
 import BtnMore from '../components/BtnMore'
 
@@ -56,6 +57,7 @@ const Home = () => {
 					''
 				)}
 			</div>
+
 		</div>
 	)
 }

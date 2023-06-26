@@ -25,9 +25,13 @@ const UserProfile = ({ image, name, phone, membership }) => {
         </div>
 
         <div className="text-center py-6">
-          <button className="bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg">
+          {/**
+           * 
+           *           <button className="bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg">
             Edit Profile
           </button>
+           */}
+
         </div>
       </div>
       <div className="flex-grow bg-white border dark:bg-card_dark border-gray-300 rounded-lg m-4 flex flex-col justify-center items-center">

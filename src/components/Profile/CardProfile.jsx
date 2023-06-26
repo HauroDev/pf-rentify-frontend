@@ -2,8 +2,11 @@ import { useSelector } from "react-redux";
 import { getUserProducts } from "../../services/profile";
 import { useEffect, useState } from "react";
 import Card from "../Home/Card"
+import { routesName } from '../../utils/routes_name'
+import { Link } from "react-router-dom";
+import { connectStorageEmulator } from "firebase/storage";
 
-const initalStateProduct = {
+export const initalStateProduct = {
   product: [],
   status: "idle",
   error: null,
@@ -46,19 +49,16 @@ const CardProfile = () => {
   }, [id]);
 
   const products = stateProduct.product.map((prod) => prod);
-  const productArray = Object.values(products);
-  if (products.length == 0)
-    return (
-      <div className="mt-4 flex justify-center">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Crear Publicación
-        </button>
-      </div>
-    );
+  console.log(products)
+
+
   return (
-<>
-{products.map((product)=> (<Card key={product.idProd} product={product}/>))}
-</>
+    <div className="mt-4 flex flex-row flex-wrap justify-center">
+     {(products.length != 0)? products.map((product)=> (<Card key={product.idProd} product={product}/>))
+      :(<Link to={routesName.user["create-product"]} className="bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg">
+        Crear Publicación
+      </Link>)}
+    </div>
   );
 };
 
