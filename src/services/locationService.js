@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { COUNTRIES_API } from '../utils/apiRoutes'
 
-const API = (id) => `http://api.geonames.org/childrenJSON?geonameId=${id}&username=gabriel`
+const API = (id) => `https://api-rentify.onrender.com/api-rentify/countries/childrens/${id}`
 
 export const getAllCountries = async () => {
 	const { data } = await axios.get(COUNTRIES_API)

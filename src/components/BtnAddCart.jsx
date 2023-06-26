@@ -48,7 +48,7 @@ const BtnAddCartCard = ({ size = 'md', product }) => {
 				type: 'success',
 			})
 		} catch (error) {
-			console.log(error.message)
+			// console.log(error.message)
 			addToast({ title: 'Error', description: error.message, type: 'danger' })
 		}
 	}
@@ -62,7 +62,7 @@ const BtnAddCartCard = ({ size = 'md', product }) => {
 				type: 'warning',
 			})
 		} catch (error) {
-			console.log(error.message)
+			// console.log(error.message)
 			addToast({ title: 'Error', description: error.message, type: 'error' })
 		}
 	}
