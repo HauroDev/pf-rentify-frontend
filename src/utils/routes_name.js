@@ -7,18 +7,7 @@ export const routesName = {
 	user: {
 		'create-product': '/user/create-product',
 
-<<<<<<< HEAD
-    profile: "/user/profile",
-  },
-  checkout: {
-    checkout: "/checkout",
-    error: "/checkout/error",
-    pending: "/checkout/pending",
-    successfull: "/checkout/successfull",
-  },
-};
-=======
-		'profile': '/user/profile/:id',
+		'profile': '/user/profile',
 	},
 	checkout: {
 		checkout: '/checkout',
@@ -27,4 +16,3 @@ export const routesName = {
 		successfull: '/checkout/successfull',
 	},
 }
->>>>>>> Gabriel

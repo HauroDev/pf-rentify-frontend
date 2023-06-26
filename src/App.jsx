@@ -7,7 +7,7 @@ import { auth } from './firebase.config'
 import { setCart } from './app/features/cart/cartSlice'
 import { getCart } from './services/cartService'
 import AppRouter from './router/AppRouter'
-import Toast from './components/Toast'
+import Toast from './components/Toast/Toast'
 import { ToastContext } from './context/ToastContext'
 
 function App() {
