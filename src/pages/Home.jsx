@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchGetAllProductsAsync,
-  fetchGetAllProductsToFillAsync,
-  resetProducState,
-  setOffset,
-} from "../app/features/products/productsSlice";
-import Cards from "../components/Home/Cards";
-import Loader from "../components/Loader";
-import OrderSelect from "../components/Selects/OrderSelect";
-import BtnMore from "../components/BtnMore";
-
+	fetchGetAllProductsAsync,
+	fetchGetAllProductsToFillAsync,
+	resetProducState,
+	setOffset,
+} from '../app/features/products/productsSlice'
+import Cards from '../components/Home/Cards'
+import Loader from '../components/Loader'
+import OrderSelect from '../components/Selects/OrderSelect'
+import BtnMore from '../components/BtnMore'
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -52,16 +51,15 @@ const Home = () => {
         )}
       </div>
 
-      <div>
-        {productsState.next && productsState.status !== "loading" ? (
-          <BtnMore label="More products" onclick={handleNext} />
-        ) : (
-          ""
-        )}
-      </div>
-      
-    </div>
-  );
-};
+			<div>
+				{productsState.next && productsState.status !== 'loading' ? (
+					<BtnMore label='More products' onclick={handleNext} />
+				) : (
+					''
+				)}
+			</div>
+		</div>
+	)
+}
 
 export default Home;

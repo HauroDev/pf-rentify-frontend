@@ -27,6 +27,7 @@ const DetailProduct = () => {
 		})
 		try {
 			const data = await getProductById(id)
+			document.body.setAttribute('title', data.name)
 			console.log(data)
 			set({
 				status: 'success',

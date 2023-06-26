@@ -1,13 +1,13 @@
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-} from "firebase/auth";
-import { auth, providerGoogle } from "../firebase.config";
-import axios from "axios";
-import { USER_API } from "../utils/apiRoutes";
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	signInWithPopup,
+	GoogleAuthProvider,
+	signOut,
+} from 'firebase/auth'
+import { auth, providerGoogle } from '../firebase.config'
+import axios from 'axios'
+import { USER_API } from '../utils/apiRoutes'
 
 export const registerUser = async ({ email, password }) => {
   const { user } = await createUserWithEmailAndPassword(auth, email, password);
@@ -55,57 +55,28 @@ export const loginGoogle = async () => {
     uid: user.uid,
   };
 
-  // aqui va la route y la logica del login del back
-  const { data } = await axios.post(
-    `http://localhost:3001/api-rentify/login-google`,
-    LogUser
-  );
-  console.log(data);
-  return data;
-};
+	// aqui va la route y la logica del login del back
+
+	return LogUser
+}
 
 export const loginUser = async ({ email, password }) => {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-  const LogUser = {
-    email: user.email,
-    uid: user.uid,
-  };
-
-  // aqui va la route y la logica del login del back
-  const { data } = await axios.post(
-    `http://localhost:3001/api-rentify/login-google`,
-    LogUser
-  );
-  console.log(data);
-  return data;
-};
+	const LogUser = {
+		email: user.email,
+		name: user.displayName || '',
+		image: user.photoURL,
+		phone: user.phoneNumber,
+		uid: user.uid,
+	}
+	return LogUser
+}
 
 export const logoutUser = async () => {
-  await signOut(auth);
-  return null;
-};
-
-
-
-
-
-
-
-
-
-// const userSnapshot = await getDoc(doc(db, 'users', user.uid));
-// if (!userSnapshot.exists()) {
-//   throw new Error('auth/user-not-found');
-// }
-
-// // Aquí va la lógica de inicio de sesión del backend
-
-// return loggedInUser;
-// } catch (error) {
-// throw error;
-// }
-// };
+	await signOut(auth)
+	return null
+}
 
 // export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (user) => {
 // try {

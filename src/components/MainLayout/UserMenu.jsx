@@ -5,6 +5,7 @@ import { isImgValid } from '../../utils/isImgValid'
 import imgNotFound from '../../assets/image/image-not-found.jpg'
 import { useSelector } from 'react-redux'
 import BtnLogout from './BtnLogout'
+import { routesName } from '../../utils/routes_name'
 
 const UserMenu = () => {
 	const [imgExist, setImgExist] = useState(false)
@@ -37,7 +38,7 @@ const UserMenu = () => {
 		event.stopPropagation()
 		setMenuOpen((prev) => !prev)
 	}
-	console.log('user menu open', isMenuOpen)
+	// console.log('user menu open', isMenuOpen)
 
 	const loggedInMenu = (user) => (
 		<div
@@ -55,15 +56,17 @@ const UserMenu = () => {
 			</div>
 			<div className='my-2 border-b'></div>
 			<section className='w-full flex flex-col'>
-				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
+				<Link to={routesName.user.profile} className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
 					Profile
-				</span>
+				</Link>
 				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
 					My Products
 				</span>
-				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
+				<Link
+					to={routesName.user['create-product']}
+					className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
 					Create a Service
-				</span>
+				</Link>
 			</section>
 			<div className='my-2 border-b'></div>
 
