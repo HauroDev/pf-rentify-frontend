@@ -191,7 +191,8 @@ const CreateProduct = () => {
 	// useEffect(() => {
 	// 	setInputCategoriesErrors(validationProducts('category', categoriesChecked))
 	// }, [categoriesChecked])
-	console.log(categoriesChecked );
+	console.log(userState);
+	console.log(userId);
 
 	const handleInputFile = (event) => {
 		setImageToSubmit(event.target.files[0])
@@ -290,18 +291,28 @@ const CreateProduct = () => {
 		}
 
 		if (imageToSubmit && !hasNotErrors()) {
-			const imgURL = await saveAndGetImage(imageToSubmit, 'products')
-			setInputImage(imgURL)
-			const updatedProduct = { ...product, image: imgURL }
-			console.log(product)
-			console.log(updatedProduct)
-			dispatch(fetchPostProductAsync(updatedProduct))
-			addToast({
-				title: 'Success',
-				description: `${product.name} was added successfully`,
-				type: 'success',
-			})
-			navigate(routesName.home)
+			try {
+				const imgURL = await saveAndGetImage(imageToSubmit, 'products')
+				
+				setInputImage(imgURL)
+				const updatedProduct = { ...product, image: imgURL }
+				console.log(product)
+				console.log(updatedProduct)
+				dispatch(fetchPostProductAsync(updatedProduct))
+				
+				addToast({
+					title: 'Success',
+					description: `${product.name} was added successfully`,
+					type: 'success',
+				})
+				//navigate(routesName.home)
+			} catch (error) {
+				addToast({
+					title: 'Error',
+					description: `${product.name} couldn't be added \n error:${error.message}`,
+					type: 'danger',
+				})
+			}
 		} else {
 			// alert('Please enter the required spaces correctly 🙃😬')
 			addToast({

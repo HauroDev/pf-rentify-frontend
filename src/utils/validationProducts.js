@@ -5,7 +5,7 @@ const validationProducts = (inputName, inputValue) => {
         case 'name':
             if(!inputValue){
                 return "Please enter a product name";
-            } else if (!/^[a-zA-Z\s]+$/.test(inputValue)) {
+            } else if (!/^[a-zA-Z0-9ñ,-\s]+$/.test(inputValue)) {
                 return 'Product name can only contain letters';
             } else if(inputValue.length > 40 || inputValue.length<3){
                 return 'Product name must be between 3 and 40 characters';
@@ -16,9 +16,9 @@ const validationProducts = (inputName, inputValue) => {
         case 'description':
             if(!inputValue){
                 return 'Please enter a description';
-            } else if(inputValue.length > 300){
+            } else if(inputValue.length > 1200){
                 // ! esto se puede cambiar
-                return 'Description can have a maximum of 300 characters'
+                return 'Description can have a maximum of 1200 characters'
             } else{
                 return ""
             }
