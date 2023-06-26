@@ -57,7 +57,11 @@ const CardProfile = ({ product }) => {
     <div
       key={product.idProd}
       ref={cardRef}
-      className="card  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4"
+      className={
+        product.statusProd == "rented"
+          ? "card opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-gradient-to-t from-amber-600 via-transparent to-transparent dark:bg-card_dark p-4"
+          : "card  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4"
+      }
     >
       <div className="flex flex-col justify-between h-full">
         <Link to={`/product/${product.idProd}`}>
@@ -107,8 +111,7 @@ const CardProfile = ({ product }) => {
           <p className="text-sm text-gray_dark">
             {product.location},{product.state}
           </p>
-          {
-            /**idUser == idProdIdUser ? (
+          {/**idUser == idProdIdUser ? (
             <span></span>
           ) : (
             <BtnAddCartCard
@@ -121,11 +124,10 @@ const CardProfile = ({ product }) => {
                 country: product.country,
               }}
             />
-            )*/
-            <span className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer">
-              ✖️
-            </span>
-          }
+            )*/}
+          <span className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer">
+            {product.statusProd === "rented" ? <>⏳</> : <>✖️</>}️
+          </span>
         </div>
       </div>
     </div>
