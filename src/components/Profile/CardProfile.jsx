@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import { getUserProducts } from "../../services/profile";
 import { useEffect, useState } from "react";
+import Card from "../Home/Card"
+
 const initalStateProduct = {
   product: [],
   status: "idle",
@@ -43,9 +45,9 @@ const CardProfile = () => {
     };
   }, [id]);
 
-  const product = stateProduct.product.map((prod) => prod);
-  const productArray = Object.values(product);
-  if (product.length == 0)
+  const products = stateProduct.product.map((prod) => prod);
+  const productArray = Object.values(products);
+  if (products.length == 0)
     return (
       <div className="mt-4 flex justify-center">
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -54,28 +56,9 @@ const CardProfile = () => {
       </div>
     );
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      <div className="flex flex-wrap">
-        {productArray.map((producto) => (
-          <div
-            key={producto.idProd}
-            className={`w-[370px] md:w-[480px] lg:w-[527px] h-full min-h-40 md:min-h-[225px] p-8 bg-gray_light dark:bg-card_dark rounded-lg shadow-md ${
-              productArray.length === 1 ? "mx-auto" : ""
-            }`}
-          >
-            <img
-              className="w-full max-h-80  object-contain"
-              src={producto.image}
-              alt="Imagen del producto"
-            />
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">{producto.name}</div>
-              <p className="text-gray-700 text-base">{producto.item}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+<>
+{products.map((product)=> (<Card key={product.idProd} product={product}/>))}
+</>
   );
 };
 

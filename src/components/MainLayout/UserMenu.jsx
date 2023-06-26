@@ -56,9 +56,9 @@ const UserMenu = () => {
 			</div>
 			<div className='my-2 border-b'></div>
 			<section className='w-full flex flex-col'>
-				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
+				<Link to={routesName.user.profile} className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
 					Profile
-				</span>
+				</Link>
 				<span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
 					My Products
 				</span>

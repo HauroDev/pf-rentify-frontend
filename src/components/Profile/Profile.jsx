@@ -1,6 +1,7 @@
 import PremiumIcon from "../icons/PremiumIcon";
 import CardProfile from "./CardProfile";
 
+
 const UserProfile = ({ image, name, phone, membership }) => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row justify-between">

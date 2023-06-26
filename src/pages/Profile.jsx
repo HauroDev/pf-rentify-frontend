@@ -7,6 +7,7 @@ const Profile = () => {
   const state = useSelector((state) => state.user);
   const user = state.user;
 
+
   if (state.status === "loading") return <Loader />;
 
   if (state.status === "error") return <h3>Error: {state.error}</h3>;
