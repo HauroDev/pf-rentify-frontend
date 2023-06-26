@@ -58,7 +58,7 @@ const CardProfile = ({ product }) => {
       key={product.idProd}
       ref={cardRef}
       className={
-        product.statusProd == "rented"
+        product.statusPub == "inactive"
           ? "card opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-gradient-to-t from-amber-600 via-transparent to-transparent dark:bg-card_dark p-4"
           : "card  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4"
       }
@@ -125,9 +125,9 @@ const CardProfile = ({ product }) => {
               }}
             />
             )*/}
-          <span className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer">
-            {product.statusProd === "rented" ? <>⏳</> : <>✖️</>}️
-          </span>
+          <button className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer">
+            {product.statusPub === "inactive" ? <>⏳</> : <>✖️</>}️
+          </button>
         </div>
       </div>
     </div>
