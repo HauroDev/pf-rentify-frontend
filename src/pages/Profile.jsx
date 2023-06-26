@@ -10,5 +10,5 @@ const Profile = () => {
 	return (
        <UserProfile></UserProfile>
 )
-
+  }
 export default Profile;
