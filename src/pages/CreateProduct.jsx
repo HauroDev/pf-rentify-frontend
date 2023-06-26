@@ -12,7 +12,9 @@ import CustomSelect from '../components/Selects/CustomSelect'
 import { splitLocationName } from '../utils/splitLocationName'
 import { fetchPostProductAsync } from '../app/features/products/productsSlice'
 import { saveAndGetImage } from '../services/imageFirebaseService'
-import AddCrossIcon from '../components/icons/AddCrossIcon'
+import AddCrossIcon from '../components/icons/AddCrossIcon';
+import CloseIconCategories from '../components/icons/CloseIconCategories'
+
 import { ToastContext } from '../context/ToastContext'
 import { routesName } from '../utils/routes_name'
 
@@ -134,7 +136,7 @@ const CreateProduct = () => {
 	const [inputCountryError, setInputCountryError] = useState('')
 	const [inputLocationError, setInputLocationError] = useState('')
 	const [inputStateError, setInputStateError] = useState('')
-	//const [inputIsFeaturedError, setInputIsFeaturedError] = useState(false);
+	
 
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target
@@ -163,10 +165,21 @@ const CreateProduct = () => {
 				break
 
 			case 'category':
-				setCategoriesChecked((prevInput) => ({
-					...prevInput,
-					[value]: checked,
-				}))
+				// setCategoriesChecked((prevInput) => ({
+				// 	...prevInput,
+				// 	[value]: checked,
+				// }))
+				setCategoriesChecked((prevInput) => {
+					const newInput = {
+						...prevInput,
+						[value]: checked,
+					} 
+					return (function(){
+						setInputCategoriesErrors(validationProducts('category', newInput))
+						return newInput
+					})()
+				})
+				
 				//errors en  12 lineas más abajo
 				break
 
@@ -175,9 +188,10 @@ const CreateProduct = () => {
 		}
 	}
 
-	useEffect(() => {
-		setInputCategoriesErrors(validationProducts('category', categoriesChecked))
-	}, [categoriesChecked])
+	// useEffect(() => {
+	// 	setInputCategoriesErrors(validationProducts('category', categoriesChecked))
+	// }, [categoriesChecked])
+	console.log(categoriesChecked );
 
 	const handleInputFile = (event) => {
 		setImageToSubmit(event.target.files[0])
@@ -256,6 +270,7 @@ const CreateProduct = () => {
 		// setInputImageError(imageToSubmit)
 		setInputNameError(validationProducts('name', inputName))
 		setInputDescriptionError(validationProducts('description', inputDescription))
+		setInputPriceError(validationProducts('price',inputPrice))
 		setInputCountryError(validationProducts('country', inputCountry))
 		setInputStateError(validationProducts('state', inputState))
 		setInputLocationError(validationProducts('location', inputLocation))
@@ -310,7 +325,7 @@ const CreateProduct = () => {
 					onchange={handleChange}
 					label='Name: '
 				/>
-				{inputNameError ? <span>{inputNameError}</span> : null}
+				{inputNameError ? <span className="text-red-500">{inputNameError}</span> : null}
 
 				<Input
 					type='text'
@@ -320,7 +335,7 @@ const CreateProduct = () => {
 					onchange={handleChange}
 					label='Description: '
 				/>
-				{inputDescriptionError ? <span>{inputDescriptionError}</span> : null}
+				{inputDescriptionError ? <span className="text-red-500">{inputDescriptionError}</span> : null}
 
 				<Input
 					type='file'
@@ -329,7 +344,7 @@ const CreateProduct = () => {
 					onchange={handleInputFile}
 					label='Image URL: '
 				/>
-				{inputImageError ? <span>{inputImageError}</span> : null}
+				{inputImageError ? <span className="text-red-500">{inputImageError}</span> : null}
 
 				<Input
 					type='number'
@@ -339,7 +354,7 @@ const CreateProduct = () => {
 					onchange={handleChange}
 					label='Price: '
 				/>
-				{inputPriceError ? <span>{inputPriceError}</span> : null}
+				{inputPriceError ? <span className="text-red-500">{inputPriceError}</span> : null}
 
 				<CustomSelect
 					handleOpenClose={handleOpenModalCountry}
@@ -356,7 +371,7 @@ const CreateProduct = () => {
 						/>
 					))}
 				</CustomSelect>
-				{inputCountryError ? <span>{inputCountryError}</span> : null}
+				{inputCountryError ? <span className="text-red-500">{inputCountryError}</span> : null}
 
 				{dataStates.length ? (
 					<CustomSelect
@@ -381,7 +396,7 @@ const CreateProduct = () => {
 						positionLabel='left'
 						messageSelect={'Select State'}></CustomSelect>
 				)}
-				{inputStateError ? <span>{inputStateError}</span> : null}
+				{inputStateError ? <span className="text-red-500">{inputStateError}</span> : null}
 
 				{stateApiId && dataLocations.length ? (
 					<CustomSelect
@@ -406,7 +421,7 @@ const CreateProduct = () => {
 						positionLabel='left'
 						messageSelect={'Select Location'}></CustomSelect>
 				)}
-				{inputLocationError ? <span>{inputLocationError}</span> : null}
+				{inputLocationError ? <span className="text-red-500">{inputLocationError}</span> : null}
 
 				<div className='w-full'>
 					<label htmlFor='isFeatured' className='block mb-2'>
@@ -445,12 +460,10 @@ const CreateProduct = () => {
 				)}
 				{
 					inputCategoriesErrors
-					?<span>{inputCategoriesErrors}</span>
+					?<p className="text-red-500">{inputCategoriesErrors}</p>
 					:null
 				}
-
 				
-				<AddCrossIcon/>
 				<button type='submit' className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>
 					Submit Product
 				</button>
