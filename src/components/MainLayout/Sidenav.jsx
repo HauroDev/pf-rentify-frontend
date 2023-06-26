@@ -2,7 +2,7 @@
 import SearchBtn from './SearchBtn'
 import logoImg from '../../assets/image/logo-rentify.png'
 import CloseIcon from '../icons/CloseIcon'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { routesName } from '../../utils/routes_name'
 import SelectCategoryFilter from '../Selects/SelectCategoryFilter'
 import SelectCountry from '../Selects/SelectCountry'
@@ -23,26 +23,52 @@ const Sidenav = ({ isOpen, closeModal }) => {
 			</div>
 
 			<nav
-				className={`h-full w-52 p-4 fixed z-20 bg-body_light dark:bg-body_dark md:left-0 ${menuOpenClasses} transition-all overflow-auto scrollbar-thin scrollbar-thumb-light_purple scrollbar-thumb-rounded-md`}>
-				<div className='w-36 min-w-[130px] mb-8'>
-					<img src={logoImg} alt='rentify logo' className='min-w-[130px]' />
-				</div>
-				<section className='w-full pr-4 flex flex-col gap-6 '>
-					<SearchBtn />
-					{pathname === routesName.home && (
-						<>
-							<SelectCountry />
-
-							<SelectCategoryFilter />
-						</>
-					)}
-					{pathname !== routesName.home && (
-						<Link
-							className='hover:text-dark_purple hover:font-bold dark:hover:text-light_purple transition-all'
-							to='/'>
-							Back to Home
+				className={`flex flex-col justify-between h-full w-52 p-4 pb-20 fixed z-20 bg-body_light dark:bg-body_dark md:left-0 ${menuOpenClasses} transition-all overflow-auto scrollbar-thin scrollbar-thumb-light_purple scrollbar-thumb-rounded-md`}>
+				<div>
+					<div className='w-36 min-w-[130px] mb-8'>
+						<Link to={routesName.home}>
+							<img src={logoImg} alt='rentify logo' className='min-w-[130px]' />
 						</Link>
-					)}
+					</div>
+					<section className='w-full pr-4 flex flex-col gap-6 '>
+						<SearchBtn />
+						{pathname === routesName.home && (
+							<>
+								<SelectCountry />
+
+								<SelectCategoryFilter />
+							</>
+						)}
+						{pathname !== routesName.home && (
+							<Link
+								className='hover:text-dark_purple hover:font-bold dark:hover:text-light_purple transition-all'
+								to='/'>
+								Back to Home
+							</Link>
+						)}
+					</section>
+				</div>
+
+				<section className='flex flex-col gap-4'>
+					<NavLink></NavLink>
+					<NavLink
+						to={routesName.pricing}
+						className={({ isActive }) =>
+							isActive
+								? 'text-dark_purple font-bold dark:text-light_purple transition-all'
+								: 'font-bold hover:text-dark_purple dark:hover:text-light_purple'
+						}>
+						Pricing
+					</NavLink>
+					<NavLink
+						to={routesName['how-it-works']}
+						className={({ isActive }) =>
+							isActive
+								? 'text-dark_purple font-bold dark:text-light_purple transition-all'
+								: 'font-bold hover:text-dark_purple dark:hover:text-light_purple'
+						}>
+						How it works
+					</NavLink>
 				</section>
 			</nav>
 		</>
