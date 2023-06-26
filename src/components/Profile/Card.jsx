@@ -4,8 +4,16 @@ import FeaturedIcon from "../icons/FeaturedIcon";
 import BtnAddCartCard from "../BtnAddCart";
 import { formatDate } from "../../utils/formatDate";
 import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
-const Card = ({ product }) => {
+const CardProfile = ({ product }) => {
+  //
+  let idUser = null;
+  idUser = useSelector((state) => state.user.user.idUser);
+  let idProdIdUser = 0;
+  if (idProdIdUser == 0) idProdIdUser = product.UserProduct.idUser;
+
+  //
   const cardRef = useRef(null);
 
   useEffect(() => {
@@ -99,20 +107,29 @@ const Card = ({ product }) => {
           <p className="text-sm text-gray_dark">
             {product.location},{product.state}
           </p>
-          <BtnAddCartCard
-            size="sm"
-            product={{
-              name: product.name,
-              price: product.price,
-              image: product.image,
-              idProd: product.idProd,
-              country: product.country,
-            }}
-          />
+          {
+            /**idUser == idProdIdUser ? (
+            <span></span>
+          ) : (
+            <BtnAddCartCard
+              size="sm"
+              product={{
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                idProd: product.idProd,
+                country: product.country,
+              }}
+            />
+            )*/
+            <span className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer">
+              ✖️
+            </span>
+          }
         </div>
       </div>
     </div>
   );
 };
 
-export default Card;
+export default CardProfile;

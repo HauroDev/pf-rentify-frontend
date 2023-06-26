@@ -1,7 +1,6 @@
 import PremiumIcon from "../icons/PremiumIcon";
 import CardProfile from "./CardProfile";
 
-
 const UserProfile = ({ image, name, phone, membership }) => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row justify-between">
@@ -20,7 +19,7 @@ const UserProfile = ({ image, name, phone, membership }) => {
         <div className="justify-center">
           <h2 className="text-xl p-2 font-bold flex items-center">
             Membership: {membership && membership.toUpperCase()}{" "}
-            {membership === "premium" && <PremiumIcon className="w-4 h-4" />}
+            {membership === "premium" && <h1>💎</h1>}
           </h2>
         </div>
 
@@ -31,10 +30,9 @@ const UserProfile = ({ image, name, phone, membership }) => {
             Edit Profile
           </button>
            */}
-
         </div>
       </div>
-      <div className="flex-grow bg-white border dark:bg-card_dark border-gray-300 rounded-lg m-4 flex flex-col justify-center items-center">
+      <div className="flex-grow bg-white border dark:bg-body_dark border-gray-300 rounded-lg m-4 flex flex-col justify-center items-center">
         <h2 className="text-xl p-12 font-bold text-center">
           <CardProfile />
         </h2>
