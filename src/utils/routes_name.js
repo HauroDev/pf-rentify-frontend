@@ -7,7 +7,7 @@ export const routesName = {
   user: {
     "create-product": "/user/create-product",
 
-    profile: "/profile/:id",
+    profile: "/user/profile",
   },
   checkout: {
     checkout: "/checkout",
