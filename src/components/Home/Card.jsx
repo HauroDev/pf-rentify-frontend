@@ -69,7 +69,9 @@ const Card = ({ product }) => {
 				</div>
 
 				<Link to={`/product/${product.idProd}`} className='text-2xl font-amaranth font-bold mb-2'>
-					<p className='truncate max-w-full'>{product.name}</p>
+					<p className='truncate max-w-full' title={product.name}>
+						{product.name}
+					</p>
 				</Link>
 				{/* Categories */}
 				<div className='mb-2 flex gap-1 flex-wrap text-medium_fuchsia truncate '>
