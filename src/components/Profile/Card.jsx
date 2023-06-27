@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import FeaturedIcon from "../icons/FeaturedIcon";
-import BtnAddCartCard from "../BtnAddCart";
 import { formatDate } from "../../utils/formatDate";
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
@@ -111,20 +110,6 @@ const CardProfile = ({ product }) => {
           <p className="text-sm text-gray_dark">
             {product.location},{product.state}
           </p>
-          {/**idUser == idProdIdUser ? (
-            <span></span>
-          ) : (
-            <BtnAddCartCard
-              size="sm"
-              product={{
-                name: product.name,
-                price: product.price,
-                image: product.image,
-                idProd: product.idProd,
-                country: product.country,
-              }}
-            />
-            )*/}
           <button className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer">
             {product.statusPub === "inactive" ? <>⏳</> : <>✖️</>}️
           </button>
