@@ -23,7 +23,7 @@ const Sidenav = ({ isOpen, closeModal }) => {
 			</div>
 
 			<nav
-				className={`flex flex-col justify-between h-full w-52 p-4 pb-20 fixed z-20 bg-body_light dark:bg-body_dark md:left-0 ${menuOpenClasses} transition-all overflow-auto scrollbar-thin scrollbar-thumb-light_purple scrollbar-thumb-rounded-md`}>
+				className={`flex flex-col justify-between h-full w-52 p-4 pb-14 fixed z-20 bg-body_light dark:bg-body_dark md:left-0 ${menuOpenClasses} transition-all overflow-auto scrollbar-thin scrollbar-thumb-light_purple scrollbar-thumb-rounded-md`}>
 				<div>
 					<div className='w-36 min-w-[130px] mb-8'>
 						<Link to={routesName.home}>
@@ -50,7 +50,6 @@ const Sidenav = ({ isOpen, closeModal }) => {
 				</div>
 
 				<section className='flex flex-col gap-4'>
-					<NavLink></NavLink>
 					<NavLink
 						to={routesName.pricing}
 						className={({ isActive }) =>
@@ -68,6 +67,15 @@ const Sidenav = ({ isOpen, closeModal }) => {
 								: 'font-bold hover:text-dark_purple dark:hover:text-light_purple'
 						}>
 						How it works
+					</NavLink>
+					<NavLink
+						to={routesName.faqs}
+						className={({ isActive }) =>
+							isActive
+								? 'text-dark_purple font-bold dark:text-light_purple transition-all'
+								: 'font-bold hover:text-dark_purple dark:hover:text-light_purple'
+						}>
+						FAQ&apos;S
 					</NavLink>
 				</section>
 			</nav>

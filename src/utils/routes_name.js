@@ -17,4 +17,5 @@ export const routesName = {
 	},
 	'pricing': '/pricing',
 	'how-it-works': 'how-it-works',
+	'faqs': 'faqs',
 }
