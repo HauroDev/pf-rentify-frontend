@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
-import CloseIcon from './icons/CloseIcon'
+import ToastITem from './ToastITem'
 
 const Toast = ({
 	toastList = [],
 	position = 'top-left',
 	deleteToast,
 	autoDelete = true,
-	autoDeleteTime = 5000,
+	autoDeleteTime = 1000,
 }) => {
 	const [list, setList] = useState(toastList)
 
@@ -36,31 +36,12 @@ const Toast = ({
 		'bottom-center': 'bottom-4 left-1/2 -translate-x-1/2',
 	}
 
-	const colorsTypeClasses = {
-		success: 'bg-success',
-		danger: 'bg-danger',
-		warning: 'bg-warning-hover ',
-	}
 	const posClass = positionClasses[position] || positionClasses['top-left']
 
 	return (
 		<div className={`fixed z-50 ${posClass}`}>
 			{list.map((toast) => (
-				<div
-					key={toast.id}
-					className={`scale-up-top relative w-96 p-4 rounded-lg  ${
-						colorsTypeClasses[toast.type]
-					} shadow-lg mb-4 `}>
-					<button
-						className='absolute right-5 py-0.5 hover:scale-105'
-						onClick={() => deleteToast(toast.id)}>
-						<CloseIcon className='stroke-white' />
-					</button>
-					<div className='truncate'>
-						<h3 className='text-2xl bold mb-2 text-white'>{toast.title}</h3>
-						<p className='text-base truncate text-white'>{toast.description}</p>
-					</div>
-				</div>
+				<ToastITem key={toast.id} toast={toast} deleteToast={deleteToast} />
 			))}
 		</div>
 	)
