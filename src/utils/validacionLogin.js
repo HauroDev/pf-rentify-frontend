@@ -19,5 +19,6 @@ const validationLogin = (login) => {
     return errors;
   };
   
+  
   export default validationLogin;
 
