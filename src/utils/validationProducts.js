@@ -15,6 +15,7 @@ const validationProducts = (inputName, inputValue) => {
         
         case 'description':
             if(!inputValue){
+                
                 return 'Please enter a description';
             } else if(inputValue.length > 1200){
                 // ! esto se puede cambiar
@@ -23,18 +24,18 @@ const validationProducts = (inputName, inputValue) => {
                 return ""
             }
 
-        case 'image':
-            const fileSizeLimit = 0.5; // Tamaño límite en MB
-            const allowedFileTypes = ['image/jpeg', 'image/png'];
-            if(!inputValue){
-                return 'Please enter a file'
-            }else if (inputValue?.size > 0.5 * 1024 * 1024) {
-                return 'The file exceeds the maximum size allowed';
-            }else if (!allowedFileTypes.includes(inputValue.type)) {
-                    return 'The file is not of an allowed type';
-            }else{
-                return null;
-            }
+        // case 'image':
+        //     const fileSizeLimit = 0.5; // Tamaño límite en MB
+        //     const allowedFileTypes = ['image/jpeg', 'image/png'];
+        //     if(!inputValue){
+        //         return 'Please enter a file'
+        //     }else if (inputValue?.size > 0.5 * 1024 * 1024) {
+        //         return 'The file exceeds the maximum size allowed';
+        //     }else if (!allowedFileTypes.includes(inputValue.type)) {
+        //             return 'The file is not of an allowed type';
+        //     }else{
+        //         return null;
+        //     }
         
         case 'price':
             if(inputValue == 0){

@@ -293,12 +293,19 @@ const CreateProduct = () => {
 		if (imageToSubmit && !hasNotErrors()) {
 			try {
 				const imgURL = await saveAndGetImage(imageToSubmit, 'products')
-				
+				console.log(imgURL);
+				if(imgURL.response.status === 403){
+					console.log(imgURL.response)
+				}
 				setInputImage(imgURL)
 				const updatedProduct = { ...product, image: imgURL }
 				console.log(product)
 				console.log(updatedProduct)
-				dispatch(fetchPostProductAsync(updatedProduct))
+				const response = await dispatch(fetchPostProductAsync(updatedProduct));
+				
+				if(!response.payload){
+					throw Error(`Api error ${response?.error.message}`)
+				}
 				
 				addToast({
 					title: 'Success',
@@ -309,7 +316,7 @@ const CreateProduct = () => {
 			} catch (error) {
 				addToast({
 					title: 'Error',
-					description: `${product.name} couldn't be added \n error:${error.message}`,
+					description: `${error.message} ${product.name} couldn't be added`,
 					type: 'danger',
 				})
 			}
