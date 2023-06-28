@@ -5,12 +5,12 @@ import CardProfile from "./CardProfile";
 const UserProfile = ({ image, name, phone, membership }) => {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row justify-between">
-      <div className="w-full lg:w-1/3 bg-white dark:bg-card_dark border border-gray-300 rounded-lg m-4 lg:m-0 flex flex-col items-center">
+      <div className="w-full lg:w-1/3 bg-white dark:bg-card_dark border border-gray_dark rounded-lg m-4 lg:m-0 flex flex-col items-center">
         <div className="flex justify-center items-center mt-12">
           <img
             src={image}
             alt={name}
-            className="w-48 h-48 rounded-full aspect-w-1 aspect-h-1"
+            className="w-48 h-48 rounded-full aspect-w-1 aspect-h-1 "
           />
         </div>
         <div className="text-center">
@@ -33,7 +33,7 @@ const UserProfile = ({ image, name, phone, membership }) => {
            */}
         </div>
       </div>
-      <div className="flex-grow bg-white border dark:bg-body_dark border-gray-300 rounded-lg m-4 flex flex-col justify-center items-center">
+      <div className="flex-grow bg-white border dark:bg-body_dark border-gray_dark rounded-lg m-4 flex flex-col justify-center items-center">
         <div className="px-12">
           <CardProfile />
         </div>
