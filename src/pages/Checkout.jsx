@@ -15,33 +15,17 @@ initMercadoPago(MERCADOPAGO_PUBLIC_KEY)
 
 const Checkout = () => {
 	const cartState = useSelector((state) => state.cart)
-	const [isReadyStandard, setIsReadyStandard] = useState(false);
-	const [isReadyPremium, setIsReadyPremium] = useState(false)
+	const [isReady, setIsReady] = useState(false)
 	const [preferenceId, setPreferenceId] = useState(null)
 	const [loading, setIsLoading] = useState(false)
 	const [isHovered, setIsHovered] = useState(false)
 	const dispatch = useDispatch()
 
-	const handleOnReadyStandard = () => {
-		setIsReadyStandard(true)
-	}
-
-	const handleOnReadyPremium = () => {
+	const handleOnReady = () => {
 		setIsReady(true)
 	}
 
-	const renderCheckoutButtonStandard = (preferenceId) => {
-		if (!preferenceId) return null
-
-		return (
-			<Wallet
-				initialization={{ preferenceId: preferenceId, redirectMode: 'self' }}
-				onReady={handleOnReadyStandard}
-			/>
-		)
-	}
-
-	const renderCheckoutButtonPremium = (preferenceId) => {
+	const renderCheckoutButton = (preferenceId) => {
 		if (!preferenceId) return null
 
 		return (
@@ -51,8 +35,6 @@ const Checkout = () => {
 			/>
 		)
 	}
-
-
 
 	const handleCheckout = async () => {
 		setIsLoading(true)
