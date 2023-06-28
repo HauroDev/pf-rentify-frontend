@@ -52,7 +52,7 @@ const CardProfile = () => {
   console.log(products);
 
   return (
-    <div className="flex flex-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
       {products.length != 0 ? (
         products.map((product) => (
           <Card key={product.idProd} product={product} />
