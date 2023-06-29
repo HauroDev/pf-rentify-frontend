@@ -10,6 +10,8 @@ import Login from '../pages/Login'
 import Profile from '../pages/Profile'
 import Checkout from '../pages/Checkout'
 import CheckoutResponse from '../pages/checkout/CheckoutResponse'
+import Pricing from '../pages/Pricing'
+import HowItWork from '../pages/HowItWork'
 
 const AppRouter = () => {
 	return (
@@ -21,7 +23,11 @@ const AppRouter = () => {
 				<Route path={routesName.user['create-product']} element={<CreateProduct />} />
 				<Route path={routesName.signup} element={<SignUp />} />
 				<Route path={routesName.login} element={<Login />} />
-				<Route path={routesName.profile} element={<Profile />} />
+				<Route path={routesName.pricing} element={<Pricing />} />
+				<Route path={routesName['how-it-works']} element={<HowItWork />} />
+				<Route path={routesName.faqs} element={<FAQS />} />
+
+				<Route path={routesName.user['profile']} element={<Profile />} />
 
         <Route path={routesName.checkout.checkout} element={<Checkout />} />
         <Route
