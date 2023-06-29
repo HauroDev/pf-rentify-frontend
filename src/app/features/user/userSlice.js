@@ -38,6 +38,7 @@ export const LoginUserDB = createAsyncThunk('user/LoginUserDB', async (user) => 
 	try {
 		return await loginUser(user)
 	} catch (error) {
+		console.log(error)
 		return Promise.reject(error)
 	}
 })
@@ -46,6 +47,8 @@ export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (u
 	try {
 		return await loginGoogle(user)
 	} catch (error) {
+		console.log(error)
+
 		return Promise.reject(error)
 	}
 })
