@@ -22,6 +22,7 @@ const LoginUser = () => {
 
 	useEffect(() => {
 		if (userState.status === 'success') {
+			console.log(userState.user)
 			localStorage.setItem(
 				localStorageItems.userAuth,
 				JSON.stringify({ user: userState.user, login: true })
