@@ -2,12 +2,12 @@
 import { Link } from "react-router-dom";
 import FeaturedIcon from "../icons/FeaturedIcon";
 import { formatDate } from "../../utils/formatDate";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
 import { useSelector } from "react-redux";
-import { ToastContext } from '../../context/ToastContext'
+import { ToastContext } from "../../context/ToastContext";
 
 const CardProfile = ({ product }) => {
-  const { addToast } = useContext(ToastContext)
+  const { addToast } = useContext(ToastContext);
   //
   let idUser = null;
   idUser = useSelector((state) => state.user.user.idUser);
@@ -54,34 +54,30 @@ const CardProfile = ({ product }) => {
     }
   };
 
-	const handleInactive = () => {
-		try {
-			const cart = addToCart(product)
-			dispatch(setCart(cart))
-			addToast({
-				title: 'Success',
-				description: `${product.name} was added to the cart`,
-				type: 'success',
-			})
-		} catch (error) {
-			// console.log(error.message)
-			addToast({ title: 'Error', description: error.message, type: 'danger' })
-		}
-	}
-	const handleActive = () => {
-		try {
-			const cart = removeFromCart(product)
-			dispatch(setCart(cart))
-			addToast({
-				title: 'Warning',
-				description: `${product.name} was removed from the cart`,
-				type: 'warning',
-			})
-		} catch (error) {
-			// console.log(error.message)
-			addToast({ title: 'Error', description: error.message, type: 'error' })
-		}
-	}
+  const handleActive = () => {
+    try {
+      addToast({
+        title: "Success",
+        description: `${product.name} Tu activaras la publicacion`,
+        type: "success",
+      });
+    } catch (error) {
+      // console.log(error.message)
+      addToast({ title: "Error", description: error.message, type: "danger" });
+    }
+  };
+  const handleInactive = () => {
+    try {
+      addToast({
+        title: "Warning",
+        description: `${product.name} You will pause the publication`,
+        type: "warning",
+      });
+    } catch (error) {
+      // console.log(error.message)
+      addToast({ title: "Error", description: error.message, type: "error" });
+    }
+  };
 
   return (
     <div
@@ -143,7 +139,9 @@ const CardProfile = ({ product }) => {
           </p>
           <button
             className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer"
-            onClick={product.statusPub === "inactive" ? handleActive:handleInactive }
+            onClick={
+              product.statusPub === "inactive" ? handleActive : handleInactive
+            }
           >
             {product.statusPub === "inactive" ? <>⏳</> : <>✖️</>}️
           </button>
