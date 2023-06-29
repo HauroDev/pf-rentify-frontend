@@ -5,6 +5,7 @@ import userReducer from './features/user/userSlice'
 import categoriesReducer from './features/categories/categoriesSlice'
 import countriesReducer from './features/countries/countriesSlice'
 import cartSlice from './features/cart/cartSlice'
+import commentReducer from './features/comment/commentSlice'
 
 export const store = configureStore({
 	reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
 		categories: categoriesReducer,
 		countries: countriesReducer,
 		cart: cartSlice,
+		comment:commentReducer,
 	},
 })

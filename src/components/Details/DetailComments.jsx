@@ -8,9 +8,10 @@ import { AllComment, CreateComment } from '../../app/features/comment/commentSli
 const DetailComments = ({ idProd, commentes }) => {
   const [rating, setRating] = useState(0);
   const userState = useSelector((state) => state.user);
+  const commentState = useSelector((state) => state.comment);
   const [showRating, setShowRating] = useState(false);
   const [comment, setComment] = useState('');
-  const [commentSubmitted, setCommentSubmitted] = useState(false); // Nuevo estado
+  const [commentSubmitted, setCommentSubmitted] = useState({}); // Nuevo estado
 
   const dispatch = useDispatch();
 
@@ -21,7 +22,7 @@ const DetailComments = ({ idProd, commentes }) => {
   const handleRatingChange = (value) => {
     setRating(value);
   };
-
+  
   const handleToggleRating = () => {
     if (userState.status === 'success') {
       setShowRating(!showRating);
@@ -37,10 +38,42 @@ const DetailComments = ({ idProd, commentes }) => {
         idUser: userState.user.idUser
       };
       dispatch(CreateComment(newComment));
-      
+      setCommentSubmitted(newComment)
     }
   };
+  const StarRating = ({ rating, onRatingChange }) => {
+    return (
+      <div>
+        {[1, 2, 3, 4, 5].map((value) => (
+          <Star
+            key={value}
+            filled={value <= rating}
+            onClick={() => onRatingChange(value)}
+          />
+        ))}
+        <p>Rating: {rating}</p>
+      </div>
+    );
+  };
 
+  const Star = ({ filled, onClick }) => {
+    const starStyle = {
+      cursor: 'pointer',
+      color: filled ? 'gold' : 'gray',
+    };
+
+    return (
+      <span className='star' style={starStyle} onClick={onClick}>
+        ★
+      </span>
+    );
+  };
+
+  useEffect(() => {
+    if (commentState.status === 'success') {
+      window.location.reload();
+    }
+  }, [commentState.status]);
 
   return (
     <DeatilSectionContainer>
@@ -51,7 +84,7 @@ const DetailComments = ({ idProd, commentes }) => {
         </div>
         <div className="border border-gray-300 p-4">
           <h1 className="text-2xl font-bold mb-4">ALL COMMENTS</h1>
-          
+
           {commentes.map((comment) => (
             <div key={comment.idComment} className='border border-gray-800 p-4 mb-4'>
               <p className="text-gray-800">Comment: {comment.comment}</p>
@@ -61,7 +94,7 @@ const DetailComments = ({ idProd, commentes }) => {
           ))}
         </div>
         {userState.status === 'success' ? (
-          <button  className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg' onClick={handleToggleRating}> Dejar Review</button>
+          <button className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg' onClick={handleToggleRating}> Dejar Review</button>
         ) : (
           <button disabled>Review</button>
         )}
@@ -82,34 +115,5 @@ const DetailComments = ({ idProd, commentes }) => {
       </DetailCard>
     </DeatilSectionContainer>
   );
-};
-
-const StarRating = ({ rating, onRatingChange }) => {
-  return (
-    <div>
-      {[1, 2, 3, 4, 5].map((value) => (
-        <Star
-          key={value}
-          filled={value <= rating}
-          onClick={() => onRatingChange(value)}
-        />
-      ))}
-      <p>Rating: {rating}</p>
-    </div>
-  );
-};
-
-const Star = ({ filled, onClick }) => {
-  const starStyle = {
-    cursor: 'pointer',
-    color: filled ? 'gold' : 'gray',
-  };
-
-  return (
-    <span className='star' style={starStyle} onClick={onClick}>
-      ★
-    </span>
-  );
-};
-
+}
 export default DetailComments;

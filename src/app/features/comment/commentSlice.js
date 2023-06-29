@@ -1,35 +1,35 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { postComment, getComment } from '../../../services/commentService'
 
-const initialState={
-    comment:{},
-    login: false,
+const initialState = {
+	comment: {},
+	login: false,
 	status: 'idle',
 	error: null,
 }
 
-export const CreateComment= createAsyncThunk('',async(comment)=>{
-    try {
-        console.log(comment)
-        return await postComment(comment)
+export const CreateComment = createAsyncThunk('', async (comment) => {
+	try {
+		console.log(comment)
+		return await postComment(comment)
 
-    } catch (error) {
-        return Promise.reject(error)
-    }
+	} catch (error) {
+		return Promise.reject(error)
+	}
 })
 
 export const AllComment = createAsyncThunk('allComment', async (comment) => {
-    try {
-      console.log(comment);
-      return await getComment(comment);
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  });
+	try {
+		console.log(comment);
+		return await getComment(comment);
+	} catch (error) {
+		throw new Error(error.message);
+	}
+});
 
 
 
-const userSlice = createSlice({
+const commentSlice = createSlice({
 	name: 'comment',
 	initialState,
 	reducers: {
@@ -60,7 +60,7 @@ const userSlice = createSlice({
 				state.status = 'error'
 				state.error = action.error.message
 			})
-            // all comentarios
+			// all comentarios
 			.addCase(AllComment.pending, (state) => {
 				state.status = 'loading'
 			})
@@ -78,8 +78,8 @@ const userSlice = createSlice({
 	},
 })
 // exportacion de actions
-export const { resetComment,setComment } = userSlice.actions
+export const { resetComment, setComment } = commentSlice.actions
 
-export default userSlice.reducer
+export default commentSlice.reducer
 
 
