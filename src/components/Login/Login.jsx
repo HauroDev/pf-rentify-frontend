@@ -82,7 +82,6 @@ const LoginUser = () => {
 								onchange={handleChange}
 							/>
 							<div className=' text-red-700'>{error.email && <p>{error.email}</p>}</div>
-
 						</div>
 						<div className='relative '>
 							<label>Password</label>
@@ -94,7 +93,6 @@ const LoginUser = () => {
 								onchange={handleChange}
 							/>
 							<div className=' text-red-700'>{error?.password && <p>{error?.password}</p>}</div>
-
 						</div>
 						<div className='relative text-center py-3'>
 							<button
