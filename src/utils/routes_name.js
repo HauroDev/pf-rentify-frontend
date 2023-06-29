@@ -1,14 +1,14 @@
 export const routesName = {
-	'home': '/',
-	'detail_product': '/product/:id',
-	'search_products': '/search',
-	'signup': '/signup',
-	'login': '/login',
-	'user': {
+	home: '/',
+	detail_product: '/product/:id',
+	search_products: '/search',
+	signup: '/signup',
+	login: '/login',
+	user: {
 		'create-product': '/user/create-product',
-
-		'profile': '/user/profile',
+		'profile':'/profile',
 	},
+
 	'checkout': {
 		checkout: '/checkout',
 		error: '/checkout/error',
@@ -17,4 +17,6 @@ export const routesName = {
 	},
 	'pricing': '/pricing',
 	'how-it-works': 'how-it-works',
+	'faqs': 'faqs',
 }
+

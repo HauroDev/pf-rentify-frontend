@@ -12,6 +12,7 @@ import Checkout from '../pages/Checkout'
 import CheckoutResponse from '../pages/checkout/CheckoutResponse'
 import Pricing from '../pages/Pricing'
 import HowItWork from '../pages/HowItWork'
+import FAQS from '../pages/FAQS'
 
 const AppRouter = () => {
 	return (
@@ -25,16 +26,26 @@ const AppRouter = () => {
 				<Route path={routesName.login} element={<Login />} />
 				<Route path={routesName.pricing} element={<Pricing />} />
 				<Route path={routesName['how-it-works']} element={<HowItWork />} />
+				<Route path={routesName.faqs} element={<FAQS />} />
 
 				<Route path={routesName.user['profile']} element={<Profile />} />
 
-				<Route path={routesName.checkout.checkout} element={<Checkout />} />
-				<Route path={routesName.checkout.error} element={<CheckoutResponse />} />
-				<Route path={routesName.checkout.pending} element={<CheckoutResponse />} />
-				<Route path={routesName.checkout.successfull} element={<CheckoutResponse />} />
-			</Route>
-		</Routes>
-	)
-}
+        <Route path={routesName.checkout.checkout} element={<Checkout />} />
+        <Route
+          path={routesName.checkout.error}
+          element={<CheckoutResponse />}
+        />
+        <Route
+          path={routesName.checkout.pending}
+          element={<CheckoutResponse />}
+        />
+        <Route
+          path={routesName.checkout.successfull}
+          element={<CheckoutResponse />}
+        />
+      </Route>
+    </Routes>
+  );
+};
 
-export default AppRouter
+export default AppRouter;
