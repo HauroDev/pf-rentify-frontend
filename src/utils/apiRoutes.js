@@ -11,3 +11,5 @@ export const USER_API = `${API_URL}/user`;
 export const COUNTRIES_API = `${API_URL}/countries`;
 
 export const LOGIN_API = `${API_URL}/login-google`;
+
+export const COMMENT_API=`${API_URL}/comment`
