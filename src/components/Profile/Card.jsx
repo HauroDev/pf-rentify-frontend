@@ -4,8 +4,10 @@ import FeaturedIcon from "../icons/FeaturedIcon";
 import { formatDate } from "../../utils/formatDate";
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+import { ToastContext } from '../../context/ToastContext'
 
 const CardProfile = ({ product }) => {
+  const { addToast } = useContext(ToastContext)
   //
   let idUser = null;
   idUser = useSelector((state) => state.user.user.idUser);
@@ -51,6 +53,35 @@ const CardProfile = ({ product }) => {
       return ["No Category"];
     }
   };
+
+	const handleInactive = () => {
+		try {
+			const cart = addToCart(product)
+			dispatch(setCart(cart))
+			addToast({
+				title: 'Success',
+				description: `${product.name} was added to the cart`,
+				type: 'success',
+			})
+		} catch (error) {
+			// console.log(error.message)
+			addToast({ title: 'Error', description: error.message, type: 'danger' })
+		}
+	}
+	const handleActive = () => {
+		try {
+			const cart = removeFromCart(product)
+			dispatch(setCart(cart))
+			addToast({
+				title: 'Warning',
+				description: `${product.name} was removed from the cart`,
+				type: 'warning',
+			})
+		} catch (error) {
+			// console.log(error.message)
+			addToast({ title: 'Error', description: error.message, type: 'error' })
+		}
+	}
 
   return (
     <div
@@ -112,32 +143,7 @@ const CardProfile = ({ product }) => {
           </p>
           <button
             className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer"
-            onClick={() => {
-              if (product.statusPub === "inactive") {
-                // Cambiar el estado del producto a "active"
-                //product.statusPub = "active";
-                // Mostrar una alerta
-                {
-                  <div role="alert">
-                    <div class="bg-amber-500 text-white font-bold rounded-t px-4 py-2">
-                      Cuidado!
-                    </div>
-                    <div class="border border-t-0 border-amber-400 rounded-b bg-red-100 px-4 py-3 text-amber-700">
-                      <p>Pondras en pausa la publicación</p>
-                    </div>
-                  </div>;
-                }
-              } else {
-                <button role="alert">
-                  <div class="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                    Danger
-                  </div>
-                  <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                    <p>Something not ideal might be happening.</p>
-                  </div>
-                </button>;
-              }
-            }}
+            onClick={product.statusPub === "inactive" ? handleActive:handleInactive }
           >
             {product.statusPub === "inactive" ? <>⏳</> : <>✖️</>}️
           </button>
