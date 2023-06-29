@@ -56,22 +56,29 @@ export const loginGoogle = async () => {
   };
 
 	// aqui va la route y la logica del login del back
-
-	return LogUser
+  const { data } = await axios.post(LOGIN_API ,
+    LogUser
+  );
+  console.log(data);
+  return data;
+	
 }
 
 export const loginUser = async ({ email, password }) => {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-	const LogUser = {
-		email: user.email,
-		name: user.displayName || '',
-		image: user.photoURL,
-		phone: user.phoneNumber,
-		uid: user.uid,
-	}
-	return LogUser
-}
+  const LogUser = {
+    email: user.email,
+    uid: user.uid,
+  };
+
+  // aqui va la route y la logica del login del back
+  const { data } = await axios.post(
+    LOGIN_API, LogUser
+  );
+  console.log(data);
+  return data;
+};
 
 export const logoutUser = async () => {
 	await signOut(auth)

@@ -5,7 +5,7 @@ import DetailCard from './DetailCard';
 import DeatilSectionContainer from './DeatilSectionContainer';
 import { AllComment, CreateComment } from '../../app/features/comment/commentSlice';
 
-const DetailComments = ({ idProd, commentes }) => {
+const DetailComments = ({ idProd, commentes, star }) => {
   const [rating, setRating] = useState(0);
   const userState = useSelector((state) => state.user);
   const commentState = useSelector((state) => state.comment);
@@ -22,7 +22,7 @@ const DetailComments = ({ idProd, commentes }) => {
   const handleRatingChange = (value) => {
     setRating(value);
   };
-  
+
   const handleToggleRating = () => {
     if (userState.status === 'success') {
       setShowRating(!showRating);
@@ -79,8 +79,28 @@ const DetailComments = ({ idProd, commentes }) => {
     <DeatilSectionContainer>
       <DetailCard>
         <div className='flex items-center mb-8'>
-          <ReviewIcon className='w-8 h-8 mr-8' />
-          <h2 className='text-3xl md:text-4xl'>Reviews</h2>
+          <div className='flex flex-col'>
+            <ReviewIcon className='w-8 h-8 mr-8' />
+            <h2 className='text-3xl md:text-4xl'>Reviews</h2>
+            <div>
+              <span className='star text-black flex items-center'>
+                <span className='text-yellow-400'>★★★★★</span> .....{star.s5}
+              </span>
+              <span className='star text-black flex items-center'>
+                <span className='text-yellow-400'>★★★★★</span> ......{star.s4}
+              </span>
+              <span className='star text-black flex items-center'>
+                <span className='text-yellow-400 '>★★★★★</span> .......  {star.s3}
+              </span>
+              <span className='star text-black flex items-center'>
+                <span className='text-yellow-400'>★★★★★</span> .......{star.s2}
+              </span>
+              <span className='star text-black flex items-center'>
+                <span className='text-yellow-400'>★★★★★</span> .........{star.s1}
+              </span>
+            </div>
+
+          </div>
         </div>
         <div className="border border-gray-300 p-4">
           <h1 className="text-2xl font-bold mb-4">ALL COMMENTS</h1>
