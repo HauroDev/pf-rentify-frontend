@@ -1,25 +1,30 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { initMercadoPago } from '@mercadopago/sdk-react'
 import { MERCADOPAGO_PUBLIC_KEY } from '../mercadopacgo.config'
 import { Wallet } from '@mercadopago/sdk-react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { routesName } from '../utils/routes_name'
 import { postOrdenPago } from '../services/MercadoService'
 import Loader from '../components/Loader'
 import { addToCart, deleteAllItemsFromCart, subFromCart } from '../services/cartService'
 import { setCart, resetCart } from '../app/features/cart/cartSlice'
 import DeleteIcon from '../components/icons/DeleteIcon'
+import { ToastContext } from '../context/ToastContext'
+import { localStorageItems } from '../utils/localStorageItems'
 
 initMercadoPago(MERCADOPAGO_PUBLIC_KEY)
 
 const Checkout = () => {
 	const cartState = useSelector((state) => state.cart)
+	// const userState = useSelector((state) => state.user)
 	const [isReady, setIsReady] = useState(false)
 	const [preferenceId, setPreferenceId] = useState(null)
 	const [loading, setIsLoading] = useState(false)
 	const [isHovered, setIsHovered] = useState(false)
+	const { addToast } = useContext(ToastContext)
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
 	const handleOnReady = () => {
 		setIsReady(true)
@@ -43,11 +48,24 @@ const Checkout = () => {
 			unit_price: item.price, //number
 			quantity: item.quantity, //number
 		}))
+
+		const userAuth = localStorage.getItem(localStorageItems.userAuth)
+			? JSON.parse(localStorage.getItem(localStorageItems.userAuth))
+			: { loggin: false, user: {} }
+		console.log(userAuth.user)
 		try {
-			const data = await postOrdenPago({ items: arrayItems })
+			const data = await postOrdenPago({ items: arrayItems, idUser: userAuth.user.idUser })
 			setPreferenceId(data.preferenceId)
 		} catch (error) {
 			console.log(error)
+			if (error.response.data.error === 'user not exist') {
+				addToast({
+					title: 'Error',
+					description: 'Please, login',
+					type: 'danger',
+				})
+				navigate(routesName.login)
+			}
 		} finally {
 			setIsLoading(false)
 		}
