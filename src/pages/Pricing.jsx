@@ -6,7 +6,7 @@ import handDiamond from '../assets/image/hand-diamond.png';
 import securePayment from '../assets/image/secure-payment.png';
 import membershipIcon from '../assets/image/membership-icon.png'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { membershipService } from '../services/membershipService';
 
@@ -17,6 +17,7 @@ import { Wallet } from '@mercadopago/sdk-react';
 import Loader from '../components/Loader';
 import { useNavigate } from 'react-router';
 
+
 initMercadoPago(MERCADOPAGO_PUBLIC_KEY);
 
 const Pricing = () => {
@@ -25,6 +26,7 @@ const Pricing = () => {
 	const [isReady, setIsReady] = useState(false);
 	const [mPUrl, setMPUrl] = useState(null);
 	const [loading, setIsLoading] = useState(false);
+	const [idUser,setIdUser] = useState("");
 
 	console.log(user);
 
@@ -42,30 +44,30 @@ const Pricing = () => {
 	// 		/>
 	// 	)
 	// }
+	useEffect(()=>{
+		if(user){
+			setIdUser(user.idUser)
+		}
+	},[user])
 
-	const handleClick = async () => {
+	const handleClick = async (e) => {
 		setIsLoading(true)
 		const email = user.email;
-		const reason = user.membership === "standard" ? "premium":"standard";
+		const type = e.target.value;
 		const backURL = "https://pf-rentify-frontend.vercel.app";
-		const price =  user.membership === "standard" ? 100:0;
+		const price =  e.target.value === "premium" ? 100:0;
 		
-		console.log({
-			reason: reason,
+		const paymentInfo = {
+			reason: `Suscripción mensual ${type}`,
 			price: price,
-			//email: email,
-			email : "test_user_533353129@testuser.com",
-			backUrl: backURL
-		})
+			type:type,
+			idUser: idUser
+		}
+		
+		console.log(paymentInfo)
+		console.log(type);
 		try {
-			const data = await membershipService({
-				reason: reason,
-				price: price,
-				//email: email,
-				email : "test_user_533353129@testuser.com",
-				backUrl: backURL,
-				//type: ""
-			});
+			const data = await membershipService(paymentInfo);
 			console.log(data);
 			setMPUrl(data.url)
 			if(data.url){
@@ -116,11 +118,12 @@ const Pricing = () => {
 								<li>Enjoy Rent-ify for free.</li>
 							</ul>
 							{
-								user.membership === "premium"
+								user.membership === "premium" || user.membership === "basic"
 								? 
 								(<button 
 									onClick={handleClick} 
-									className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>
+									className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '
+									value="standard">
 									Subscribe	
 									</button>)
 								: null
@@ -139,11 +142,12 @@ const Pricing = () => {
 								<li>Price: $X.XX per month</li>
 							</ul>
 							{
-								user.membership === "standard"
+								user.membership === "standard" || user.membership === "basic"
 								? 
 								(<button 
 									onClick={handleClick} 
-									className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>
+									className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '
+									value="premium">
 									Subscribe
 									</button>)
 								: null
