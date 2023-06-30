@@ -15,14 +15,15 @@ import { MERCADOPAGO_PUBLIC_KEY } from '../mercadopacgo.config';
 import { Wallet } from '@mercadopago/sdk-react';
 
 import Loader from '../components/Loader';
+import { useNavigate } from 'react-router';
 
 initMercadoPago(MERCADOPAGO_PUBLIC_KEY);
 
 const Pricing = () => {
 	const {user} = useSelector(state=>state.user);
-	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [isReady, setIsReady] = useState(false);
-	const [preferenceId, setPreferenceId] = useState(null);
+	const [mPUrl, setMPUrl] = useState(null);
 	const [loading, setIsLoading] = useState(false);
 
 	console.log(user);
@@ -31,16 +32,16 @@ const Pricing = () => {
 		setIsReady(true)
 	}
 
-	const renderCheckoutButton = (preferenceId) => {
-		if (!preferenceId) return null
-
-		return (
-			<Wallet
-				initialization={{ preferenceId: preferenceId, redirectMode: 'self' }}
-				onReady={handleOnReady}
-			/>
-		)
-	}
+	// const renderCheckoutButton = (url) => {
+	// 	if (!url) return null
+	// 	console.log(url);
+	// 	return (
+	// 		<Wallet
+	// 			initialization={{ preferenceId: url, redirectMode: 'self' }}
+	// 			onReady={handleOnReady}
+	// 		/>
+	// 	)
+	// }
 
 	const handleClick = async () => {
 		setIsLoading(true)
@@ -62,10 +63,14 @@ const Pricing = () => {
 				price: price,
 				//email: email,
 				email : "test_user_533353129@testuser.com",
-				backUrl: backURL
+				backUrl: backURL,
+				//type: ""
 			});
 			console.log(data);
-			setPreferenceId(data.url)
+			setMPUrl(data.url)
+			if(data.url){
+				window.location.href = data.url;
+			}
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -111,21 +116,17 @@ const Pricing = () => {
 								<li>Enjoy Rent-ify for free.</li>
 							</ul>
 							{
-								user
+								user.membership === "premium"
 								? 
-									!preferenceId && !loading 
-									?(<button 
-										onClick={handleClick} 
-										className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>
-											Subscribe
+								(<button 
+									onClick={handleClick} 
+									className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>
+									Subscribe	
 									</button>)
-									: loading ?
-									(<Loader/>):
-									("")
 								: null
 
 							}
-							{renderCheckoutButton(preferenceId)}
+							
 						</div>
 
 						<div className='bg-gray_red p-5'>
@@ -138,21 +139,17 @@ const Pricing = () => {
 								<li>Price: $X.XX per month</li>
 							</ul>
 							{
-								user
+								user.membership === "standard"
 								? 
-									!preferenceId && !loading 
-									?(<button 
-										onClick={handleClick} 
-										className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>
-											Subscribe
+								(<button 
+									onClick={handleClick} 
+									className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '>
+									Subscribe
 									</button>)
-									: loading ?
-									(<Loader/>):
-									("")
 								: null
 
 							}
-							{renderCheckoutButton(preferenceId)}
+							{/* {renderCheckoutButton(mPUrl)} */}
 						</div>
 					</div>
 					<div><h3>Choose the membership plan that suits your needs and start enjoying the benefits of Rent-ify today!</h3></div>

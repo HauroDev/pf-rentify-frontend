@@ -14,6 +14,7 @@ import Pricing from '../pages/Pricing'
 import HowItWork from '../pages/HowItWork'
 import FAQS from '../pages/FAQS'
 
+
 const AppRouter = () => {
 	return (
 		<Routes>
