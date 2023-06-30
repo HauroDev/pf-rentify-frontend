@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReviewIcon from '../../components/icons/ReviewIcon';
 import DetailCard from './DetailCard';
 import DeatilSectionContainer from './DeatilSectionContainer';
-import {  CreateComment } from '../../app/features/comment/commentSlice';
+import { CreateComment } from '../../app/features/comment/commentSlice';
 
 const DetailComments = ({ idProd, commentes, star, average }) => {
   const [rating, setRating] = useState(0);
@@ -30,7 +30,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
   };
 
   const handleSubmit = () => {
-    if (userState.status === 'success' && rating !== 0 && comment !== '') {
+    if (userState.status === 'success' && rating !== 0) {
       const newComment = {
         comment: comment,
         puntuation: rating,
@@ -87,25 +87,24 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
               </h2>
               <div className='grid grid-cols-2 gap-4 py-4'>
                 <div className='col-span-1 flex flex-col items-center justify-stard'>
-                  <span className='text-yellow-400 text-5xl '>★</span>
-                  <span className='text-3xl md:text-4xl text-black dark:text-white'>{average !== null ? average.toFixed(1) : '0.0'}</span>
+                  {average !== null && (
+                    <>
+                      <span className='text-yellow-400 text-5xl'>{getStars(average)}</span>
+                      <span className='text-3xl md:text-4xl text-black dark:text-white'>
+                        {average.toFixed(1)}
+                      </span>
+                    </>
+                  )}
                 </div>
                 <div className='col-span-1'>
-                  <span className='star text-black flex items-center dark:text-white'>
-                    <span className='text-yellow-400'>5 ★</span> <span className='flex-grow'>------------------------</span>{star.s5}
-                  </span>
-                  <span className='star text-black flex items-center dark:text-white'>
-                    <span className='text-yellow-400'>4 ★</span> <span className='flex-grow'>------------------------</span>{star.s4}
-                  </span>
-                  <span className='star text-black flex items-center dark:text-white'>
-                    <span className='text-yellow-400'>3 ★</span> <span className='flex-grow'>------------------------</span>{star.s3}
-                  </span>
-                  <span className='star text-black flex items-center dark:text-white'>
-                    <span className='text-yellow-400'>2 ★</span> <span className='flex-grow'>------------------------</span>{star.s2}
-                  </span>
-                  <span className='star text-black flex items-center dark:text-white'>
-                    <span className='text-yellow-400'>1 ★</span> <span className='flex-grow'>------------------------</span>{star.s1}
-                  </span>
+                  {[5, 4, 3, 2, 1].map((num) => (
+                    <span className='star text-black flex items-center dark:text-white' key={num}>
+                      <span className='text-black'>{num} </span>
+                      <span className='text-yellow-400'>★</span>
+                      <span className='flex-grow'>------------------------</span>
+                      {star['s' + num]}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
@@ -148,7 +147,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
                 </p>
               </div>
               <div className="col-span-2">
-                <div className="max-h-32 overflow-hidden">
+                <div className="overflow-hidden">
                   <p className="text-gray-800 dark:text-white" style={{ wordBreak: 'break-word' }}>{comment.comment}</p>
                 </div>
               </div>
@@ -164,3 +163,16 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
   );
 }
 export default DetailComments;
+
+function getStars(average) {
+  const starCount = Math.floor(average); // Redondea hacia abajo al número entero más cercano
+  const halfStar = average % 1 !== 0; // Verifica si hay media estrella
+
+  let stars = '★'.repeat(starCount); // Crea una cadena de caracteres con la cantidad de estrellas completas
+
+  if (halfStar) {
+    stars += '✬'; // Agrega media estrella a la cadena
+  }
+
+  return stars;
+}
