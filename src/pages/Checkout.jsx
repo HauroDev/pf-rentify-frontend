@@ -44,7 +44,9 @@ const Checkout = () => {
 	const handleCheckout = async () => {
 		setIsLoading(true)
 		const arrayItems = cartState.cart.items.map((item) => ({
+			id: item.idProd,
 			title: item.name,
+			description: item.description || item.name,
 			unit_price: item.price, //number
 			quantity: item.quantity, //number
 		}))
