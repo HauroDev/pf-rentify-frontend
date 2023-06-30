@@ -20,9 +20,7 @@ export const CreatePostUser = createAsyncThunk('user/CreatPostUser', async (user
 		console.log(user)
 		return await registerUser(user)
 	} catch (error) {
-		// alert('error Create1')
-		console.log(error.code)
-		console.log(error.message)
+		console.log(error)
 		return Promise.reject(error)
 	}
 })
@@ -40,7 +38,6 @@ export const LoginUserDB = createAsyncThunk('user/LoginUserDB', async (user) => 
 	try {
 		return await loginUser(user)
 	} catch (error) {
-	//	alert('error login1')
 		console.log(error)
 		return Promise.reject(error)
 	}
@@ -50,8 +47,8 @@ export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (u
 	try {
 		return await loginGoogle(user)
 	} catch (error) {
-	//	alert(error)
 		console.log(error)
+
 		return Promise.reject(error)
 	}
 })
@@ -60,7 +57,6 @@ export const LogoutUser = createAsyncThunk('user/LogoutUser', async () => {
 	try {
 		await logoutUser()
 	} catch (error) {
-	//	alert('error logout')
 		return Promise.reject(error)
 	}
 })

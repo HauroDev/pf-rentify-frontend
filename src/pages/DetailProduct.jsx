@@ -78,7 +78,7 @@ const DetailProduct = () => {
 
 								<DetailOwner user={state.product.users[0]} />
 
-								<DetailComments />
+								<DetailComments idProd={state.product.idProd} commentes={state.product.reviews.comments} star={state.product.reviews.stars} average={state.product.reviews.average}  />
 							</div>
 
 							<div className='hidden xl:block sticky top-12 h-full bg-white dark:bg-card_dark rounded-lg'>

@@ -31,13 +31,22 @@ const AppRouter = () => {
 
 				<Route path={routesName.user['profile']} element={<Profile />} />
 
-				<Route path={routesName.checkout.checkout} element={<Checkout />} />
-				<Route path={routesName.checkout.error} element={<CheckoutResponse />} />
-				<Route path={routesName.checkout.pending} element={<CheckoutResponse />} />
-				<Route path={routesName.checkout.successfull} element={<CheckoutResponse />} />
-			</Route>
-		</Routes>
-	)
-}
+        <Route path={routesName.checkout.checkout} element={<Checkout />} />
+        <Route
+          path={routesName.checkout.error}
+          element={<CheckoutResponse />}
+        />
+        <Route
+          path={routesName.checkout.pending}
+          element={<CheckoutResponse />}
+        />
+        <Route
+          path={routesName.checkout.successfull}
+          element={<CheckoutResponse />}
+        />
+      </Route>
+    </Routes>
+  );
+};
 
-export default AppRouter
+export default AppRouter;
