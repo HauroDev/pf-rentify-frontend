@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import FeaturedIcon from "../icons/FeaturedIcon";
 import { formatDate } from "../../utils/formatDate";
 import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext } from "react";
 import { useSelector } from "react-redux";
 import { ToastContext } from '../../context/ToastContext'
 import {updateProductstatusPub} from "../../services/profile"
+import { ToastContext } from "../../context/ToastContext";
+
 const CardProfile = ({ product }) => {
-  const { addToast } = useContext(ToastContext)
+  const { addToast } = useContext(ToastContext);
   //
 
  const  idUser = useSelector((state) => state.user.user.idUser);
@@ -144,7 +147,9 @@ const CardProfile = ({ product }) => {
           </p>
           <button
             className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer"
-            onClick={product.statusPub === "inactive" ? handleActive:handleInactive }
+            onClick={
+              product.statusPub === "inactive" ? handleActive : handleInactive
+            }
           >
             {product.statusPub === "inactive" ? <>⏳</> : <>✖️</>}️
           </button>
