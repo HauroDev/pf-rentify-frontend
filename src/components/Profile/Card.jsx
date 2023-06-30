@@ -2,15 +2,15 @@
 import { Link } from "react-router-dom";
 import FeaturedIcon from "../icons/FeaturedIcon";
 import { formatDate } from "../../utils/formatDate";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
 import { useSelector } from "react-redux";
 import { ToastContext } from '../../context/ToastContext'
-
+import {updateProductstatusPub} from "../../services/profile"
 const CardProfile = ({ product }) => {
   const { addToast } = useContext(ToastContext)
   //
-  let idUser = null;
-  idUser = useSelector((state) => state.user.user.idUser);
+
+ const  idUser = useSelector((state) => state.user.user.idUser);
   let idProdIdUser = 0;
   if (idProdIdUser == 0) idProdIdUser = product.UserProduct.idUser;
 
@@ -54,32 +54,33 @@ const CardProfile = ({ product }) => {
     }
   };
 
-	const handleInactive = () => {
+	const handleActive = async (idUser, statusPub) => {
+    
 		try {
-			const cart = addToCart(product)
-			dispatch(setCart(cart))
+      await updateProductstatusPub(idUser,"active")
 			addToast({
 				title: 'Success',
-				description: `${product.name} was added to the cart`,
+				description: `${product.name} 
+        was activated`,
 				type: 'success',
 			})
 		} catch (error) {
 			// console.log(error.message)
-			addToast({ title: 'Error', description: error.message, type: 'danger' })
+			addToast({ title: 'Error', description: error.message, type: 'warning' })
 		}
 	}
-	const handleActive = () => {
+	const handleInactive = async (idUser, statusPub) => {
+    
 		try {
-			const cart = removeFromCart(product)
-			dispatch(setCart(cart))
+      await updateProductstatusPub(idUser,"inactive")
 			addToast({
 				title: 'Warning',
-				description: `${product.name} was removed from the cart`,
+				description: `${product.name} was paused`,
 				type: 'warning',
 			})
 		} catch (error) {
 			// console.log(error.message)
-			addToast({ title: 'Error', description: error.message, type: 'error' })
+			addToast({ title: 'Error', description: error.message, type: 'warning' })
 		}
 	}
 

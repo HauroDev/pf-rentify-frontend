@@ -15,10 +15,12 @@ const Profile = () => {
   return (
     <>
       <UserProfile
+      idUser={user.idUser}
         image={user.image}
-        name={user.name}
+        //name={user.name}
         phone={user.phone}
-        membership={user.membership}
+        email={user.email}
+        membership={user.membership} 
       />
     </>
   );
