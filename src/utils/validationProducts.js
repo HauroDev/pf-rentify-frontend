@@ -5,7 +5,7 @@ const validationProducts = (inputName, inputValue) => {
         case 'name':
             if(!inputValue){
                 return "Please enter a product name";
-            } else if (!/^[a-zA-Z\s]+$/.test(inputValue)) {
+            } else if (!/^[a-zA-Z0-9ñ,-\s]+$/.test(inputValue)) {
                 return 'Product name can only contain letters';
             } else if(inputValue.length > 40 || inputValue.length<3){
                 return 'Product name must be between 3 and 40 characters';
@@ -15,26 +15,27 @@ const validationProducts = (inputName, inputValue) => {
         
         case 'description':
             if(!inputValue){
+                
                 return 'Please enter a description';
-            } else if(inputValue.length > 300){
+            } else if(inputValue.length > 1200){
                 // ! esto se puede cambiar
-                return 'Description can have a maximum of 300 characters'
+                return 'Description can have a maximum of 1200 characters'
             } else{
                 return ""
             }
 
-        case 'image':
-            const fileSizeLimit = 0.5; // Tamaño límite en MB
-            const allowedFileTypes = ['image/jpeg', 'image/png'];
-            if(!inputValue){
-                return 'Please enter a file'
-            }else if (inputValue?.size > 0.5 * 1024 * 1024) {
-                return 'The file exceeds the maximum size allowed';
-            }else if (!allowedFileTypes.includes(inputValue.type)) {
-                    return 'The file is not of an allowed type';
-            }else{
-                return null;
-            }
+        // case 'image':
+        //     const fileSizeLimit = 0.5; // Tamaño límite en MB
+        //     const allowedFileTypes = ['image/jpeg', 'image/png'];
+        //     if(!inputValue){
+        //         return 'Please enter a file'
+        //     }else if (inputValue?.size > 0.5 * 1024 * 1024) {
+        //         return 'The file exceeds the maximum size allowed';
+        //     }else if (!allowedFileTypes.includes(inputValue.type)) {
+        //             return 'The file is not of an allowed type';
+        //     }else{
+        //         return null;
+        //     }
         
         case 'price':
             if(inputValue == 0){

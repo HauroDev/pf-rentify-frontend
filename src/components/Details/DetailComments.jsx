@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReviewIcon from '../../components/icons/ReviewIcon';
 import DetailCard from './DetailCard';
 import DeatilSectionContainer from './DeatilSectionContainer';
-import { AllComment, CreateComment } from '../../app/features/comment/commentSlice';
+import { CreateComment } from '../../app/features/comment/commentSlice';
 
-const DetailComments = ({ idProd, commentes, star }) => {
+const DetailComments = ({ idProd, commentes, star, average }) => {
   const [rating, setRating] = useState(0);
   const userState = useSelector((state) => state.user);
   const commentState = useSelector((state) => state.comment);
@@ -30,7 +30,7 @@ const DetailComments = ({ idProd, commentes, star }) => {
   };
 
   const handleSubmit = () => {
-    if (userState.status === 'success') {
+    if (userState.status === 'success' && rating !== 0) {
       const newComment = {
         comment: comment,
         puntuation: rating,
@@ -78,47 +78,45 @@ const DetailComments = ({ idProd, commentes, star }) => {
   return (
     <DeatilSectionContainer>
       <DetailCard>
-        <div className='flex items-center mb-8'>
-          <div className='flex flex-col'>
-            <ReviewIcon className='w-8 h-8 mr-8' />
-            <h2 className='text-3xl md:text-4xl'>Reviews</h2>
-            <div>
-              <span className='star text-black flex items-center'>
-                <span className='text-yellow-400'>★★★★★</span> .....{star.s5}
-              </span>
-              <span className='star text-black flex items-center'>
-                <span className='text-yellow-400'>★★★★★</span> ......{star.s4}
-              </span>
-              <span className='star text-black flex items-center'>
-                <span className='text-yellow-400 '>★★★★★</span> .......  {star.s3}
-              </span>
-              <span className='star text-black flex items-center'>
-                <span className='text-yellow-400'>★★★★★</span> .......{star.s2}
-              </span>
-              <span className='star text-black flex items-center'>
-                <span className='text-yellow-400'>★★★★★</span> .........{star.s1}
-              </span>
+        <div className='items-center mb-8'>
+          <div>
+            <div className='flex flex-col'>
+              <ReviewIcon className='w-8 h-8 mr-8' />
+              <h2 className='text-3xl md:text-4xl'>
+                Reviews
+              </h2>
+              <div className='grid grid-cols-2 gap-4 py-4'>
+                <div className='col-span-1 flex flex-col items-center justify-stard'>
+                  {average !== null && (
+                    <>
+                      <span className='text-yellow-400 text-5xl'>{getStars(average)}</span>
+                      <span className='text-3xl md:text-4xl text-black dark:text-white'>
+                        {average.toFixed(1)}
+                      </span>
+                    </>
+                  )}
+                </div>
+                <div className='col-span-1'>
+                  {[5, 4, 3, 2, 1].map((num) => (
+                    <span className='star text-black flex items-center dark:text-white' key={num}>
+                      <span className='text-black'>{num} </span>
+                      <span className='text-yellow-400'>★</span>
+                      <span className='flex-grow'>------------------------</span>
+                      {star['s' + num]}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
-
           </div>
         </div>
-        <div className="border border-gray-300 p-4">
-          <h1 className="text-2xl font-bold mb-4">ALL COMMENTS</h1>
-
-          {commentes.map((comment) => (
-            <div key={comment.idComment} className='border border-gray-800 p-4 mb-4'>
-              <p className="text-gray-800">Comment: {comment.comment}</p>
-              <p className="text-gray-600">Puntuación: {comment.puntuation}</p>
-              <p className="text-gray-600">Usuario: {comment.user.name}</p>
-            </div>
-          ))}
+        <div className='py-6'>
+          {userState.status === 'success' ? (
+            <button className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg ' onClick={handleToggleRating}> Dejar Review</button>
+          ) : (
+            <button disabled>Review</button>
+          )}
         </div>
-        {userState.status === 'success' ? (
-          <button className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg' onClick={handleToggleRating}> Dejar Review</button>
-        ) : (
-          <button disabled>Review</button>
-        )}
-
         {showRating && (
           <div>
             <StarRating rating={rating} onRatingChange={handleRatingChange} />
@@ -128,12 +126,53 @@ const DetailComments = ({ idProd, commentes, star }) => {
               placeholder='Write a review...'
               rows={4}
               cols={50}
+              className='w-full resize-none bg-white dark:text-black focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
-            <button className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg' onClick={handleSubmit}>Submit</button>
+            <div className='py-2'>
+              <button className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg' onClick={handleSubmit}>Submit</button>
+            </div>
           </div>
         )}
+
+        <div className="border border-gray-300 p-4">
+          <h1 className="text-2xl font-bold mb-4">ALL COMMENTS</h1>
+
+          {commentes.map((comment) => (
+            <div key={comment.idComment} className='border border-gray-800 p-4 mb-4'>
+              <div className="col-span-1 flex items-end justify-end">
+                <p className="text-gray-600 dark:text-white">
+                  {Array.from({ length: comment.puntuation }, (_, index) => (
+                    <span key={index} className="text-yellow-400">★</span>
+                  ))}
+                </p>
+              </div>
+              <div className="col-span-2">
+                <div className="overflow-hidden">
+                  <p className="text-gray-800 dark:text-white" style={{ wordBreak: 'break-word' }}>{comment.comment}</p>
+                </div>
+              </div>
+              <div className="col-span-1 flex items-start justify-end">
+                <p className="text-right text-gray-600 dark:text-white dark:text-opacity-50 text-opacity-50">{comment.user.name}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
       </DetailCard>
     </DeatilSectionContainer>
   );
 }
 export default DetailComments;
+
+function getStars(average) {
+  const starCount = Math.floor(average); // Redondea hacia abajo al número entero más cercano
+  const halfStar = average % 1 !== 0; // Verifica si hay media estrella
+
+  let stars = '★'.repeat(starCount); // Crea una cadena de caracteres con la cantidad de estrellas completas
+
+  if (halfStar) {
+    stars += '✬'; // Agrega media estrella a la cadena
+  }
+
+  return stars;
+}
