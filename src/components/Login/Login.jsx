@@ -20,15 +20,14 @@ const LoginUser = () => {
 		password: '',
 	})
 
-	useEffect(() => {
-		if (userState.status === 'success') {
-			console.log(userState.user)
-			localStorage.setItem(
-				localStorageItems.userAuth,
-				JSON.stringify({ user: userState.user, login: true })
-			)
-		}
-	}, [userState.status])
+	// useEffect(() => {
+	// 	console.log(userState)
+	// 	if (userState.status === 'success') {
+	// 		if (userState.user.status === 'banned') {
+	// 			console.log('banned')
+	// 		}
+	// 	}
+	// }, [userState.status])
 
 	const handleChange = (event) => {
 		setLogin({
@@ -46,7 +45,6 @@ const LoginUser = () => {
 	const handleSumit = (event) => {
 		try {
 			event.preventDefault()
-			console.log(login)
 			//falta la ruta
 			dispatch(LoginUserDB({ email: login.email, password: login.password }))
 		} catch (error) {

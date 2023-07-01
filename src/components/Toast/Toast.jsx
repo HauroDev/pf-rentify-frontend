@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
-import ToastITem from './ToastITem'
+import ToastItem from './ToastItem'
 
 const Toast = ({
 	toastList = [],
@@ -41,7 +41,7 @@ const Toast = ({
 	return (
 		<div className={`fixed z-50 ${posClass}`}>
 			{list.map((toast) => (
-				<ToastITem key={toast.id} toast={toast} deleteToast={deleteToast} />
+				<ToastItem key={toast.id} toast={toast} deleteToast={deleteToast} />
 			))}
 		</div>
 	)
