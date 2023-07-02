@@ -29,7 +29,7 @@ export const fetchGetAllProductsAsync = createAsyncThunk(
 		try {
 			return await getAllProducts(url)
 		} catch (error) {
-			return Promise.reject(error)
+			return Promise.reject(error.response.data.error)
 		}
 	}
 )
@@ -40,7 +40,7 @@ export const fetchGetProductByIdAsync = createAsyncThunk(
 		try {
 			return await getProductById(id)
 		} catch (error) {
-			return Promise.reject(error)
+			return Promise.reject(error.response.data.error)
 		}
 	}
 )
@@ -51,7 +51,7 @@ export const fetchGetAllProductsToFillAsync = createAsyncThunk(
 		try {
 			return await getAllProducts(url)
 		} catch (error) {
-			return Promise.reject(error)
+			return Promise.reject(error.response.data.error)
 		}
 	}
 )
@@ -63,7 +63,8 @@ export const fetchPostProductAsync = createAsyncThunk(
 		try {
 			return await createProduct(productDetail)
 		} catch (error) {
-			return Promise.reject(error)
+			console.log(error)
+			return Promise.reject(error.response.data.error)
 		}
 	}
 )

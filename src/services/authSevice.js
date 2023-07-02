@@ -7,7 +7,8 @@ import {
 } from 'firebase/auth'
 import { auth, providerGoogle } from '../firebase.config'
 import axios from 'axios'
-import { LOGIN_API, USER_API } from '../utils/apiRoutes'
+import { LOGIN_API, LOGOUT_API, USER_API } from '../utils/apiRoutes'
+import { getTokenConfig } from './tokenConfig'
 
 export const registerUser = async ({ email, password }) => {
 	const { user } = await createUserWithEmailAndPassword(auth, email, password)
@@ -76,8 +77,12 @@ export const loginUser = async ({ email, password }) => {
 }
 
 export const logoutUser = async () => {
+	const config = getTokenConfig()
 	await signOut(auth)
-	return null
+	const res = await axios.get(LOGOUT_API, config)
+	console.log(res)
+
+	return res
 }
 
 // export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (user) => {

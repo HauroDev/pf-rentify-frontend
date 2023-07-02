@@ -12,22 +12,19 @@ export const CreateComment = createAsyncThunk('', async (comment) => {
 	try {
 		console.log(comment)
 		return await postComment(comment)
-
 	} catch (error) {
-		return Promise.reject(error)
+		return Promise.reject(error.response.data.error)
 	}
 })
 
 export const AllComment = createAsyncThunk('allComment', async (comment) => {
 	try {
-		console.log(comment);
-		return await getComment(comment);
+		console.log(comment)
+		return await getComment(comment)
 	} catch (error) {
-		throw new Error(error.message);
+		throw new Error(error.message)
 	}
-});
-
-
+})
 
 const commentSlice = createSlice({
 	name: 'comment',
@@ -73,13 +70,9 @@ const commentSlice = createSlice({
 				state.status = 'error'
 				state.error = action.error.message
 			})
-
-
 	},
 })
 // exportacion de actions
 export const { resetComment, setComment } = commentSlice.actions
 
 export default commentSlice.reducer
-
-

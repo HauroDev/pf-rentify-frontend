@@ -9,12 +9,14 @@ import {
 } from '../../../services/authSevice'
 import { localStorageItems } from '../../../utils/localStorageItems'
 import { firebaseErrors } from '../../../utils/firebaseErrors'
+import { userToLS } from '../../../utils/userToLS'
 
 const initialState = {
 	user: {},
 	login: false,
 	status: 'idle',
 	error: null,
+	token: null,
 }
 
 export const CreatePostUser = createAsyncThunk('user/CreatPostUser', async (user) => {
@@ -85,7 +87,10 @@ const userSlice = createSlice({
 		},
 		setUserName: (state, action) => {
 			state.user.name = action.payload
-			localStorage.setItem(localStorageItems.userAuth,JSON.stringify({user:state.user,login:state.login}))
+			localStorage.setItem(
+				localStorageItems.userAuth,
+				JSON.stringify({ user: state.user, login: state.login, token: state.token })
+			)
 		},
 		resetUser: (state) => {
 			state.user = {}
@@ -100,13 +105,11 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(CreatePostUser.fulfilled, (state, action) => {
-				state.user = action.payload
+				state.user = action.payload.user
 				state.login = true
 				state.status = 'success'
-				const user = JSON.stringify({
-					user: action.payload,
-					login: true,
-				})
+				state.token = action.payload.auth_token.token
+				const user = userToLS(action.payload.user, action.payload.auth_token.token)
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(CreatePostUser.rejected, (state, action) => {
@@ -119,13 +122,12 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(CreateUserGoogle.fulfilled, (state, action) => {
-				state.user = action.payload
+				state.user = action.payload.user
 				state.login = true
 				state.status = 'success'
-				const user = JSON.stringify({
-					user: action.payload,
-					login: true,
-				})
+				state.token = action.payload.auth_token.token
+				const user = userToLS(action.payload.user, action.payload.auth_token.token)
+
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(CreateUserGoogle.rejected, (state, action) => {
@@ -138,13 +140,11 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(LoginUserDB.fulfilled, (state, action) => {
-				state.user = action.payload
+				state.user = action.payload.user
 				state.login = true
 				state.status = 'success'
-				const user = JSON.stringify({
-					user: action.payload,
-					login: true,
-				})
+				state.token = action.payload.auth_token.token
+				const user = userToLS(action.payload.user, action.payload.auth_token.token)
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(LoginUserDB.rejected, (state, action) => {
@@ -156,13 +156,12 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(LoginUserGoogle.fulfilled, (state, action) => {
-				state.user = { ...action.payload }
+				console.log(action.payload.user)
+				state.user = action.payload.user
 				state.login = true
 				state.status = 'success'
-				const user = JSON.stringify({
-					user: action.payload,
-					login: true,
-				})
+				state.token = action.payload.auth_token.token
+				const user = userToLS(action.payload.user, action.payload.auth_token.token)
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(LoginUserGoogle.rejected, (state, action) => {
@@ -174,7 +173,8 @@ const userSlice = createSlice({
 			.addCase(LogoutUser.pending, (state) => {
 				state.status = 'loading'
 			})
-			.addCase(LogoutUser.fulfilled, (state) => {
+			.addCase(LogoutUser.fulfilled, (state, { payload }) => {
+				console.log(payload)
 				state.user = {}
 				state.login = false
 				state.status = 'idle'
