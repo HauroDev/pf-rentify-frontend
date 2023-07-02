@@ -129,20 +129,20 @@ const Checkout = () => {
 									</div>
 									<div className='flex flex-col justify-between px-4 h-full w-2/3'>
 										<div>
-											<h3 className='text-2xl'>{product.name}</h3>
+											<h3 className='text-2xl truncate'>{product.name}</h3>
 											<p className='text-text_gray dark:text-gray_dark'>${product.price}</p>
 										</div>
-										<div className='flex items-center justify-between mt-4'>
+										<div className='flex flex-col md:flex-row md:items-end justify-between mt-4 gap-2'>
 											{!preferenceId ? (
 												<div className='flex items-center gap-4 text-text_gray dark:text-gray_dark '>
 													<button
-														className='px-2 py-1 text-md text-white bg-medium_purple rounded-full'
+														className='px-2 text-md text-white bg-medium_purple rounded-full'
 														onClick={() => handleDecreaseDays(product)}>
 														-
 													</button>
 													<span>{product.quantity}</span>
 													<button
-														className='px-2 py-1 text-sm text-white bg-medium_purple rounded-full'
+														className='px-2 text-sm text-white bg-medium_purple rounded-full'
 														onClick={() => handleIncreaseDays(product)}>
 														+
 													</button>
@@ -151,7 +151,7 @@ const Checkout = () => {
 											) : (
 												<div></div>
 											)}
-											<span className='font-semibold text-2xl self-end'>
+											<span className='font-semibold text-2xl md:self-end'>
 												${(product.price * product.quantity).toFixed(2)}{' '}
 												<span className='text-base'>{cartState.cart.currency}</span>
 											</span>
@@ -163,16 +163,21 @@ const Checkout = () => {
 						<div className='md:col-span-4'>
 							<div className='bg-white dark:bg-card_dark rounded-md shadow p-4 min-h-[200px] max-h-[250px]'>
 								<div className='flex items-center justify-between mb-4'>
-									<span className='text-2xl'> Total ({cartState.cart.items.length} items):</span>
+									<span className='text-xl md:text-2xl'>
+										{' '}
+										Total ({cartState.cart.items.length} items):
+									</span>
 									<span className='text-3xl font-semibold'>
-										${cartState.cart.total}{' '}
+										${cartState.cart.total}
+										{''}
 										<span className='text-lg'>{cartState.cart.currency}</span>
 									</span>
 								</div>
 								{!preferenceId && !loading ? (
 									<button
 										className='text-center text-xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple'
-										onClick={handleCheckout}>
+										onClick={handleCheckout}
+										disabled={loading}>
 										Checkout
 									</button>
 								) : loading ? (
