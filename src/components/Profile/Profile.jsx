@@ -1,14 +1,13 @@
 /* eslint-disable react/prop-types */
 // import PremiumIcon from '../icons/PremiumIcon'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateUserName, updateUserPhone } from "../../services/profile";
 import CardProfile from "./CardProfile";
 import { useState } from "react";
 import { setUserName } from "../../app/features/user/userSlice";
 
-
 const UserProfile = ({ idUser, image, phone, email, membership }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   let name;
   const localStorageData = localStorage.getItem("userAuth");
   console.log(localStorage.getItem("userAuth"));
@@ -52,7 +51,7 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
       try {
         await updateUserName(idUser, newName);
         setIsEditing(false);
-        dispatch(setUserName(newName)) 
+        dispatch(setUserName(newName));
       } catch (error) {
         console.error(error);
       }
@@ -105,7 +104,7 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
                 value={newName}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
-                className= " bg-white dark:bg-card_dark"
+                className=" bg-white dark:bg-card_dark"
               />
             ) : (
               newName
@@ -131,8 +130,7 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
         </div>
         <div className="justify-center">
           <h2 className="text-xl p-2 font-bold flex items-center">
-            Membership:{" "}
-            {membership && membership.toUpperCase()}{" "}
+            Membership: {membership && membership.toUpperCase()}{" "}
             {membership === "premium" && <span>💎</span>}
           </h2>
         </div>

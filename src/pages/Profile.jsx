@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import UserProfile from "../components/Profile/Profile";
 
 const initalStateProduct = {
