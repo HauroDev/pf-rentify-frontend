@@ -1,11 +1,14 @@
 /* eslint-disable react/prop-types */
 // import PremiumIcon from '../icons/PremiumIcon'
+import { useDispatch } from "react-redux";
 import { updateUserName, updateUserPhone } from "../../services/profile";
 import CardProfile from "./CardProfile";
 import { useState } from "react";
+import { setUserName } from "../../app/features/user/userSlice";
 
 
 const UserProfile = ({ idUser, image, phone, email, membership }) => {
+  const dispatch = useDispatch()
   let name;
   const localStorageData = localStorage.getItem("userAuth");
   console.log(localStorage.getItem("userAuth"));
@@ -49,21 +52,7 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
       try {
         await updateUserName(idUser, newName);
         setIsEditing(false);
-
-        if (localStorageData) {
-          const userData = JSON.parse(localStorageData);
-          const updatedUserData = {
-            ...userData,
-            user: {
-              ...userData.user,
-              name: newName,
-            },
-          };
-
-          // Actualizar el contenido en el localStorage
-          localStorage.setItem("userAuth", JSON.stringify(updatedUserData));
-          console.log(updatedUserData);
-        }
+        dispatch(setUserName(newName)) 
       } catch (error) {
         console.error(error);
       }

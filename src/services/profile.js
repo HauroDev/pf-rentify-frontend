@@ -31,7 +31,7 @@ export const updateUserPhone = async (id,phone) => {
 export const updateProductstatusPub = async (id,statusPub) => {
   console.log(id)
   const { data } = await axios.put(`${PRODUCTS_API}/update-status`,{
-    idUser: id, // Reemplaza "yourUserId" con el ID de usuario correcto
+    idProd: id, // Reemplaza "yourUserId" con el ID de usuario correcto
     statusPub: statusPub,
   });
   console.log(data)

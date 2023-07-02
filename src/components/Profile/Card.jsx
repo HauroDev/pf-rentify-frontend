@@ -3,16 +3,14 @@ import { Link } from "react-router-dom";
 import FeaturedIcon from "../icons/FeaturedIcon";
 import { formatDate } from "../../utils/formatDate";
 import { useEffect, useRef, useContext } from "react";
-import { useEffect, useRef, useContext } from "react";
 import { useSelector } from "react-redux";
 import { ToastContext } from '../../context/ToastContext'
 import {updateProductstatusPub} from "../../services/profile"
-import { ToastContext } from "../../context/ToastContext";
 
 const CardProfile = ({ product }) => {
   const { addToast } = useContext(ToastContext);
   //
-
+  console.log(product.idProd)
  const  idUser = useSelector((state) => state.user.user.idUser);
   let idProdIdUser = 0;
   if (idProdIdUser == 0) idProdIdUser = product.UserProduct.idUser;
@@ -57,10 +55,10 @@ const CardProfile = ({ product }) => {
     }
   };
 
-	const handleActive = async (idUser, statusPub) => {
-    
+	const handleActive = async (e) => {
+    console.log("handleActive")
 		try {
-      await updateProductstatusPub(idUser,"active")
+      await updateProductstatusPub(product.idProd,"active")
 			addToast({
 				title: 'Success',
 				description: `${product.name} 
@@ -68,18 +66,18 @@ const CardProfile = ({ product }) => {
 				type: 'success',
 			})
 		} catch (error) {
-			// console.log(error.message)
+			 console.log(error)
 			addToast({ title: 'Error', description: error.message, type: 'warning' })
 		}
 	}
-	const handleInactive = async (idUser, statusPub) => {
-    
+	const handleInactive = async (e) => {
+    console.log("handleInactive")
 		try {
-      await updateProductstatusPub(idUser,"inactive")
+      await updateProductstatusPub(product.idProd,"inactive")
 			addToast({
-				title: 'Warning',
+				title: 'Success',
 				description: `${product.name} was paused`,
-				type: 'warning',
+				type: 'success',
 			})
 		} catch (error) {
 			// console.log(error.message)

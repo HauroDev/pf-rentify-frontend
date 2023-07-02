@@ -7,6 +7,7 @@ import {
 	loginGoogle,
 	logoutUser,
 } from '../../../services/authSevice'
+import { localStorageItems } from '../../../utils/localStorageItems'
 
 const initialState = {
 	user: {},
@@ -74,6 +75,10 @@ const userSlice = createSlice({
 			state.user = action.payload
 			state.login = true
 			state.status = 'success'
+		},
+		setUserName: (state, action) => {
+			state.user.name = action.payload
+			localStorage.setItem(localStorageItems.userAuth,JSON.stringify({user:state.user,login:state.login}))
 		},
 		resetUser: (state) => {
 			state.user = {}
@@ -155,6 +160,6 @@ const userSlice = createSlice({
 	},
 })
 // exportacion de actions
-export const { resetUser, setUser } = userSlice.actions
+export const { resetUser, setUser, setUserName } = userSlice.actions
 
 export default userSlice.reducer
