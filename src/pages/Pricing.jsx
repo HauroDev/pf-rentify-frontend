@@ -55,10 +55,10 @@ const Pricing = () => {
 		const email = user.email;
 		const type = e.target.value;
 		const backURL = "https://pf-rentify-frontend.vercel.app";
-		const price =  e.target.value === "premium" ? 100:0;
+		const price =  e.target.value === "premium" ? 869.99:569.99;
 		
 		const paymentInfo = {
-			reason: `Suscripción mensual ${type}`,
+			reason: `Suscripción mensual`,
 			price: price,
 			type:type,
 			idUser: idUser
