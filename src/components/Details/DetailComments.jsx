@@ -51,7 +51,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
             onClick={() => onRatingChange(value)}
           />
         ))}
-        <p>Rating: {rating}</p>
+        {/* <p>Rating: {rating}</p> */}
       </div>
     );
   };
@@ -99,7 +99,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
                 <div className='col-span-1'>
                   {[5, 4, 3, 2, 1].map((num) => (
                     <span className='star text-black flex items-center dark:text-white' key={num}>
-                      <span className='text-black'>{num} </span>
+                      <span className='text-black dark:text-white'>{num} </span>
                       <span className='text-yellow-400'>★</span>
                       <span className='flex-grow'>------------------------</span>
                       {star['s' + num]}
