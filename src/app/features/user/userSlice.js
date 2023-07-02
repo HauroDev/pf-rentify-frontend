@@ -72,6 +72,10 @@ const userSlice = createSlice({
 			state.login = true
 			state.status = 'success'
 		},
+		setUserName: (state, action) => {
+			state.user.name = action.payload
+			localStorage.setItem(localStorageItems.userAuth,JSON.stringify({user:state.user,login:state.login}))
+		},
 		resetUser: (state) => {
 			state.user = {}
 			state.login = false
@@ -173,6 +177,6 @@ const userSlice = createSlice({
 	},
 })
 // exportacion de actions
-export const { resetUser, setUser } = userSlice.actions
+export const { resetUser, setUser, setUserName } = userSlice.actions
 
 export default userSlice.reducer

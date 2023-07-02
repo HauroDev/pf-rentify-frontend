@@ -1,4 +1,4 @@
-import UserProfile from "../components/Profile/Profile"
+import UserProfile from "../components/Profile/Profile";
 
 const initalStateProduct = {
   product: {},
@@ -6,9 +6,25 @@ const initalStateProduct = {
   error: null,
 };
 const Profile = () => {
-	
-	return (
-       <UserProfile></UserProfile>
-)
-  }
+  const state = useSelector((state) => state.user);
+  const user = state.user;
+
+  if (state.status === "loading") return <Loader />;
+
+  if (state.status === "error") return <h3>Error: {state.error}</h3>;
+
+  return (
+    <>
+      <UserProfile
+        idUser={user.idUser}
+        image={user.image}
+        //name={user.name}
+        phone={user.phone}
+        email={user.email}
+        membership={user.membership}
+      />
+    </>
+  );
+};
+
 export default Profile;
