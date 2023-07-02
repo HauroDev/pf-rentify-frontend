@@ -1,5 +1,5 @@
-const API_URL = 'https://api-rentify.onrender.com/api-rentify'
-// const API_URL = 'http://localhost:3001/api-rentify'
+// const API_URL = 'https://api-rentify.onrender.com/api-rentify'
+const API_URL = 'http://localhost:3001/api-rentify'
 export const MCP_API = `${API_URL}/payments`
 
 export const PRODUCTS_API = `${API_URL}/products`
