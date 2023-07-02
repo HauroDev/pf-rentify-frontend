@@ -7,6 +7,7 @@ import {
 	loginGoogle,
 	logoutUser,
 } from '../../../services/authSevice'
+import { localStorageItems } from '../../../utils/localStorageItems'
 
 const initialState = {
 	user: {},
@@ -87,6 +88,11 @@ const userSlice = createSlice({
 				state.user = action.payload
 				state.login = true
 				state.status = 'success'
+				const user = JSON.stringify({
+					user: action.payload,
+					login: true,
+				})
+				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(CreatePostUser.rejected, (state, action) => {
 				state.status = 'error'
@@ -101,6 +107,11 @@ const userSlice = createSlice({
 				state.user = action.payload
 				state.login = true
 				state.status = 'success'
+				const user = JSON.stringify({
+					user: action.payload,
+					login: true,
+				})
+				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(CreateUserGoogle.rejected, (state, action) => {
 				state.status = 'error'
@@ -115,6 +126,11 @@ const userSlice = createSlice({
 				state.user = action.payload
 				state.login = true
 				state.status = 'success'
+				const user = JSON.stringify({
+					user: action.payload,
+					login: true,
+				})
+				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(LoginUserDB.rejected, (state, action) => {
 				state.status = 'error'
@@ -128,6 +144,11 @@ const userSlice = createSlice({
 				state.user = { ...action.payload }
 				state.login = true
 				state.status = 'success'
+				const user = JSON.stringify({
+					user: action.payload,
+					login: true,
+				})
+				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(LoginUserGoogle.rejected, (state, action) => {
 				state.status = 'error'
@@ -143,6 +164,7 @@ const userSlice = createSlice({
 				state.login = false
 				state.status = 'idle'
 				state.error = null
+				localStorage.removeItem(localStorageItems.userAuth)
 			})
 			.addCase(LogoutUser.rejected, (state, action) => {
 				state.status = 'error'

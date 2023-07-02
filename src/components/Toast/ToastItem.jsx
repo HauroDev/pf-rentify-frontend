@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import CloseIcon from '../icons/CloseIcon'
 
-const ToastITem = ({ toast, deleteToast }) => {
+const ToastItem = ({ toast, deleteToast }) => {
 	const colorsTypeClasses = {
 		success: 'bg-success',
 		danger: 'bg-danger',
@@ -26,4 +26,4 @@ const ToastITem = ({ toast, deleteToast }) => {
 	)
 }
 
-export default ToastITem
+export default ToastItem

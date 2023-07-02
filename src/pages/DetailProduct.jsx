@@ -76,9 +76,14 @@ const DetailProduct = () => {
 
 								<DetailsMid description={state.product.description} />
 
-								<DetailOwner user={state.product.users[0]} />
+								<DetailOwner user={state.product.users[0]} product={state.product} />
 
-								<DetailComments idProd={state.product.idProd} commentes={state.product.reviews.comments} star={state.product.reviews.stars} average={state.product.reviews.average}  />
+								<DetailComments
+									idProd={state.product.idProd}
+									commentes={state.product.reviews.comments}
+									star={state.product.reviews.stars}
+									average={state.product.reviews.average}
+								/>
 							</div>
 
 							<div className='hidden xl:block sticky top-12 h-full bg-white dark:bg-card_dark rounded-lg'>
