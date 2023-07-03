@@ -79,8 +79,7 @@ const BtnAddCartCard = ({ size = 'md', product }) => {
 			) : (
 				<button
 					onClick={handleAdd}
-					className={`bg-medium_purple ${classButton} rounded hover:bg-dark_purple transition-colors`}
-					title='Add to cart'>
+					className={`bg-medium_purple ${classButton} rounded hover:bg-dark_purple transition-colors`}>
 					<CartIcon className={`stroke-white ${classIcon}`} />
 				</button>
 			)}
