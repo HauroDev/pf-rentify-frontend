@@ -1,14 +1,15 @@
 import { useDispatch } from 'react-redux'
 import { useContext, useEffect } from 'react'
-import { LogoutUser, resetUser, setUser } from './app/features/user/userSlice'
+import { LogoutUser, resetUser, setInitialUser } from './app/features/user/userSlice'
 import { localStorageItems } from './utils/localStorageItems'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase.config'
 import { setCart } from './app/features/cart/cartSlice'
 import { getCart } from './services/cartService'
+import { ToastContext } from './context/ToastContext'
+import jwt_decode from 'jwt-decode'
 import AppRouter from './router/AppRouter'
 import Toast from './components/Toast/Toast'
-import { ToastContext } from './context/ToastContext'
 
 function App() {
 	const dispatch = useDispatch()
@@ -22,7 +23,7 @@ function App() {
 		const cart = getCart()
 		dispatch(setCart(cart))
 		if (userAuth.login) {
-			dispatch(setUser(userAuth.user))
+			dispatch(setInitialUser({ email: userAuth.user.email, uid: userAuth.user.uid }))
 		}
 		const unsuscribe = onAuthStateChanged(auth, (user) => {
 			if (!user) {

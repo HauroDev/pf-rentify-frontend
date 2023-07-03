@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import Input from '../Input'
 import logoImg from '../../assets/image/logo-rentify.png'
 import validation from '../../utils/validation'
 import GoogleIcon from '../icons/google'
 import { CreatePostUser, CreateUserGoogle } from '../../app/features/user/userSlice'
 import { localStorageItems } from '../../utils/localStorageItems'
+import Loader from '../Loader'
+import GoogleButtonSection from '../GoogleButtonSection'
+import { routesName } from '../../utils/routes_name'
 
 const FormUser = () => {
 	const dispatch = useDispatch()
@@ -51,10 +55,10 @@ const FormUser = () => {
 				return
 			}
 			if (formData.password !== formData.confirmPassword) {
-				setError({confirmPassword:'Passwords do not match'})
+				setError({ confirmPassword: 'Passwords do not match' })
 				return
 			}
-			
+
 			dispatch(CreatePostUser({ email: formData.email, password: formData.password }))
 		} catch (error) {
 			console.log(error.code)
@@ -73,8 +77,7 @@ const FormUser = () => {
 	return (
 		<div className='relative min-h-screen flex flex-col items-center bg-gra-100  dark:bg-body_dark py-10 overflow-hidden'>
 			<div className='relative w-11/12 min-w-[300px] md:max-w-xl  dark:bg-body_dark'>
-				<div className='card bg-violet-300 shadow-lg  w-full h-full rounded-2xl absolute transform -rotate-6 md:transform md:-rotate-12'></div>
-				<div className='card bg-purple-500 shadow-lg  w-full h-full rounded-2xl absolute transform rotate-6 md:transform md:rotate-12'></div>
+				<div className='absolute bg-purple-500 shadow-lg  w-full h-full rounded-2xl  transform rotate-6 md:transform md:rotate-6'></div>
 				<div className='relative w-full rounded-3xl px-6 py-4 bg-gray-100 shadow-md dark:bg-card_dark '>
 					<form className='px-4 sm:px-10 pt-8 pb-4 sm:pt-16 sm:pb-8 mb-4' onSubmit={handleSumit}>
 						<img src={logoImg} alt='rentify logo' className='mx-auto mb-8' />
@@ -108,42 +111,35 @@ const FormUser = () => {
 							value={formData.confirmPassword}
 							onchange={handleChange}
 						/>
-						<div className=' text-red-700'>{error?.confirmPassword && <p>{error?.confirmPassword}</p>}</div>
-						<div className='flex mt-7 justify-center w-full'>
+						<div className=' text-red-700'>
+							{error?.confirmPassword && <p>{error?.confirmPassword}</p>}
+						</div>
+						<div className='text-center my-3 flex justify-center'>
 							<button
 								type='submit'
-								className='bg-blue-700 border-none px-4 py-2 rounded-xl cursor-pointer text-white shadow-xl hover:shadow-inner transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105'>
-								Check in
+								className='flex justify-center items-center bg-dark_purple dark:bg-light_purple dark:text-dark_purple text-white text-lg dark:hover:bg-med hover:bg-medium_purple dark:hover:bg-medium_purple dark:hover:text-white rounded-md px-6 py-2 hover:shadow-inner transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-110'
+								disabled={userState.status === 'loading'}>
+								{userState.status === 'loading' ? <Loader size='sm' /> : 'Continue'}
 							</button>
 						</div>
-					</form>
-
-					<div>
 						<div className='bg-gray-300 w-full my-4 py-[1px] rounded-md '></div>
 
-						<p className='text-center font-medium text-sm text-gray-600 w-full dark:text-white'>
-							Sign up with
-						</p>
-
-						<div className='flex mt-3 justify-center w-full'>
-							<button
-								onClick={handleSignUpGoogle}
-								className='hover:shadow-inner transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-150'>
-								<GoogleIcon className='mr-2' />
-							</button>
-						</div>
+						<GoogleButtonSection label='Sign up with' onclick={handleSignUpGoogle} />
 
 						<div className='mt-7'>
 							<div className='flex justify-center items-center'>
-								<label className='mr-2'> Do you have account?</label>
-								<a
-									href='/login'
-									className='text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105'>
-									Login
-								</a>
+								<span className='mr-2'>
+									{' '}
+									Already have an account?{' '}
+									<Link
+										to={routesName.login}
+										className='text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105'>
+										Log in
+									</Link>
+								</span>
 							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>

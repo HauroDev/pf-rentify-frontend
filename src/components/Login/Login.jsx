@@ -1,15 +1,20 @@
+import { useEffect, useState, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Input from '../Input'
-import { useEffect, useState } from 'react'
-import logoImg from '../../assets/image/logo-rentify.png'
-import GoogleIcon from '../icons/google'
+import { Link } from 'react-router-dom'
 import { LoginUserDB, LoginUserGoogle } from '../../app/features/user/userSlice'
-import { localStorageItems } from '../../utils/localStorageItems'
+import { routesName } from '../../utils/routes_name'
 import validationLogin from '../../utils/validacionLogin'
+import logoImg from '../../assets/image/logo-rentify.png'
+import logoGoogle from '../../assets/image/google_logo.png'
+import Loader from '../Loader'
+import Input from '../Input'
+import { ToastContext } from '../../context/ToastContext'
+import GoogleButtonSection from '../GoogleButtonSection'
 
 const LoginUser = () => {
 	const dispatch = useDispatch()
 	const userState = useSelector((state) => state.user)
+	const { addToast } = useContext(ToastContext)
 	const [login, setLogin] = useState({
 		email: '',
 		password: '',
@@ -20,14 +25,15 @@ const LoginUser = () => {
 		password: '',
 	})
 
-	// useEffect(() => {
-	// 	console.log(userState)
-	// 	if (userState.status === 'success') {
-	// 		if (userState.user.status === 'banned') {
-	// 			console.log('banned')
-	// 		}
-	// 	}
-	// }, [userState.status])
+	useEffect(() => {
+		if (userState.status === 'error') {
+			return addToast({
+				title: 'Error',
+				description: userState.error,
+				type: 'danger',
+			})
+		}
+	}, [userState.status])
 
 	const handleChange = (event) => {
 		setLogin({
@@ -43,19 +49,22 @@ const LoginUser = () => {
 		//faltan errores validacio
 	}
 	const handleSumit = (event) => {
+		event.preventDefault()
+		if (error.email || error.password) {
+			return
+		}
 		try {
-			event.preventDefault()
 			//falta la ruta
 			dispatch(LoginUserDB({ email: login.email, password: login.password }))
-		} catch (error) {
-			console.log(error.code)
-			console.log(error.message)
+		} catch (errors) {
+			console.log(errors.code)
 		}
 	}
 
 	const handleSignUpGoogle = async () => {
 		try {
 			dispatch(LoginUserGoogle({ email: login.email, password: login.password }))
+			console.log('google')
 		} catch (error) {
 			console.log(error.code)
 			console.log(error.message)
@@ -63,13 +72,13 @@ const LoginUser = () => {
 	}
 
 	return (
-		<div className='min-h-screen bg-gray-100 flex flex-col item-center sm:py-12 dark:bg-body_dark py-10'>
-			<div className='relative py-3 sm:max-w-xl sm:mx-auto'>
-				<div className='absolute inset-0 bg-purple-500  shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl'></div>
-				<div className='relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20 dark:bg-card_dark'>
-					<img src={logoImg} alt='rentify logo' className='mx-auto mb-8' />
+		<div className='relative min-h-screen flex flex-col items-center bg-gra-100  dark:bg-body_dark py-10 overflow-hidden'>
+			<div className='relative w-11/12 min-w-[300px] md:max-w-xl  dark:bg-body_dark'>
+				<div className='absolute bg-purple-500 shadow-lg  w-full h-full rounded-2xl  transform -rotate-6'></div>
+				<div className='relative w-full rounded-3xl px-6 py-4 bg-gray-100 shadow-md dark:bg-card_dark '>
 					{/* <img src="../"  alt="Logo" className="mx-auto mb-8" /> */}
-					<form onSubmit={handleSumit}>
+					<form onSubmit={handleSumit} className='px-4 sm:px-10 pt-8 pb-4 sm:pt-16 sm:pb-8 mb-4'>
+						<img src={logoImg} alt='rentify logo' className='mx-auto mb-8' />
 						<h1 className='text-2xl font-semibold text-center'>Login</h1>
 						<div className='relative'>
 							<label>Email</label>
@@ -93,37 +102,29 @@ const LoginUser = () => {
 							/>
 							<div className=' text-red-700'>{error?.password && <p>{error?.password}</p>}</div>
 						</div>
-						<div className='relative text-center py-3'>
+						<div className='text-center my-3 flex justify-center'>
 							<button
 								type='submit'
-								className='bg-blue-500 text-white rounded-md px-6 py-1 hover:shadow-inner transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-110'>
-								Enter
+								className='flex justify-center items-center bg-dark_purple dark:bg-light_purple dark:text-dark_purple text-white text-lg dark:hover:bg-med hover:bg-medium_purple dark:hover:bg-medium_purple dark:hover:text-white rounded-md px-6 py-2 hover:shadow-inner transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-110'
+								disabled={userState.status === 'loading'}>
+								{userState.status === 'loading' ? <Loader size='sm' /> : 'Continue'}
 							</button>
 						</div>
-					</form>
-					<div className='bg-gray-300 w-full my-1 py-[1px] rounded-md '></div>
-					<label className='block font-medium text-sm text-gray-600 w-full dark:text-white'>
-						login with
-					</label>
-
-					<div className='flex mt-7 justify-center w-full'>
-						<button
-							onClick={handleSignUpGoogle}
-							className='hover:shadow-inner transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-150'>
-							<GoogleIcon className='mr-2' />
-						</button>
-					</div>
-
-					<div className='mt-7'>
-						<div className='flex justify-center items-center'>
-							<label className='mr-2'> You don&apos;t have an account yet?</label>
-							<a
-								href='/signup'
-								className='text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105'>
-								Register
-							</a>
+						<div className='bg-gray-300 w-full my-1 py-[1px] rounded-md '></div>
+						<GoogleButtonSection label='Login with' onclick={handleSignUpGoogle} />
+						<div className='mt-7'>
+							<div className='flex justify-center items-center'>
+								<span className='mr-2'>
+									Don&apos;t have an account?{' '}
+									<Link
+										to={routesName.signup}
+										className='text-blue-500 transition duration-500 ease-in-out  transform hover:-translate-x hover:scale-105'>
+										Sign up
+									</Link>
+								</span>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useDispatch } from 'react-redux'
 import { LogoutUser } from '../../app/features/user/userSlice'
-import { localStorageItems } from '../../utils/localStorageItems'
 import LogoutIcon from '../icons/LogoutIcon'
 
 const BtnLogout = ({ closeModal }) => {
@@ -9,7 +8,6 @@ const BtnLogout = ({ closeModal }) => {
 
 	const handleClick = () => {
 		closeModal(false)
-		localStorage.removeItem(localStorageItems.userAuth)
 		dispatch(LogoutUser())
 	}
 
