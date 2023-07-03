@@ -1,28 +1,32 @@
 /* eslint-disable react/prop-types */
 // import { Outlet } from 'react-router-dom'
-import Header from './Header'
-import Sidenav from './Sidenav'
 import { useModal } from '../../hooks/useModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { LogoutUser } from '../../app/features/user/userSlice'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { ToastContext } from '../../context/ToastContext'
+import { useLocation } from 'react-router-dom'
+import Header from './Header'
+import Sidenav from './Sidenav'
 
 const MainLayout = ({ children }) => {
 	const [isOpen, openModal, closeModal] = useModal()
 
 	const userState = useSelector((state) => state.user)
 	const dispatch = useDispatch()
+	const { pathname } = useLocation()
 	const { addToast } = useContext(ToastContext)
 
-	if (userState.status === 'success' && userState.user?.status === 'banned') {
-		dispatch(LogoutUser())
-		addToast({
-			title: 'Warning',
-			description: 'User banned',
-			type: 'warning',
-		})
-	}
+	useEffect(() => {
+		if (userState.status === 'success' && userState.user?.status === 'banned') {
+			dispatch(LogoutUser())
+			addToast({
+				title: 'Warning',
+				description: 'User banned',
+				type: 'warning',
+			})
+		}
+	}, [pathname])
 
 	return (
 		<div className='flex max-w-[1920px] mx-auto relative'>
