@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import laptopYCajitas from '../assets/image/laptop-cajitas.jpg';
 import consola from '../assets/image/consola.jpg';
 import mobile from '../assets/image/mobile.png';
@@ -7,84 +8,141 @@ import handCoin from '../assets/image/hand-coin.png';
 import calendar from '../assets/image/calendar.png';
 import greenWorld from '../assets/image/green-world.png';
 
-
 const HowItWork = () => {
-	return (
-		<div className='container mx-auto p-4'>
-			<div className='flex flex-col items-center'>
-				<div className='flex items-center  justify-center w-full '>
-					<div className="h-48 w-1/2 bg-gray_medium p-4 flex items-center">
-						<div className='h-4/5 w-3/4 flex flex-col justify-around'>
-							<h2 className='text-4xl'>How renting works</h2>
-							<p className='text-base'>Explore Placing an Order, the Advantages of Renting, and Our Commitment to Resource Conservation.</p>
-						</div>
-					</div>
-					<img src={laptopYCajitas} alt="laptopCajira" className='h-48' />
-				</div>
+  const [currentSlide, setCurrentSlide] = useState(0); // Estado del índice del carrusel
 
-				<div>
-					<div className='text-center'>
-						<p className='text-gray_medium text-sm'>How it works</p>
-						<h3 className='text-4xl'>Getting started with Rent-ify</h3>
-					</div>
+  const slides = [
+    {
+      title: 'Find Your Ideal Rental',
+      description: 'Explore vast product options. From tech to furniture, we have it all. Discover your perfect match.',
+      image: consola,
+    },
+    {
+      title: 'Checkout',
+      description: 'Select items and proceed to checkout. Credit check may apply. Get shipping details within 24 hours.',
+      image: mobile,
+    },
+    {
+      title: 'Enjoy your rental',
+      description: 'Experience the benefits of your rented items. Fast delivery to your doorstep for maximum enjoyment.',
+      image: shipping,
+    },
+    {
+      title: 'Sustainable Refurbishment',
+      description: 'Rent with us and experience convenience, flexibility, and resource conservation. Let\'s make a positive impact together!',
+      image: cicle,
+    },
+  ];
 
-					<div className="flex justify-center mt-8 space-x-8">
-						<div className='text-justify flex flex-col items-center justify-between'>
-							<p>1</p>
-							<p>Find Your Ideal Rental</p>
-							<p className='text-sm'>Explore vast product options. From tech to furniture, we have it all. Discover your perfect match.</p>
-							<img src={consola} alt="consola" />
-						</div>
-						<div className='text-justify flex flex-col items-center justify-between'>
-							<p>2</p>
-							<p>Checkout</p>
-							<p className='text-sm'>Select items and proceed to checkout. Credit check may apply. Get shipping details within 24 hours.</p>
-							<img src={mobile} alt="mobile" />
-						</div>
-						<div className='text-justify flex flex-col items-center justify-between'>
-							<p>3</p>
-							<p>Enjoy your rental</p>
-							<p className='text-sm'>Experience the benefits of your rented items. Fast delivery to your doorstep for maximum enjoyment.</p>
-							<img src={shipping} alt="shipping" />
-						</div>
-						<div className='text-justify flex flex-col items-center justify-between'>
-							<p>4</p>
-							<p>Sustainable Refurbishment</p>
-							<p className='text-sm'>Rent with us and experience convenience, flexibility, and resource conservation. Let's make a positive impact together!</p>
-							<img src={cicle} alt="cicle" />
-						</div>
-					</div>
-				</div>
+  const nextSlide = () => {
+    setCurrentSlide((prevSlide) => prevSlide + 1);
+  };
 
-				<div className='w-3/4'>
-					<div className='text-center'>
-						<p className='text-gray_medium text-sm'>Buying is over</p>
-						<h3 className='text-4xl'>The benefits of renting</h3>
-					</div>
+  const prevSlide = () => {
+    setCurrentSlide((prevSlide) => prevSlide - 1);
+  };
 
-					<div className="flex justify-center mt-8 space-x-8">
-						<div className='text-justify flex flex-col items-center justify-between'>
-							<p className='font-bold'>Low Monthly Costs</p>
-							<img src={handCoin} alt="hand-coin" />
-							<p className='text-sm'>Say goodbye to high upfront costs and long-term commitments. Rent a wide range of products at budget-friendly prices.</p>
-						</div>
+  return (
+    <div className="container mx-auto p-8">
+      <div className="flex flex-col items-center">
+        <div className="flex flex-col md:flex-row items-center justify-center w-full">
+          <div className="h-60 md:w-1/2 bg-gray_light dark:bg-card_dark p-4 flex items-center justify-center">
+            <div className="text-center">
+              <h2 className="text-5xl md:text-7xl font-bold text-dark_purple mb-4">
+                How renting works
+              </h2>
+              <p className="text-lg leading-7 text-text_light dark:text-text_dark">
+                Explore placing an order, the advantages of renting, and our commitment to resource conservation.
+              </p>
+            </div>
+          </div>
+          <img src={laptopYCajitas} alt="laptopCajira" className="h-60 md:w-1/2 object-cover" />
+        </div>
 
-						<div className='text-justify flex flex-col items-center justify-between'>
-							<p className='font-bold'>Flexible Rental Periods</p>
-							<img src={calendar} alt="calendar" />
-							<p className='text-sm'>Rent for as long as you need. Choose from flexible rental durations. Adjust your rental plan to match your changing needs.</p>
-						</div>
-						
-						<div className=' text-justify flex flex-col items-center justify-between'>
-							<p className='font-bold'>Environmental Impact</p>
-							<img src={greenWorld} alt="green-world" />
-							<p className='text-sm'>By renting, you help extend the lifespan of products, minimizing unnecessary consumption and promoting sustainability.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	)
-}
+        <div>
+          <div className="text-center mt-8">
+            <p className="text-text_gray font-bold text-md">How it works</p>
+            <h3 className="text-4xl font-bold text-dark_purple">Getting started with Rent-ify</h3>
+          </div>
 
-export default HowItWork
+          <div className="flex flex-col md:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-12">
+            {slides.map((slide, index) => (
+              <div
+                key={index}
+                className={`relative w-full md:w-1/2 transform transition-transform duration-500 ${
+                  index === currentSlide ? 'opacity-100 scale-100' : 'opacity-50 scale-90'
+                }`}
+              >
+                <div className="text-justify flex flex-col items-center justify-between p-4 h-full">
+                  <p className="text-2xl font-bold text-dark_purple">{index + 1}</p>
+                  <p className="text-lg font-bold mb-2">{slide.title}</p>
+                  <p className="text-base leading-6 text-text_light dark:text-text_dark">
+                    {slide.description}
+                  </p>
+                  <img src={slide.image} alt={slide.title} className="mt-4" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Botones de navegación */}
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={prevSlide}
+              className={`mr-4 p-2 rounded-full bg-dark_purple text-white transition-opacity duration-300 hover:opacity-75 ${
+                currentSlide === 0 ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              disabled={currentSlide === 0}
+            >
+              Prev
+            </button>
+            <button
+              onClick={nextSlide}
+              className={`p-2 rounded-full bg-dark_purple text-white transition-opacity duration-300 hover:opacity-75 ${
+                currentSlide === slides.length - 1 ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              disabled={currentSlide === slides.length - 1}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div className="text-center mt-8">
+            <p className="text-text_gray font-bold text-md">Buying is over</p>
+            <h3 className="text-4xl font-bold text-dark_purple">The benefits of renting</h3>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-12">
+            <div className="text-justify flex flex-col items-center justify-between p-4">
+              <p className="text-lg font-bold text-dark_purple">Low Monthly Costs</p>
+              <img src={handCoin} alt="hand-coin" className="my-4" />
+              <p className="text-base leading-6 text-text_light dark:text-text_dark">
+                Say goodbye to high upfront costs and long-term commitments. Rent a wide range of products at budget-friendly prices.
+              </p>
+            </div>
+
+            <div className="text-justify flex flex-col items-center justify-between p-4">
+              <p className="text-lg font-bold text-dark_purple">Flexible Rental Periods</p>
+              <img src={calendar} alt="calendar" className="my-4" />
+              <p className="text-base leading-6 text-text_light dark:text-text_dark">
+                Rent for as long as you need. Choose from flexible rental durations. Adjust your rental plan to match your changing needs.
+              </p>
+            </div>
+
+            <div className="text-justify flex flex-col items-center justify-between p-4">
+              <p className="text-lg font-bold text-dark_purple">Environmental Impact</p>
+              <img src={greenWorld} alt="green-world" className="my-4" />
+              <p className="text-base leading-6 text-text_light dark:text-text_dark">
+                By renting, you help extend the lifespan of products, minimizing unnecessary consumption and promoting sustainability.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HowItWork;
