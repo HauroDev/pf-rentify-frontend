@@ -51,7 +51,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
             onClick={() => onRatingChange(value)}
           />
         ))}
-        <p>Rating: {rating}</p>
+        
       </div>
     );
   };
