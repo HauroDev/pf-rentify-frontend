@@ -111,12 +111,12 @@ const HowItWork = () => {
         <div>
           <div className="text-center mt-8">
             <p className="text-text_gray font-bold text-md">Buying is over</p>
-            <h3 className="text-4xl font-bold text-dark_purple">The benefits of renting</h3>
+            <h3 className="text-4xl font-bold text-medium_purple">The benefits of renting</h3>
           </div>
 
           <div className="flex flex-col md:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-12">
             <div className="text-justify flex flex-col items-center justify-between p-4">
-              <p className="text-lg font-bold text-dark_purple">Low Monthly Costs</p>
+              <p className="text-lg font-bold text-medium_purple">Low Monthly Costs</p>
               <img src={handCoin} alt="hand-coin" className="my-4 h-20 w-20" />
               <p className="text-base leading-6 text-text_light dark:text-text_dark">
                 Say goodbye to high upfront costs and long-term commitments. Rent a wide range of products at budget-friendly prices.
@@ -124,7 +124,7 @@ const HowItWork = () => {
             </div>
 
             <div className="text-justify flex flex-col items-center justify-between p-4">
-              <p className="text-lg font-bold text-dark_purple">Flexible Rental Periods</p>
+              <p className="text-lg font-bold text-medium_purple">Flexible Rental Periods</p>
               <img src={calendar} alt="calendar" className="my-4 h-20 w-20" />
               <p className="text-base leading-6 text-text_light dark:text-text_dark">
                 Rent for as long as you need. Choose from flexible rental durations. Adjust your rental plan to match your changing needs.
@@ -132,8 +132,8 @@ const HowItWork = () => {
             </div>
 
             <div className="text-justify flex flex-col items-center justify-between p-4">
-              <p className="text-lg font-bold text-dark_purple">Environmental Impact</p>
-              <img src={greenWorld} alt="green-world" className="my-4 h-20 w-20" />
+              <p className="text-lg font-bold text-medium_purple">Environmental Impact</p>
+              <img src={greenWorld} alt="green-world" className="my-4 h-18 w-18" />
               <p className="text-base leading-6 text-text_light dark:text-text_dark">
                 By renting, you help extend the lifespan of products, minimizing unnecessary consumption and promoting sustainability.
               </p>
