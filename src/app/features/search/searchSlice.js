@@ -15,7 +15,7 @@ export const fetchGetProductByNameAsync = createAsyncThunk(
 		try {
 			return await getProductByName(name)
 		} catch (error) {
-			return Promise.reject(error)
+			return Promise.reject(error.responser.data.error)
 		}
 	}
 )
@@ -26,7 +26,7 @@ export const fetchGetMoreProductByNameAsync = createAsyncThunk(
 		try {
 			return await getMoreProductByName(url)
 		} catch (error) {
-			return Promise.reject(error)
+			return Promise.reject(error.responser.data.error)
 		}
 	}
 )

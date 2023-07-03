@@ -1,15 +1,17 @@
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import FeaturedIcon from "../icons/FeaturedIcon";
-import BtnAddCartCard from "../BtnAddCart";
 import { formatDate } from "../../utils/formatDate";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
 import { useSelector } from "react-redux";
+import { ToastContext } from '../../context/ToastContext'
+import {updateProductstatusPub} from "../../services/profile"
 
 const CardProfile = ({ product }) => {
+  const { addToast } = useContext(ToastContext);
   //
-  let idUser = null;
-  idUser = useSelector((state) => state.user.user.idUser);
+  console.log(product.idProd)
+ const  idUser = useSelector((state) => state.user.user.idUser);
   let idProdIdUser = 0;
   if (idProdIdUser == 0) idProdIdUser = product.UserProduct.idUser;
 
@@ -53,11 +55,45 @@ const CardProfile = ({ product }) => {
     }
   };
 
+	const handleActive = async (e) => {
+    console.log("handleActive")
+		try {
+      await updateProductstatusPub(product.idProd,"active")
+			addToast({
+				title: 'Success',
+				description: `${product.name} 
+        was activated`,
+				type: 'success',
+			})
+		} catch (error) {
+			 console.log(error)
+			addToast({ title: 'Error', description: error.message, type: 'warning' })
+		}
+	}
+	const handleInactive = async (e) => {
+    console.log("handleInactive")
+		try {
+      await updateProductstatusPub(product.idProd,"inactive")
+			addToast({
+				title: 'Success',
+				description: `${product.name} was paused`,
+				type: 'success',
+			})
+		} catch (error) {
+			// console.log(error.message)
+			addToast({ title: 'Error', description: error.message, type: 'warning' })
+		}
+	}
+
   return (
     <div
       key={product.idProd}
       ref={cardRef}
-      className="card  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4"
+      className={
+        product.statusPub == "inactive"
+          ? "card opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-gradient-to-t from-amber-600 via-transparent to-transparent dark:bg-card_dark p-4"
+          : "card  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4"
+      }
     >
       <div className="flex flex-col justify-between h-full">
         <Link to={`/product/${product.idProd}`}>
@@ -107,25 +143,14 @@ const CardProfile = ({ product }) => {
           <p className="text-sm text-gray_dark">
             {product.location},{product.state}
           </p>
-          {
-            /**idUser == idProdIdUser ? (
-            <span></span>
-          ) : (
-            <BtnAddCartCard
-              size="sm"
-              product={{
-                name: product.name,
-                price: product.price,
-                image: product.image,
-                idProd: product.idProd,
-                country: product.country,
-              }}
-            />
-            )*/
-            <span className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer">
-              ✖️
-            </span>
-          }
+          <button
+            className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer"
+            onClick={
+              product.statusPub === "inactive" ? handleActive : handleInactive
+            }
+          >
+            {product.statusPub === "inactive" ? <>⏳</> : <>✖️</>}️
+          </button>
         </div>
       </div>
     </div>

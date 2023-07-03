@@ -6,7 +6,7 @@ import PremiumIcon from '../../components/icons/PremiumIcon'
 import DeatilSectionContainer from './DeatilSectionContainer'
 import DetailCard from './DetailCard'
 import { useSelector } from 'react-redux'
-import { contactOwnerService } from '../../services/conctacService'
+import { contactOwnerService } from '../../services/contactService'
 import { ToastContext } from '../../context/ToastContext'
 
 const DetailOwner = ({ user: owner, product }) => {
@@ -40,7 +40,6 @@ const DetailOwner = ({ user: owner, product }) => {
 			const wasSended = await contactOwnerService({
 				userEmail: userState.user.email,
 				userName: userState.user.name,
-				userPhone: userState.user.phone,
 				ownerEmail: owner.email,
 				product: product,
 			})

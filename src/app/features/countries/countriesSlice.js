@@ -13,7 +13,7 @@ export const fetchGetAllCountriessAsync = createAsyncThunk(
 		try {
 			return await getAllCountries()
 		} catch (error) {
-			return Promise.reject(error)
+			return Promise.reject(error.responser.data.error)
 		}
 	}
 )

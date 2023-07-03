@@ -8,12 +8,15 @@ import {
 	logoutUser,
 } from '../../../services/authSevice'
 import { localStorageItems } from '../../../utils/localStorageItems'
+import { firebaseErrors } from '../../../utils/firebaseErrors'
+import { userToLS } from '../../../utils/userToLS'
 
 const initialState = {
 	user: {},
 	login: false,
 	status: 'idle',
 	error: null,
+	token: null,
 }
 
 export const CreatePostUser = createAsyncThunk('user/CreatPostUser', async (user) => {
@@ -21,8 +24,10 @@ export const CreatePostUser = createAsyncThunk('user/CreatPostUser', async (user
 		console.log(user)
 		return await registerUser(user)
 	} catch (error) {
-		console.log(error)
-		return Promise.reject(error)
+		if (error.code.includes('auth')) {
+			return Promise.reject(firebaseErrors(error.code))
+		}
+		return Promise.reject(error.response.data.error)
 	}
 })
 
@@ -30,8 +35,10 @@ export const CreateUserGoogle = createAsyncThunk('user/CreateUserGoogle', async 
 	try {
 		return await registerGoogle(user)
 	} catch (error) {
-		alert('error Create2G')
-		return Promise.reject(error)
+		if (error.code.includes('auth')) {
+			return Promise.reject(firebaseErrors(error.code))
+		}
+		return Promise.reject(error.response.data.error)
 	}
 })
 
@@ -39,8 +46,10 @@ export const LoginUserDB = createAsyncThunk('user/LoginUserDB', async (user) => 
 	try {
 		return await loginUser(user)
 	} catch (error) {
-		console.log(error)
-		return Promise.reject(error)
+		if (error.code.includes('auth')) {
+			return Promise.reject(firebaseErrors(error.code))
+		}
+		return Promise.reject(error.response.data.error)
 	}
 })
 
@@ -48,9 +57,10 @@ export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (u
 	try {
 		return await loginGoogle(user)
 	} catch (error) {
-		console.log(error)
-
-		return Promise.reject(error)
+		if (error.code.includes('auth')) {
+			return Promise.reject(firebaseErrors(error.code))
+		}
+		return Promise.reject(error.response.data.error)
 	}
 })
 
@@ -58,7 +68,10 @@ export const LogoutUser = createAsyncThunk('user/LogoutUser', async () => {
 	try {
 		await logoutUser()
 	} catch (error) {
-		return Promise.reject(error)
+		if (error.code.includes('auth')) {
+			return Promise.reject(firebaseErrors(error.code))
+		}
+		return Promise.reject(error.response.data.error)
 	}
 })
 
@@ -71,6 +84,13 @@ const userSlice = createSlice({
 			state.user = action.payload
 			state.login = true
 			state.status = 'success'
+		},
+		setUserName: (state, action) => {
+			state.user.name = action.payload
+			localStorage.setItem(
+				localStorageItems.userAuth,
+				JSON.stringify({ user: state.user, login: state.login, token: state.token })
+			)
 		},
 		resetUser: (state) => {
 			state.user = {}
@@ -85,13 +105,11 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(CreatePostUser.fulfilled, (state, action) => {
-				state.user = action.payload
+				state.user = action.payload.user
 				state.login = true
 				state.status = 'success'
-				const user = JSON.stringify({
-					user: action.payload,
-					login: true,
-				})
+				state.token = action.payload.auth_token.token
+				const user = userToLS(action.payload.user, action.payload.auth_token.token)
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(CreatePostUser.rejected, (state, action) => {
@@ -104,13 +122,12 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(CreateUserGoogle.fulfilled, (state, action) => {
-				state.user = action.payload
+				state.user = action.payload.user
 				state.login = true
 				state.status = 'success'
-				const user = JSON.stringify({
-					user: action.payload,
-					login: true,
-				})
+				state.token = action.payload.auth_token.token
+				const user = userToLS(action.payload.user, action.payload.auth_token.token)
+
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(CreateUserGoogle.rejected, (state, action) => {
@@ -123,13 +140,11 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(LoginUserDB.fulfilled, (state, action) => {
-				state.user = action.payload
+				state.user = action.payload.user
 				state.login = true
 				state.status = 'success'
-				const user = JSON.stringify({
-					user: action.payload,
-					login: true,
-				})
+				state.token = action.payload.auth_token.token
+				const user = userToLS(action.payload.user, action.payload.auth_token.token)
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(LoginUserDB.rejected, (state, action) => {
@@ -141,13 +156,12 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(LoginUserGoogle.fulfilled, (state, action) => {
-				state.user = { ...action.payload }
+				console.log(action.payload.user)
+				state.user = action.payload.user
 				state.login = true
 				state.status = 'success'
-				const user = JSON.stringify({
-					user: action.payload,
-					login: true,
-				})
+				state.token = action.payload.auth_token.token
+				const user = userToLS(action.payload.user, action.payload.auth_token.token)
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(LoginUserGoogle.rejected, (state, action) => {
@@ -159,7 +173,8 @@ const userSlice = createSlice({
 			.addCase(LogoutUser.pending, (state) => {
 				state.status = 'loading'
 			})
-			.addCase(LogoutUser.fulfilled, (state) => {
+			.addCase(LogoutUser.fulfilled, (state, { payload }) => {
+				console.log(payload)
 				state.user = {}
 				state.login = false
 				state.status = 'idle'
@@ -173,6 +188,6 @@ const userSlice = createSlice({
 	},
 })
 // exportacion de actions
-export const { resetUser, setUser } = userSlice.actions
+export const { resetUser, setUser, setUserName } = userSlice.actions
 
 export default userSlice.reducer

@@ -6,9 +6,10 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase.config'
 import { setCart } from './app/features/cart/cartSlice'
 import { getCart } from './services/cartService'
+import { ToastContext } from './context/ToastContext'
+import jwt_decode from 'jwt-decode'
 import AppRouter from './router/AppRouter'
 import Toast from './components/Toast/Toast'
-import { ToastContext } from './context/ToastContext'
 
 function App() {
 	const dispatch = useDispatch()
