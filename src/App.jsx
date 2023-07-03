@@ -23,7 +23,7 @@ function App() {
 		const cart = getCart()
 		dispatch(setCart(cart))
 		if (userAuth.login) {
-			dispatch(setInitialUser({ email: userAuth.user.email, uid: userAuth.user.uid }))
+			dispatch(setInitialUser({ idUser: userAuth.user.idUser, token: userAuth.token }))
 		}
 		const unsuscribe = onAuthStateChanged(auth, (user) => {
 			if (!user) {
@@ -38,7 +38,12 @@ function App() {
 		<div className='bg-body_light text-text_light dark:bg-body_dark dark:text-text_dark min-h-screen'>
 			<AppRouter />
 			{toastList.length > 0 && (
-				<Toast toastList={toastList} deleteToast={deleteToast} position='top-center' />
+				<Toast
+					toastList={toastList}
+					deleteToast={deleteToast}
+					position='top-center'
+					autoDeleteTime={2000}
+				/>
 			)}
 		</div>
 	)

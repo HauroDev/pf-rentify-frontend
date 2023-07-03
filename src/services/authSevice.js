@@ -85,11 +85,11 @@ export const logoutUser = async () => {
 	return res
 }
 
-export const setInitialUserDB = async ({ email, uid }) => {
-	const { data } = await axios.post(LOGIN_API, { email, uid })
+export const setInitialUserDB = async ({ idUser, token }) => {
+	const config = getTokenConfig()
+	const { data } = await axios.get(`${USER_API}/${idUser}`, config)
 	console.log(data)
-
-	return data
+	return { user: data, token: token }
 }
 
 // export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (user) => {

@@ -76,9 +76,9 @@ export const LogoutUser = createAsyncThunk('user/LogoutUser', async () => {
 	}
 })
 
-export const setInitialUser = createAsyncThunk('user/setInitialUser', async ({ email, uid }) => {
+export const setInitialUser = createAsyncThunk('user/setInitialUser', async ({ idUser, token }) => {
 	try {
-		return await setInitialUserDB({ email, uid })
+		return await setInitialUserDB({ idUser, token })
 	} catch (error) {
 		return Promise.reject(error.response.data.error)
 	}
@@ -166,7 +166,6 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(LoginUserGoogle.fulfilled, (state, action) => {
-				console.log(action.payload.user)
 				state.user = action.payload.user
 				state.login = true
 				state.status = 'success'
@@ -188,8 +187,8 @@ const userSlice = createSlice({
 				state.user = payload.user
 				state.login = true
 				state.status = 'success'
-				state.token = payload.auth_token.token
-				const user = userToLS(payload.user, payload.auth_token.token)
+				state.token = payload.token
+				const user = userToLS(payload.user, payload.token)
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(setInitialUser.rejected, (state, action) => {
@@ -202,7 +201,6 @@ const userSlice = createSlice({
 				state.status = 'loading'
 			})
 			.addCase(LogoutUser.fulfilled, (state, { payload }) => {
-				console.log(payload)
 				state.user = {}
 				state.login = false
 				state.status = 'idle'
