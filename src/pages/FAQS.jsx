@@ -3,10 +3,12 @@ import { contactContacUsService } from '../services/contactService';
 import { ToastContext } from '../context/ToastContext';
 import { useForm } from 'react-hook-form';
 import { FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const FAQS = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [showContactForm, setShowContactForm] = useState(false);
+  const userState=useSelector(state=>state.user)
   const { register, handleSubmit, reset } = useForm();
 
   const { addToast } = useContext(ToastContext);
@@ -140,7 +142,7 @@ const FAQS = () => {
         ) : (
           <div className='flex flex-row w-full gap-8'>
             <div className='w-1/2 text-left py-4'>
-              <p className='text-2xl'>Hi 👋 !</p>
+              <p className='text-2xl'>Hi <span className='text-medium_purple'>{userState.login && userState.user.name || ""}</span>👋 !</p>
               <p className='text-lg'>
                 If you are unable to find the answer to your question, please contact our support team for any inquiries. We're here to help.
               </p>
@@ -158,27 +160,27 @@ const FAQS = () => {
               </div>
             </div>
             <div className='w-1/2'>
-              <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center'>
+              <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center ' >
                 <input
                   type='text'
                   placeholder='Name'
                   name='name'
                   {...register('name')}
-                  className='w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring focus:border-purple-500'
+                  className='w-full px-4 py-2 mb-4 border dark:text-text_dark dark:bg-card_dark border-gray_medium rounded focus:outline-none focus:ring focus:border-medium_purple'
                 />
                 <input
                   type='email'
                   placeholder='Email'
                   name='email'
                   {...register('email')}
-                  className='w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring focus:border-purple-500'
+                  className='w-full px-4 py-2 mb-4 border dark:text-text_dark dark:bg-card_dark border-gray_medium rounded focus:outline-none focus:ring focus:border-medium_purple'
                 />
                 <textarea
                   placeholder='Message'
                   rows='4'
                   name='message'
                   {...register('message')}
-                  className='w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring focus:border-purple-500'
+                  className='w-full px-4 py-2 mb-4 border dark:text-text_dark dark:bg-card_dark border-gray_medium rounded focus:outline-none focus:ring focus:border-medium_purple'
                 />
                 <button
                   type='submit'
