@@ -7,7 +7,9 @@ import { fetchGetAllCategoriesAsync } from '../app/features/categories/categorie
 import { fetchGetAllCountriessAsync } from '../app/features/countries/countriesSlice'
 import { fetchPostProductAsync } from '../app/features/products/productsSlice'
 import { saveAndGetImage } from '../services/imageFirebaseService'
-import { getCountryStates } from '../services/locationService'
+import { getCountryStates } from '../services/locationService';
+import ArrowUpCrPr from "../components/icons/ArrowUpCrPr";
+import ArrowDownCrPr from "../components/icons/ArrowDownCrPr"
 
 const CreateProduct = () => {
 	const {
@@ -27,7 +29,7 @@ const CreateProduct = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
-	const [userId, setUserId] = useState('')
+	const [userId, setUserId] = useState('');
 
 	const [countryApiId, setCountryApiId] = useState(null)
 	const [dataStates, setDataStates] = useState([])
@@ -35,8 +37,14 @@ const CreateProduct = () => {
 	const [stateApiId, setStateApiId] = useState(null)
 	const [dataLocations, setDataLocations] = useState([])
 
-	const [isLoading, setIsLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(false);
 
+	const [isExpanded, setIsExpanded] = useState(false);
+
+	const toggleDropdown = () => {
+		setIsExpanded(!isExpanded);
+	};
+	console.log(isExpanded);
 	const getDataState = async (id) => {
 		try {
 			const data = await getCountryStates(id)
@@ -45,7 +53,7 @@ const CreateProduct = () => {
 			console.log(error)
 		}
 	}
-
+console.log(userinfo);
 	const getDataLocation = async (id) => {
 		try {
 			const data = await getCountryStates(id)
@@ -119,8 +127,8 @@ const CreateProduct = () => {
 	}
 
 	const onSubmit = async (data) => {
-		setIsLoading(true)
-		// console.log(data)
+		//setIsLoading(true)
+		console.log(data)
 		const filteredCategories = [...categoriesInfo.categories]
 			.filter((category) => data.categories.includes(String(category.idCategory)))
 			.map((category) => ({ idCategory: category.idCategory, name: category.name }))
@@ -138,33 +146,33 @@ const CreateProduct = () => {
 		}
 
 		console.log(product)
-		try {
-			const imgURL = await saveAndGetImage(data.image[0], 'products')
-			console.log(imgURL)
-			if (!imgURL) {
-				throw Error('Firebase Error')
-			}
-			const updatedProduct = { ...product, image: imgURL }
-			console.log(updatedProduct)
-			const response = await dispatch(fetchPostProductAsync(updatedProduct))
+		// try {
+		// 	const imgURL = await saveAndGetImage(data.image[0], 'products')
+		// 	console.log(imgURL)
+		// 	if (!imgURL) {
+		// 		throw Error('Firebase Error')
+		// 	}
+		// 	const updatedProduct = { ...product, image: imgURL }
+		// 	console.log(updatedProduct)
+		// 	const response = await dispatch(fetchPostProductAsync(updatedProduct))
 
-			if (!response.payload) {
-				throw Error(`Api error`)
-			}
-			setIsLoading(false)
-			addToast({
-				title: 'Success',
-				description: `${product.name} was added successfully`,
-				type: 'success',
-			})
-		} catch (error) {
-			setIsLoading(false)
-			addToast({
-				title: `${error.message}`,
-				description: `${product.name} couldn't be added`,
-				type: 'danger',
-			})
-		}
+		// 	if (!response.payload) {
+		// 		throw Error(`Api error`)
+		// 	}
+		// 	setIsLoading(false)
+		// 	addToast({
+		// 		title: 'Success',
+		// 		description: `${product.name} was added successfully`,
+		// 		type: 'success',
+		// 	})
+		// } catch (error) {
+		// 	setIsLoading(false)
+		// 	addToast({
+		// 		title: `${error.message}`,
+		// 		description: `${product.name} couldn't be added`,
+		// 		type: 'danger',
+		// 	})
+		// }
 	}
 	return (
 		<div className='container mx-auto flex items-center justify-center '>
@@ -230,7 +238,7 @@ const CreateProduct = () => {
 								},
 							})}
 							aria-invalid={errors.description ? 'true' : 'false'}
-							className={`w-full border rounded px-2 py-1 ${
+							className={`w-full dark:bg-body_dark border rounded px-2 py-1 ${
 								errors.description ? 'border-red-500' : 'border-gray-300'
 							}`}
 						/>
@@ -260,10 +268,10 @@ const CreateProduct = () => {
 							className={`border-2 ${
 								errors.image ? 'border-red-500' : 'border-gray-300'
 							} rounded-md block w-full text-base  text-slate-500
-						file:mr-4 file:py-2 file:px-4 file:w-1/2
+						file:mr-4 file:py-2 file:px-4 file:w-1/2 file:dark:bg-body_dark
 						file:rounded-md file:border-0
 						file:font-semibold
-						file:bg-violet-50 file:text-violet-700
+						file:bg-violet-50 file:text-violet-700 file:dark:text-violet-300
 						hover:file:bg-violet-100 hover:file:cursor-pointer`}
 						/>
 						{errors.image && errors.image.type === 'required' && (
@@ -299,7 +307,7 @@ const CreateProduct = () => {
 								},
 							})}
 							aria-invalid={errors.price ? 'true' : 'false'}
-							className={`w-1/2 border rounded px-2 py-1 ${
+							className={`w-1/2 dark:bg-body_dark border rounded px-2 py-1 ${
 								errors.price ? 'border-red-500' : 'border-gray-300'
 							}`}
 						/>
@@ -326,7 +334,7 @@ const CreateProduct = () => {
 								id='country'
 								{...register('country', { required: true, onChange: handleCountrySelect })}
 								aria-invalid={errors.country ? 'true' : 'false'}
-								className={`w-1/2 border rounded px-2 py-1 ${
+								className={`w-1/2 dark:bg-body_dark  border rounded px-2 py-1 ${
 									errors.country ? 'border-red-500' : 'border-gray-300'
 								} hover:cursor-pointer focus:outline-none focus:ring focus:border-blue-500`}>
 								<option value='' disabled>
@@ -342,7 +350,7 @@ const CreateProduct = () => {
 								))}
 							</select>
 						) : (
-							<select className={`w-1/2 border rounded px-2 py-1 border-gray-300`}>
+							<select className={`w-1/2 border dark:bg-body_dark rounded px-2 py-1 border-gray-300`}>
 								<option value=''>Loading Countries...</option>
 							</select>
 						)}
@@ -365,7 +373,7 @@ const CreateProduct = () => {
 								aria-invalid={errors.state ? 'true' : 'false'}
 								// ! en verificación si es correcto o es una mala práctica
 								value={watch('state') || ''}
-								className={`w-1/2 border rounded px-2 py-1 ${
+								className={`w-1/2 dark:bg-body_dark border rounded px-2 py-1 ${
 									errors.country ? 'border-red-500' : 'border-gray-300'
 								} hover:cursor-pointer focus:outline-none focus:ring focus:border-blue-500`}>
 								<option value='' disabled>
@@ -378,7 +386,7 @@ const CreateProduct = () => {
 								))}
 							</select>
 						) : (
-							<select className={`w-1/2 border rounded px-2 py-1 border-gray-300`}>
+							<select className={`w-1/2 dark:bg-body_dark border rounded px-2 py-1 border-gray-300`}>
 								<option value=''>Loading States...</option>
 							</select>
 						)}
@@ -399,7 +407,7 @@ const CreateProduct = () => {
 								id='location'
 								{...register('location', { required: true, onChange: handleLocationSelect })}
 								aria-invalid={errors.location ? 'true' : 'false'}
-								className={`w-1/2 border rounded px-2 py-1 ${
+								className={`w-1/2 dark:bg-body_dark border rounded px-2 py-1 ${
 									errors.country ? 'border-red-500' : 'border-gray-300'
 								} hover:cursor-pointer focus:outline-none focus:ring focus:border-blue-500`}>
 								<option value='' disabled>
@@ -415,7 +423,7 @@ const CreateProduct = () => {
 								))}
 							</select>
 						) : (
-							<select className={`w-1/2 border rounded px-2 py-1 border-gray-300`}>
+							<select className={`w-1/2 dark:bg-body_dark border rounded px-2 py-1 border-gray-300`}>
 								<option value=''>Loading States...</option>
 							</select>
 						)}
@@ -430,11 +438,14 @@ const CreateProduct = () => {
 
 					{/* categories */}
 					<div>
-						<label htmlFor='categories' className='block font-bold mb-1 text-lg'>
-							Select categories:
-						</label>
+						<div className='flex hover:cursor-pointer items-center justify-between w-1/2 border-b-2 px-1 py-1 '  onClick={toggleDropdown}>
+							<label htmlFor='categories' className='font-bold mb-1 text-lg'>
+								Select categories
+							</label>
+							<i>{isExpanded?<ArrowUpCrPr/>:<ArrowDownCrPr/>}</i>
+						</div>
 						{categoriesInfo.categories.length ? (
-							<div className='w-full flex flex-col'>
+							<div className={`w-full flex flex-col ${isExpanded ? 'block' : 'hidden'}`}>
 								{categoriesInfo.categories.map((category) => (
 									<div key={category.idCategory} className='flex items-center w-1/2'>
 										<input
@@ -457,7 +468,7 @@ const CreateProduct = () => {
 								))}
 							</div>
 						) : (
-							<select>
+							<select className={`w-1/2 border rounded px-2 py-1 border-gray-300`}>
 								<option value=''>Loading categories...</option>
 							</select>
 						)}
@@ -467,18 +478,30 @@ const CreateProduct = () => {
 							</p>
 						)}
 					</div>
+
 					<hr className='border-gray_dark' />
-					<div>
-						<label htmlFor='isFeatured' className='font-bold mb-1 pr-4'>
-							Do you want to sponsor this product?
-						</label>
-						<input
-							type='checkbox'
-							id='isFeatured'
-							{...register('isFeatured')}
-							className='accent-dark_purple hover:cursor-pointer  h-4 w-4'
-						/>
-					</div>
+
+					{
+						userId
+						?
+							userinfo.user.membership === "premium"
+							?
+							<div>
+								<label htmlFor='isFeatured' className='font-bold mb-1 pr-4'>
+									Do you want to sponsor this product?
+								</label>
+								<input
+									type='checkbox'
+									id='isFeatured'
+									{...register('isFeatured')}
+									className='accent-dark_purple hover:cursor-pointer  h-4 w-4'
+								/>
+							</div>
+							:
+							null
+						:
+						null
+					}
 
 					<input
 						type='submit'

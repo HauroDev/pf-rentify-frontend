@@ -112,24 +112,12 @@ const Pricing = () => {
 					<div className="flex justify-center mt-8 space-x-8">
 						<div className='bg-gray_red p-5'>
 							<p className='font-bold text-lg '>Basic Membership (Free)</p>
+							<p>{user.membership === "basic" ? "Current":""}</p>
 							<ul className='font-bold'>
 								<li>Up to 5 items listings per month.</li>
 								<li>Standard transaction fees.</li>
 								<li>Enjoy Rent-ify for free.</li>
 							</ul>
-							{
-								user.membership === "premium" || user.membership === "basic"
-								? 
-								(<button 
-									onClick={handleClick} 
-									className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '
-									value="standard">
-									Subscribe	
-									</button>)
-								: null
-
-							}
-							
 						</div>
 
 						<div className='bg-gray_red p-5'>
@@ -161,7 +149,7 @@ const Pricing = () => {
 								<li>Unlimited number of item listings per month.</li>
 								<li>Reduced transaction fees</li>
 								<li>Priority highlighting in search results</li>
-								<li>Premium customer support</li>
+								<li><span>💎</span>Premium customer support</li>
 								<li>Price: $869.99 per month</li>
 							</ul>
 							{
