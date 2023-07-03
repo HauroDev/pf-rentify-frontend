@@ -1,0 +1,120 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getUserProducts } from "../../../services/profile";
+import { localStorageItems } from "../../../utils/localStorageItems";
+const initialState = {
+  product: [],
+  status: "idle",
+  error: null,
+};
+
+export const fetchUserProducts = createAsyncThunk(
+  "products/fetchUserProducts",
+  async (id) => {
+    try {
+      return await getUserProducts(id);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+);
+
+const productSlice = createSlice({
+  name: "productsUser",
+  initialState,
+  reducers: {
+    setProductName: (state, action) => {
+      state.product = action.payload;
+      localStorage.setItem(
+        localStorageItems.userProducts,
+        JSON.stringify({ product: state.product })
+      );
+    },
+    setProductStatusPub: (state, action) => {
+      state.product = action.payload;
+      console.log(state.product);
+      localStorage.setItem(
+        localStorageItems.userProducts,
+        JSON.stringify({ product: state.product }) // Utiliza el estado completo en lugar de especificar las propiedades individualmente
+      );
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUserProducts.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchUserProducts.fulfilled, (state, action) => {
+        state.status = "success";
+        state.product = action.payload;
+      })
+      .addCase(fetchUserProducts.rejected, (state, action) => {
+        state.status = "error";
+        state.error = action.error.message;
+      });
+  },
+});
+
+export const { setProductName, setProductStatusPub } = productSlice.actions;
+
+export default productSlice.reducer;
+
+// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+// import { getUserProducts } from "../../../services/profile";
+// import { updateProductstatusPub } from "../../../services/profile";
+
+// const initialState = {
+//   product: [],
+//   status: "idle",
+//   error: null,
+// };
+
+// export const fetchUserProducts = createAsyncThunk(
+//   "products/fetchUserProducts",
+//   async (id) => {
+//     try {
+//       return await getUserProducts(id);
+//     } catch (error) {
+//       return Promise.reject(error);
+//     }
+//   }
+// );
+
+// const productSlice = createSlice({
+//   name: "product",
+//   initialState,
+//   reducers: {
+//     setProductName: (state, action) => {
+//       state.product.name = action.payload;
+//       localStorage.setItem(
+//         localStorageItems.userAuth,
+//         JSON.stringify({ product: state.product })
+//       );
+//     },
+//     setProductStatusPub: (state, action) => {
+//       state.product.statusPub = action.payload;
+//       localStorage.setItem(
+//         localStorageItems.userAuth,
+//         JSON.stringify({ product: state.product })
+//       );
+//     },
+//   },
+
+//   extraReducers: (builder) => {
+//     builder
+//       .addCase(fetchUserProducts.pending, (state) => {
+//         state.status = "loading";
+//       })
+//       .addCase(fetchUserProducts.fulfilled, (state, action) => {
+//         state.status = "success";
+//         state.product = action.payload;
+//       })
+//       .addCase(fetchUserProducts.rejected, (state, action) => {
+//         state.status = "error";
+//         state.error = action.error.message;
+//       });
+//   },
+// });
+
+// export const { setProductName, setProductStatusPub } = productSlice.actions;
+
+// export default productSlice.reducer;

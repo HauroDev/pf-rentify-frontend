@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserName, updateUserPhone } from "../../services/profile";
 import CardProfile from "./CardProfile";
 import { useState } from "react";
-import { setUserName } from "../../app/features/user/userSlice";
+import { setUserName, setUserPhone } from "../../app/features/user/userSlice";
 
 const UserProfile = ({ idUser, image, phone, email, membership }) => {
   const dispatch = useDispatch();
@@ -63,20 +63,7 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
       try {
         await updateUserPhone(idUser, newPhone);
         setIsEditingPhone(false);
-
-        if (localStorageData) {
-          const userData = JSON.parse(localStorageData);
-          const updatedUserData = {
-            ...userData,
-            user: {
-              ...userData.user,
-              phone: newPhone,
-            },
-          };
-
-          // Actualizar el contenido en el localStorage
-          localStorage.setItem("userAuth", JSON.stringify(updatedUserData));
-        }
+        dispatch(setUserPhone(newPhone));
       } catch (error) {
         console.error(error);
       }

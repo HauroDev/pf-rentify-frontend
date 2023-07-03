@@ -3,24 +3,26 @@ import { Link } from "react-router-dom";
 import FeaturedIcon from "../icons/FeaturedIcon";
 import { formatDate } from "../../utils/formatDate";
 import { useEffect, useRef, useContext } from "react";
-import { useSelector } from "react-redux";
-import { ToastContext } from '../../context/ToastContext'
-import {updateProductstatusPub} from "../../services/profile"
+import { useSelector, useDispatch } from "react-redux";
+import { ToastContext } from "../../context/ToastContext";
+import { updateProductstatusPub } from "../../services/profile";
+import { setProductStatusPub } from "../../app/features/product/product";
 
 const CardProfile = ({ product }) => {
+  console.log(product);
+  console.log(product.categories);
+  //const { product } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
   const { addToast } = useContext(ToastContext);
   //
-  console.log(product.idProd)
- const  idUser = useSelector((state) => state.user.user.idUser);
-  let idProdIdUser = 0;
-  if (idProdIdUser == 0) idProdIdUser = product.UserProduct.idUser;
-
+  console.log(product.idProd);
+  const idUser = useSelector((state) => state.user.user.idUser);
+  // let idProdIdUser = 0;
+  // if (idProdIdUser == 0) idProdIdUser = product.UserProduct.idUser;
   //
   const cardRef = useRef(null);
-
   useEffect(() => {
     const card = cardRef.current;
-
     const cb = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -30,16 +32,12 @@ const CardProfile = ({ product }) => {
         }
       });
     };
-
     const observer = new IntersectionObserver(cb, { threshold: 0.2 });
-
     if (card) observer.observe(card);
-
     return () => {
       observer.disconnect();
     };
   }, []);
-
   const getCategoryNames = () => {
     if (product && product.categories.length > 0) {
       const categoryNames = product.categories.map((category) => {
@@ -54,37 +52,41 @@ const CardProfile = ({ product }) => {
       return ["No Category"];
     }
   };
-
-	const handleActive = async (e) => {
-    console.log("handleActive")
-		try {
-      await updateProductstatusPub(product.idProd,"active")
-			addToast({
-				title: 'Success',
-				description: `${product.name} 
+  const handleActive = async (e) => {
+    try {
+      dispatch(
+        setProductStatusPub(
+          await updateProductstatusPub(product.idProd, "active")
+        )
+      );
+      addToast({
+        title: "Success",
+        description: `${product.name}
         was activated`,
-				type: 'success',
-			})
-		} catch (error) {
-			 console.log(error)
-			addToast({ title: 'Error', description: error.message, type: 'warning' })
-		}
-	}
-	const handleInactive = async (e) => {
-    console.log("handleInactive")
-		try {
-      await updateProductstatusPub(product.idProd,"inactive")
-			addToast({
-				title: 'Success',
-				description: `${product.name} was paused`,
-				type: 'success',
-			})
-		} catch (error) {
-			// console.log(error.message)
-			addToast({ title: 'Error', description: error.message, type: 'warning' })
-		}
-	}
-
+        type: "success",
+      });
+    } catch (error) {
+      console.log(error);
+      addToast({ title: "Error", description: error.message, type: "warning" });
+    }
+  };
+  const handleInactive = async (e) => {
+    try {
+      dispatch(
+        setProductStatusPub(
+          await updateProductstatusPub(product.idProd, "inactive")
+        )
+      );
+      addToast({
+        title: "Success",
+        description: `${product.name} was paused`,
+        type: "success",
+      });
+    } catch (error) {
+      // console.log(error.message)
+      addToast({ title: "Error", description: error.message, type: "warning" });
+    }
+  };
   return (
     <div
       key={product.idProd}
@@ -113,14 +115,12 @@ const CardProfile = ({ product }) => {
             />
           </div>
         </Link>
-
         <div className="flex justify-between items-end text-2xl font-cabin font-bold mb-2">
           ${product.price}
           <span className="text-sm text-gray_dark mb-2">
             {formatDate(product.updatedAt)}
           </span>
         </div>
-
         <Link
           to={`/product/${product.idProd}`}
           className="text-2xl font-amaranth font-bold mb-2"
@@ -138,7 +138,6 @@ const CardProfile = ({ product }) => {
             </p>
           ))}
         </div>
-
         <div className="flex justify-between items-end">
           <p className="text-sm text-gray_dark">
             {product.location},{product.state}

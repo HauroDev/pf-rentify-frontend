@@ -1,60 +1,68 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getUserProducts } from "../../services/profile";
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import { routesName } from "../../utils/routes_name";
 import { Link } from "react-router-dom";
 import { connectStorageEmulator } from "firebase/storage";
+import { fetchUserProducts } from "../../app/features/product/product";
 
-export const initalStateProduct = {
-  product: [],
-  status: "idle",
-  error: null,
-};
+// export const initalStateProduct = {
+//   product: [],
+//   status: "idle",
+//   error: null,
+// };
 const CardProfile = () => {
-  const [stateProduct, setStateProduct] = useState(initalStateProduct);
-
-  const state = useSelector((state) => state.user);
-  const user = state.user;
-  const id = user.idUser;
-
-  const getProductId = async (id, set) => {
-    set({
-      status: "loading",
-      product: [],
-      error: null,
-    });
-    try {
-      const data = await getUserProducts(id);
-      console.log(data);
-      set({
-        status: "success",
-        product: [...data],
-        error: null,
-      });
-    } catch (error) {
-      set({
-        status: "error",
-        product: [],
-        error: error.response.data.message,
-      });
-    }
-  };
-
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.user.idUser);
+  const productsState = useSelector((state) => state.product);
   useEffect(() => {
-    getProductId(id, setStateProduct);
-    return () => {
-      setStateProduct(initalStateProduct);
-    };
-  }, [id]);
+    dispatch(fetchUserProducts(userId));
+  }, [dispatch, userId]);
 
-  const products = stateProduct.product.map((prod) => prod);
-  console.log(products);
+  console.log(productsState);
+  console.log(productsState.product);
+  console.log("esto es producto");
+  // const [stateProduct, setStateProduct] = useState(initalStateProduct);
+
+  // const state = useSelector((state) => state.user);
+  // const user = state.user;
+  // const id = user.idUser;
+
+  // const getProductId = async (id, set) => {
+  //   set({
+  //     status: "loading",
+  //     product: [],
+  //     error: null,
+  //   });
+  //   try {
+  //     const data = await getUserProducts(id);
+  //     console.log(data);
+  //     set({
+  //       status: "success",
+  //       product: [...data],
+  //       error: null,
+  //     });
+  //   } catch (error) {
+  //     set({
+  //       status: "error",
+  //       product: [],
+  //       error: error.response.data.message,
+  //     });
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getProductId(id, setStateProduct);
+  //   return () => {
+  //     setStateProduct(initalStateProduct);
+  //   };
+  // }, [id]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-      {products.length != 0 ? (
-        products.map((product) => (
+      {productsState?.status === "success" ? (
+        Object.values(productsState?.product).map((product) => (
           <Card key={product.idProd} product={product} />
         ))
       ) : (
