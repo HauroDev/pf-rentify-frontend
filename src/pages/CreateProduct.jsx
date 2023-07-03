@@ -9,7 +9,8 @@ import { fetchPostProductAsync } from '../app/features/products/productsSlice'
 import { saveAndGetImage } from '../services/imageFirebaseService'
 import { getCountryStates } from '../services/locationService';
 import ArrowUpCrPr from "../components/icons/ArrowUpCrPr";
-import ArrowDownCrPr from "../components/icons/ArrowDownCrPr"
+import ArrowDownCrPr from "../components/icons/ArrowDownCrPr";
+import ProductPreview from './ProductPreview'
 
 const CreateProduct = () => {
 	const {
@@ -511,6 +512,8 @@ console.log(userinfo);
 				</form>
 				{isLoading && <p>Loading...</p>}
 			</div>
+
+			<ProductPreview/>
 		</div>
 	)
 }
