@@ -127,7 +127,7 @@ console.log(userinfo);
 	}
 
 	const onSubmit = async (data) => {
-		//setIsLoading(true)
+		setIsLoading(true)
 		console.log(data)
 		const filteredCategories = [...categoriesInfo.categories]
 			.filter((category) => data.categories.includes(String(category.idCategory)))
@@ -146,33 +146,33 @@ console.log(userinfo);
 		}
 
 		console.log(product)
-		// try {
-		// 	const imgURL = await saveAndGetImage(data.image[0], 'products')
-		// 	console.log(imgURL)
-		// 	if (!imgURL) {
-		// 		throw Error('Firebase Error')
-		// 	}
-		// 	const updatedProduct = { ...product, image: imgURL }
-		// 	console.log(updatedProduct)
-		// 	const response = await dispatch(fetchPostProductAsync(updatedProduct))
+		try {
+			const imgURL = await saveAndGetImage(data.image[0], 'products')
+			console.log(imgURL)
+			if (!imgURL) {
+				throw Error('Firebase Error')
+			}
+			const updatedProduct = { ...product, image: imgURL }
+			console.log(updatedProduct)
+			const response = await dispatch(fetchPostProductAsync(updatedProduct))
 
-		// 	if (!response.payload) {
-		// 		throw Error(`Api error`)
-		// 	}
-		// 	setIsLoading(false)
-		// 	addToast({
-		// 		title: 'Success',
-		// 		description: `${product.name} was added successfully`,
-		// 		type: 'success',
-		// 	})
-		// } catch (error) {
-		// 	setIsLoading(false)
-		// 	addToast({
-		// 		title: `${error.message}`,
-		// 		description: `${product.name} couldn't be added`,
-		// 		type: 'danger',
-		// 	})
-		// }
+			if (!response.payload) {
+				throw Error(`Api error`)
+			}
+			setIsLoading(false)
+			addToast({
+				title: 'Success',
+				description: `${product.name} was added successfully`,
+				type: 'success',
+			})
+		} catch (error) {
+			setIsLoading(false)
+			addToast({
+				title: `${error.message}`,
+				description: `${product.name} couldn't be added`,
+				type: 'danger',
+			})
+		}
 	}
 	return (
 		<div className='container mx-auto flex items-center justify-center '>
