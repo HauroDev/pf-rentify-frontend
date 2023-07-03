@@ -48,7 +48,7 @@ const HowItWork = () => {
         <div className="flex flex-col md:flex-row items-center justify-center w-full">
           <div className="h-60 md:w-1/2 bg-gray_light dark:bg-card_dark p-4 flex items-center justify-center">
             <div className="text-center">
-              <h2 className="text-5xl md:text-7xl font-bold text-dark_purple mb-4">
+              <h2 className="text-5xl md:text-7xl font-bold text-medium_purple mb-4">
                 How renting works
               </h2>
               <p className="text-lg leading-7 text-text_light dark:text-text_dark">
@@ -62,7 +62,7 @@ const HowItWork = () => {
         <div>
           <div className="text-center mt-8">
             <p className="text-text_gray font-bold text-md">How it works</p>
-            <h3 className="text-4xl font-bold text-dark_purple">Getting started with Rent-ify</h3>
+            <h3 className="text-4xl font-bold text-medium_purple">Getting started with Rent-ify</h3>
           </div>
 
           <div className="flex flex-col md:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-12">
@@ -74,7 +74,7 @@ const HowItWork = () => {
                 }`}
               >
                 <div className="text-justify flex flex-col items-center justify-between p-4 h-full">
-                  <p className="text-2xl font-bold text-dark_purple">{index + 1}</p>
+                  <p className="text-2xl font-bold text-medium_purple">{index + 1}</p>
                   <p className="text-lg font-bold mb-2">{slide.title}</p>
                   <p className="text-base leading-6 text-text_light dark:text-text_dark">
                     {slide.description}
@@ -89,7 +89,7 @@ const HowItWork = () => {
           <div className="flex justify-center mt-4">
             <button
               onClick={prevSlide}
-              className={`mr-4 p-2 rounded-full bg-dark_purple text-white transition-opacity duration-300 hover:opacity-75 ${
+              className={`mr-4 p-2 rounded-full bg-medium_purple hover:bg-dark_purple text-white transition-opacity duration-300 hover:opacity-75 ${
                 currentSlide === 0 ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               disabled={currentSlide === 0}
@@ -98,7 +98,7 @@ const HowItWork = () => {
             </button>
             <button
               onClick={nextSlide}
-              className={`p-2 rounded-full bg-dark_purple text-white transition-opacity duration-300 hover:opacity-75 ${
+              className={`p-2 rounded-full bg-medium_purple hover:bg-dark_purple text-white transition-opacity duration-300 hover:opacity-75 ${
                 currentSlide === slides.length - 1 ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               disabled={currentSlide === slides.length - 1}
@@ -117,7 +117,7 @@ const HowItWork = () => {
           <div className="flex flex-col md:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-12">
             <div className="text-justify flex flex-col items-center justify-between p-4">
               <p className="text-lg font-bold text-dark_purple">Low Monthly Costs</p>
-              <img src={handCoin} alt="hand-coin" className="my-4" />
+              <img src={handCoin} alt="hand-coin" className="my-4 h-20 w-20" />
               <p className="text-base leading-6 text-text_light dark:text-text_dark">
                 Say goodbye to high upfront costs and long-term commitments. Rent a wide range of products at budget-friendly prices.
               </p>
@@ -125,7 +125,7 @@ const HowItWork = () => {
 
             <div className="text-justify flex flex-col items-center justify-between p-4">
               <p className="text-lg font-bold text-dark_purple">Flexible Rental Periods</p>
-              <img src={calendar} alt="calendar" className="my-4" />
+              <img src={calendar} alt="calendar" className="my-4 h-20 w-20" />
               <p className="text-base leading-6 text-text_light dark:text-text_dark">
                 Rent for as long as you need. Choose from flexible rental durations. Adjust your rental plan to match your changing needs.
               </p>
@@ -133,7 +133,7 @@ const HowItWork = () => {
 
             <div className="text-justify flex flex-col items-center justify-between p-4">
               <p className="text-lg font-bold text-dark_purple">Environmental Impact</p>
-              <img src={greenWorld} alt="green-world" className="my-4" />
+              <img src={greenWorld} alt="green-world" className="my-4 h-20 w-20" />
               <p className="text-base leading-6 text-text_light dark:text-text_dark">
                 By renting, you help extend the lifespan of products, minimizing unnecessary consumption and promoting sustainability.
               </p>
