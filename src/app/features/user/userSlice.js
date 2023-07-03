@@ -6,6 +6,7 @@ import {
 	registerUser,
 	loginGoogle,
 	logoutUser,
+	setInitialUserDB,
 } from '../../../services/authSevice'
 import { localStorageItems } from '../../../utils/localStorageItems'
 import { firebaseErrors } from '../../../utils/firebaseErrors'
@@ -75,13 +76,22 @@ export const LogoutUser = createAsyncThunk('user/LogoutUser', async () => {
 	}
 })
 
+export const setInitialUser = createAsyncThunk('user/setInitialUser', async ({ email, uid }) => {
+	try {
+		return await setInitialUserDB({ email, uid })
+	} catch (error) {
+		return Promise.reject(error.response.data.error)
+	}
+})
+
 const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
 		// reinico del stado
 		setUser: (state, action) => {
-			state.user = action.payload
+			state.user = action.payload.user
+			state.token = action.payload.token
 			state.login = true
 			state.status = 'success'
 		},
@@ -165,6 +175,24 @@ const userSlice = createSlice({
 				localStorage.setItem(localStorageItems.userAuth, user)
 			})
 			.addCase(LoginUserGoogle.rejected, (state, action) => {
+				state.status = 'error'
+				state.error = action.error.message
+			})
+
+			//INITIAL USER
+			.addCase(setInitialUser.pending, (state) => {
+				state.status = 'loading'
+				state.error = null
+			})
+			.addCase(setInitialUser.fulfilled, (state, { payload }) => {
+				state.user = payload.user
+				state.login = true
+				state.status = 'success'
+				state.token = payload.auth_token.token
+				const user = userToLS(payload.user, payload.auth_token.token)
+				localStorage.setItem(localStorageItems.userAuth, user)
+			})
+			.addCase(setInitialUser.rejected, (state, action) => {
 				state.status = 'error'
 				state.error = action.error.message
 			})

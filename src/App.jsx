@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useContext, useEffect } from 'react'
-import { LogoutUser, resetUser, setUser } from './app/features/user/userSlice'
+import { LogoutUser, resetUser, setInitialUser } from './app/features/user/userSlice'
 import { localStorageItems } from './utils/localStorageItems'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './firebase.config'
@@ -23,7 +23,7 @@ function App() {
 		const cart = getCart()
 		dispatch(setCart(cart))
 		if (userAuth.login) {
-			dispatch(setUser(userAuth.user))
+			dispatch(setInitialUser({ email: userAuth.user.email, uid: userAuth.user.uid }))
 		}
 		const unsuscribe = onAuthStateChanged(auth, (user) => {
 			if (!user) {

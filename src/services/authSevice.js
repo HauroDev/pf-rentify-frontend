@@ -85,6 +85,13 @@ export const logoutUser = async () => {
 	return res
 }
 
+export const setInitialUserDB = async ({ email, uid }) => {
+	const { data } = await axios.post(LOGIN_API, { email, uid })
+	console.log(data)
+
+	return data
+}
+
 // export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (user) => {
 // try {
 // return await loginGoogle(user);
