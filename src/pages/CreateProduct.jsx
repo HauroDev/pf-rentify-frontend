@@ -42,10 +42,20 @@ const CreateProduct = () => {
 
 	const [isExpanded, setIsExpanded] = useState(false);
 
+	const [productData, setProductData] = useState({
+		name: '',
+		description: '',
+		price: '',
+		location: '',
+		currency: null
+	});
+
+	const [imageProduct,setImageProduct] = useState(null);
+
 	const toggleDropdown = () => {
 		setIsExpanded(!isExpanded);
 	};
-	console.log(isExpanded);
+	
 	const getDataState = async (id) => {
 		try {
 			const data = await getCountryStates(id)
@@ -54,7 +64,7 @@ const CreateProduct = () => {
 			console.log(error)
 		}
 	}
-console.log(userinfo);
+
 	const getDataLocation = async (id) => {
 		try {
 			const data = await getCountryStates(id)
@@ -63,6 +73,7 @@ console.log(userinfo);
 			console.log(error)
 		}
 	}
+
 
 	useEffect(() => {
 		if (userinfo.status === 'success') {
@@ -84,15 +95,40 @@ console.log(userinfo);
 		}
 	}, [countryApiId, stateApiId, userinfo])
 
+	console.log(userinfo);
+
+	const handleImageChange = () => {
+		trigger('image');
+		setImageProduct(()=>{
+			const file = watch("image");
+			if(file && file[0]){
+				const allowedTypes = ['image/jpeg', 'image/png'];
+				const maxSizeInBytes = 0.5 * 1024 * 1024;
+				if (!allowedTypes.includes(file[0].type)) {
+					return null;
+				}
+			
+				if (file[0].size > maxSizeInBytes) {
+					return null;
+				}
+				return file;
+			}
+			return null;
+		})
+	}
+
 	const handleCountrySelect = (e) => {
 		trigger('country')
 		const selectedOption = e.target.options[e.target.selectedIndex].getAttribute('data-geonameid')
-		setCountryApiId(selectedOption)
+		setCountryApiId(selectedOption);
+		setProductData((prevInput)=>({
+			...prevInput,
+			currency: countriesInfo.countries.find(c => c.geonameId === parseFloat(selectedOption))?.currency
+		}))
 		setValue('state', '')
 	}
-	// console.log(watch('country'))
-	// console.log(watch('state'))
-	// console.log(watch('location'))
+
+
 
 	const handleStateSelect = (e) => {
 		trigger('state')
@@ -103,7 +139,11 @@ console.log(userinfo);
 	}
 
 	const handleLocationSelect = (e) => {
-		trigger('location')
+		trigger('location');
+		setProductData((prevInput)=>({
+			...prevInput,
+			location: watch("location")
+		}))
 	}
 
 	const validateFileSize = (file) => {
@@ -175,11 +215,15 @@ console.log(userinfo);
 			})
 		}
 	}
+
+
+	console.log(productData);
+	console.log(errors);
 	return (
 		<div className='container mx-auto flex items-center justify-center '>
-			<div className='bg-gray_medium dark:bg-card_dark w-1/2 p-4 rounded-md shadow-xl'>
-				<h2 className='text-2xl font-bold mb-4'>Post a product</h2>
+			<div className='bg-gray_medium dark:bg-card_dark p-4 rounded-md shadow-xl'>
 				<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+					<h2 className='text-2xl font-bold mb-4'>Post a product</h2>
 					{/*  name */}
 					<div>
 						<label htmlFor='name' className='block font-bold mb-1'>
@@ -194,7 +238,11 @@ console.log(userinfo);
 								minLength: 3,
 								pattern: /^[\wñÑ\s\d]+$/u,
 								onChange: () => {
-									trigger('name')
+									trigger('name');
+									setProductData((prevInput)=>({
+										...prevInput,
+										name: watch("name")
+									}))
 								},
 							})}
 							aria-invalid={errors.name ? 'true' : 'false'}
@@ -235,7 +283,11 @@ console.log(userinfo);
 								required: true,
 								maxLength: 1200,
 								onChange: () => {
-									trigger('description')
+									trigger('description');
+									setProductData((prevInput)=>({
+										...prevInput,
+										description: watch("description")
+									}))
 								},
 							})}
 							aria-invalid={errors.description ? 'true' : 'false'}
@@ -261,9 +313,7 @@ console.log(userinfo);
 							{...register('image', {
 								required: true,
 								validate: { validateFileType, validateFileSize },
-								onChange: () => {
-									trigger('image')
-								},
+								onChange: handleImageChange,
 							})}
 							aria-invalid={errors.image ? 'true' : 'false'}
 							className={`border-2 ${
@@ -304,7 +354,11 @@ console.log(userinfo);
 								required: true,
 								min: 0,
 								onChange: () => {
-									trigger('price')
+									trigger('price');
+									setProductData((prevInput)=>({
+										...prevInput,
+										price: parseFloat(watch("price"))
+									}))
 								},
 							})}
 							aria-invalid={errors.price ? 'true' : 'false'}
@@ -513,7 +567,14 @@ console.log(userinfo);
 				{isLoading && <p>Loading...</p>}
 			</div>
 
-			<ProductPreview/>
+			<ProductPreview
+				name={productData.name}
+				description={productData.description}
+				price={productData.price}
+				location={productData.location}
+				currency={productData.currency}
+				image={imageProduct}
+			/>
 		</div>
 	)
 }
