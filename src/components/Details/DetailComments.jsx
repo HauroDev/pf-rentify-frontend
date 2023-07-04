@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReviewIcon from '../../components/icons/ReviewIcon';
 import DetailCard from './DetailCard';
 import DeatilSectionContainer from './DeatilSectionContainer';
-import { CreateComment, EditComment,DeletComment } from '../../app/features/comment/commentSlice';
+import { CreateComment, EditComment, DeletComment } from '../../app/features/comment/commentSlice';
 
 const DetailComments = ({ idProd, commentes, star, average }) => {
   const [rating, setRating] = useState(0);
@@ -16,7 +16,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
   const userState = useSelector((state) => state.user);
   const commentState = useSelector((state) => state.comment);
   const [showRating, setShowRating] = useState(false);
-
+  // const {addToast}=useContext(ToastContext);
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
@@ -32,12 +32,11 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
       setShowRating(!showRating);
     }
   };
-  useEffect(()=>{
-    if(commentState.status==='error')
-    {
+  useEffect(() => {
+    if (commentState.status === 'error') {
       console.log(commentState.error)
     }
-  },[commentState.status])
+  }, [commentState.status])
 
   const handleEditComment = (comment) => {
     setEditCommentId(comment.idComment);
@@ -51,9 +50,9 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
         idProd: idProd,
         idUser: userState.user.idUser,
         idComment: comment.idComment,
-        commentStatus:false
+        commentStatus: false
       };
-      dispatch(DeletComment (DelettComment));
+      dispatch(DeletComment(DelettComment));
       setCommentSubmitted(DelettComment);
 
       console.log(DelettComment)
@@ -85,7 +84,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
       dispatch(EditComment(editedComment));
       setCommentSubmitted(editedComment);
       setEditCommentId(null);
-      
+
       console.log(editedComment)
     }
   };
@@ -208,11 +207,11 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
                 </div>
               ) : (
                 <div>
-                  <button  type='submit' className='text-blue-500 hover:text-blue-700' onClick={() => handleEditComment(comment)}>
+                  <button type='submit' className='text-blue-500 hover:text-blue-700' onClick={() => handleEditComment(comment)} disabled={comment.idUser !== userState.user.idUser}>
                     Editar
                   </button>
                   <div className='col-span-1 flex items-end justify-end'>
-                    <button type='submit' className='text-red-500 hover:text-red-700 justify-end' onClick={() => handleDeleteComment(comment)}>
+                    <button type='submit' className='text-red-500 hover:text-red-700 justify-end' onClick={() => handleDeleteComment(comment)} disabled={comment.idUser !== userState.user.idUser}>
                       Eliminar
                     </button>
                   </div>
