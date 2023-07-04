@@ -111,12 +111,12 @@ const FAQS = () => {
           <div
             key={index}
             className={`p-6 border-b dark:bg-card_dark border-gray_medium ${
-              activeIndex === index ? 'bg-gray_light' : ''
+              activeIndex === index ? 'bg-gray_light dark:bg-selected_dark'  : ''
             }`}
           >
             <div
               className={`flex justify-between items-center ${
-                activeIndex === index ? 'text-medium_purple' : 'text-text_light dark:text-white'
+                activeIndex === index ? 'text-medium_purple dark:text-light_purple' : 'text-text_light dark:text-white'
               }`}
               onClick={() => handleQuestionClick(index)}
             >
