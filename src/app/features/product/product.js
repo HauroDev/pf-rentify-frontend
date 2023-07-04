@@ -30,11 +30,11 @@ const productSlice = createSlice({
       );
     },
     setProductStatusPub: (state, action) => {
-      state.product = action.payload;
+      state.product.statePub = action.payload.statePub; // Actualiza solo la propiedad statePub
       console.log(state.product);
       localStorage.setItem(
         localStorageItems.userProducts,
-        JSON.stringify({ product: state.product }) // Utiliza el estado completo en lugar de especificar las propiedades individualmente
+        JSON.stringify({ product: state.product })
       );
     },
   },
