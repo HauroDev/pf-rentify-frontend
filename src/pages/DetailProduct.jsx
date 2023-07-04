@@ -85,6 +85,7 @@ const DetailProduct = () => {
 									star={state.product.reviews.stars}
 									average={state.product.reviews.average}
 									idcomment={state.product.reviews.comments}
+									updated={state.product.reviews.updatedAt}
 								/>
 							</div>
 

@@ -5,7 +5,7 @@ import DetailCard from './DetailCard';
 import DeatilSectionContainer from './DeatilSectionContainer';
 import { CreateComment, EditComment, DeletComment } from '../../app/features/comment/commentSlice';
 import { ToastContext } from '../../context/ToastContext'
-const DetailComments = ({ idProd, commentes, star, average }) => {
+const DetailComments = ({ idProd, commentes, star, average,updated }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [commentSubmitted, setCommentSubmitted] = useState({});
@@ -262,6 +262,11 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
                   <div className='col-span-1 flex items-start justify-end'>
                     <p className='text-right text-gray-600 dark:text-white dark:text-opacity-50 text-opacity-50'>
                       {comment.user.name}
+                    </p>
+                  </div>
+                  <div className='col-span-1 flex items-start justify-end'>
+                    <p className='text-right text-gray-600 dark:text-white dark:text-opacity-50 text-opacity-50'>
+                      {comment.updatedAt}
                     </p>
                   </div>
                 </div>
