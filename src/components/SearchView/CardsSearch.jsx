@@ -13,6 +13,7 @@ const CardsSearch = ({ products = [] }) => {
 					name={product.name}
 					price={product.price}
 					updatedAt={product.updatedAt}
+					country={product.country}
 					isOnModal={false}
 				/>
 			))}

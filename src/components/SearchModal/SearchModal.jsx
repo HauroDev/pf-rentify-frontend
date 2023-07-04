@@ -62,6 +62,7 @@ const SearchModal = ({ closeModal }) => {
 											id={product.idProd}
 											price={product.price}
 											updatedAt={product.updatedAt}
+											country={product.country}
 											closeModal={closeModal}
 										/>
 									))}

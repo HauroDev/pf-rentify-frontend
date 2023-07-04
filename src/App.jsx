@@ -27,7 +27,6 @@ function App() {
 		}
 		const unsuscribe = onAuthStateChanged(auth, (user) => {
 			if (!user) {
-				localStorage.removeItem(localStorageItems.userAuth)
 				dispatch(resetUser())
 			}
 		})
