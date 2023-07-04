@@ -55,10 +55,10 @@ const Pricing = () => {
 		const email = user.email;
 		const type = e.target.value;
 		const backURL = "https://pf-rentify-frontend.vercel.app";
-		const price =  e.target.value === "premium" ? 100:0;
+		const price =  e.target.value === "premium" ? 869.99:569.99;
 		
 		const paymentInfo = {
-			reason: `Suscripción mensual ${type}`,
+			reason: `Suscripción mensual`,
 			price: price,
 			type:type,
 			idUser: idUser
@@ -111,11 +111,22 @@ const Pricing = () => {
 					<div><h3 className='text-2xl'>Membership Plans</h3></div>
 					<div className="flex justify-center mt-8 space-x-8">
 						<div className='bg-gray_red p-5'>
-							<p className='font-bold text-lg '>Standard Membership (Free)</p>
+							<p className='font-bold text-lg '>Basic Membership (Free)</p>
+							<p>{user.membership === "basic" ? "Current":""}</p>
 							<ul className='font-bold'>
 								<li>Up to 5 items listings per month.</li>
 								<li>Standard transaction fees.</li>
 								<li>Enjoy Rent-ify for free.</li>
+							</ul>
+						</div>
+
+						<div className='bg-gray_red p-5'>
+							<p className='font-bold text-lg '>Standard Membership</p>
+							<ul className='font-bold'>
+								<li>Up to 5 items listings per month.</li>
+								<li>Standard transaction fees.</li>
+								
+								<li>Price: $569.99 per month</li>
 							</ul>
 							{
 								user.membership === "premium" || user.membership === "basic"
@@ -138,8 +149,8 @@ const Pricing = () => {
 								<li>Unlimited number of item listings per month.</li>
 								<li>Reduced transaction fees</li>
 								<li>Priority highlighting in search results</li>
-								<li>Premium customer support</li>
-								<li>Price: $X.XX per month</li>
+								<li><span>💎</span>Premium customer support</li>
+								<li>Price: $869.99 per month</li>
 							</ul>
 							{
 								user.membership === "standard" || user.membership === "basic"
