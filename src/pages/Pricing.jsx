@@ -82,123 +82,122 @@ const Pricing = () => {
 	}
 
 	return (
-		<div className='container mx-auto p-4'>
+		<div className='max-w-6xl mx-auto p-8'>
 			<div className='flex flex-col items-center'>
-				<div className='flex items-center  justify-center w-full '>
-					<div className="h-48 w-1/2 bg-gray_medium p-4 flex items-center justify-center">
-						<div className='h-4/5  flex flex-col justify-around items-center'>
-							<h2 className='text-4xl font-bold'>Rent-ify Membership</h2>
-							<h3 className='text-2xl font-bold'>Exclusive acces and special benefits</h3>
+				<div className='flex flex-col md:flex-row items-center justify-center w-full '>
+					<div className="h-60 md:w-1/2 bg-gray_light dark:bg-card_dark p-4 flex items-center justify-center">
+						<div className='text-center'>
+							<h2 className='text-5xl md:text-6xl font-bold text-medium_purple mb-4'>Rent-ify Membership</h2>
+							<p className='text-xl leading-7 text-text_light dark:text-text_dark mt-8'>Exclusive access and special benefits</p>
 						</div>
 					</div>
-					<img src={social} alt="social" className='h-48'/>
+					<img src={social} alt="social" className='h-60 md:w-1/2 object-cover'/>
 				</div>
 
-				<div className=''>
-					<h3 className='text-2xl font-bold text-center'>Unlock a world of convenience and savings with our exclusive membership program</h3>
-					<div className='flex items-center  justify-center '>
-						<div className='h-48 w-1/5 bg-gray_red p-4 flex items-center'>
-							<p className='text-base text-justify font-bold'>Gain unlimited access to a wide range of items, enjoy discounted transaction fees, and receive top-notch support.</p>
-						</div>
-						<img src={shippingCajita} alt="shipping-cajita" className='h-48'/>
-						<div className='h-48 w-1/5 bg-gray_red p-4 flex items-center'>
-							<p className='text-base text-justify font-bold'>Whether you're a frequent renter or a savvy item owner, our membership offers a host of benefits tailored to enhance your renting experience.</p>
+				<div className="text-center mt-8">
+					<h3 className="text-2xl font-bold text-medium_purple">Unlock a world of convenience and savings with our exclusive membership program</h3>
+					<div className="flex flex-col md:flex-row justify-center mt-8 space-y-1 md:space-y-0 ">
+						<div className="text-justify flex flex-col items-center p-4 md:w-1/4 bg-gray_light dark:bg-card_dark">
+							<p className="text-lg leading-6 text-text_light dark:text-text_dark">Gain unlimited access to a wide range of items, enjoy discounted transaction fees, and receive top-notch support.</p>
+							</div>
+							<img src={shippingCajita} alt="shipping-cajita" className="h-auto w-full md:w-1/5 max-h-48" />
+							<div className="text-justify flex flex-col items-center p-4 md:w-1/4 bg-gray_light dark:bg-card_dark">
+							<p className="text-lg leading-6 text-text_light dark:text-text_dark">Whether you're a frequent renter or a savvy item owner, our membership offers a host of benefits tailored to enhance your renting experience.</p>
 						</div>
 					</div>
 				</div>
 
-				<div className='flex flex-col items-center'>
-					<div><h3 className='text-2xl'>Membership Plans</h3></div>
-					<div className="flex justify-center mt-8 space-x-8">
-						<div className='bg-gray_red p-5'>
-							<p className='font-bold text-lg '>Basic Membership (Free)</p>
-							<p>{user.membership === "basic" ? "Current":""}</p>
-							<ul className='font-bold'>
-								<li>Up to 5 items listings per month.</li>
-								<li>Standard transaction fees.</li>
-								<li>Enjoy Rent-ify for free.</li>
-							</ul>
-						</div>
 
-						<div className='bg-gray_red p-5'>
-							<p className='font-bold text-lg '>Standard Membership</p>
-							<ul className='font-bold'>
+
+				<div className="text-center mt-8">
+					<h3 className='text-4xl font-bold text-medium_purple'>Membership Plans</h3>
+                </div>
+				
+				<div className="flex flex-col md:flex-row justify-center mt-8 space-y-9 md:space-y-0 md:space-x-4">
+    				<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col items-center ">
+      					<p className="text-medium_purple font-bold leading-6 text-xl">Basic Membership (Free)</p>
+      						<ul className="text-text_light dark:text-text_dark mt-4 text-lg">
+       							 <li>Up to 5 items listings per month.</li>
+       							 <li>Standard transaction fees.</li>
+       							 <li>Enjoy Rent-ify for free.</li>
+      						</ul>
+      						{user.membership === 'basic' && (
+        						<p className="text-green-500">Current</p>
+      						)}
+    				</div>
+
+    				<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col items-center justify-between">
+      					<p className="text-medium_purple font-bold leading-6 text-xl">Standard Membership</p>
+      						<ul className="text-text_light dark:text-text_dark mt-4 text-lg">
 								<li>Up to 5 items listings per month.</li>
 								<li>Standard transaction fees.</li>
-								
 								<li>Price: $569.99 per month</li>
-							</ul>
-							{
-								user.membership === "premium" || user.membership === "basic"
-								? 
-								(<button 
-									onClick={handleClick} 
-									className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '
-									value="standard">
-									Subscribe	
-									</button>)
-								: null
+						    </ul>
+							{(user.membership === 'premium' || user.membership === 'basic') && (
+								<button
+								className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 rounded"
+								value="standard"
+								onClick={handleClick}
+								>
+								Subscribe
+								</button>
+							)}
+   					</div>
 
-							}
-							
-						</div>
+    				<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col items-center justify-between">
+      						<p className="text-medium_purple font-bold leading-6 text-xl">Premium Membership 💎</p>
+								<ul className="text-text_light dark:text-text_dark mt-4 text-lg">
+									<li>Unlimited items listings per month.</li>
+									<li>No transaction fees.</li>
+									<li>Price: $999.99 per month</li>
+								</ul>
+							{user.membership === 'premium' && (
+								<p className="text-medium_purple">Current</p>
+							)}
+							{user.membership === 'basic' && (
+								<button
+								className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 rounded"
+								value="premium"
+								onClick={handleClick}
+								>
+								Upgrade
+								</button>
+							)}
+				     </div>
+			
+			    </div>
 
-						<div className='bg-gray_red p-5'>
-							<p className='font-bold text-lg'>Premium Membership</p>
-							<ul className='font-bold'>
-								<li>Unlimited number of item listings per month.</li>
-								<li>Reduced transaction fees</li>
-								<li>Priority highlighting in search results</li>
-								<li><span>💎</span>Premium customer support</li>
-								<li>Price: $869.99 per month</li>
-							</ul>
-							{
-								user.membership === "standard" || user.membership === "basic"
-								? 
-								(<button 
-									onClick={handleClick} 
-									className='bg-dark_purple text-white text-xl py-2 px-6 rounded-md '
-									value="premium">
-									Subscribe
-									</button>)
-								: null
 
-							}
-							{/* {renderCheckoutButton(mPUrl)} */}
-						</div>
-					</div>
-					<div><h3>Choose the membership plan that suits your needs and start enjoying the benefits of Rent-ify today!</h3></div>
-				</div>
-
-				<div className='w-3-4'>
+				<div className='text-center mt-8'>
 					<div className='text-center'>
-						<p className='text-gray_medium text-sm'>How to</p>
-						<h3 className='text-4xl'>Subscribe to MemberShip</h3>
+						<p className='text-text_gray font-bold text-md'>How to</p>
+						<h3 className='text-4xl font-bold text-medium_purple'>Subscribe to Membership</h3>
 					</div>
-					<div className="flex justify-center mt-8 space-x-8">
+					<div className="flex flex-col md:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-12">
 						<div className='text-justify flex flex-col items-center justify-between'>
-							<p>1</p>
-							<p>Sign up or log in to your Rent-ify account.</p>
-							<img src={userIcon} alt="user-icon" />
+							<p className="text-2xl font-bold text-medium_purple">1</p>
+							<p className="text-lg leading-6 text-text_light dark:text-text_dark">Sign up or log in to your Rent-ify account.</p>
+							<img src={userIcon} alt="user-icon" className="h-20 w-20 my-4 "/>
 						</div>
 						<div className='text-justify flex flex-col items-center justify-between'>
-							<p>2</p>
-							<p>Select the desired plan (Premium or Standard).</p>
-							<img src={handDiamond} alt="hand-diamond" />
+							<p className="text-2xl font-bold text-medium_purple">2</p>
+							<p className="text-lg leading-6 text-text_light dark:text-text_dark">Select the desired plan (Premium or Standard).</p>
+							<img src={handDiamond} alt="hand-diamond" className="my-4 h-20 w-20" />
 						</div>
 						<div className='text-justify flex flex-col items-center justify-between'>
-							<p>3</p>
-							<p>Complete the secure payment process (if applicable).</p>
-							<img src={securePayment} alt="secure-payment" />
+							<p  className="text-2xl font-bold text-medium_purple">3</p>
+							<p className="text-lg leading-6 text-text_light dark:text-text_dark">Complete the secure payment process (if applicable).</p>
+							<img src={securePayment} alt="secure-payment" className="my-4 h-20 w-20"  />
 						</div>
 						<div className='text-justify flex flex-col items-center justify-between'>
-							<p>4</p>
-							<p>Confirm your membership and gain access to benefits.</p>
-							<img src={membershipIcon} alt="membership-icon" />
+							<p className="text-2xl font-bold text-medium_purple">4</p>
+							<p className="text-lg leading-6 text-text_light dark:text-text_dark">Confirm your membership and gain access to benefits.</p>
+							<img src={membershipIcon} alt="membership-icon" className="my-4 h-20 w-20"/>
 						</div>
 					</div>
 				</div>
 			</div>
+			{loading && <Loader />}
 		</div>
 	)
 }
