@@ -5,13 +5,23 @@ import { useEffect, useState } from 'react'
 import { formatDate } from '../utils/formatDate'
 import { useNavigate } from 'react-router-dom'
 
-const CardSearch = ({ image, id, name, price, updatedAt, closeModal, isOnModal = true }) => {
+const CardSearch = ({
+	image,
+	id,
+	name,
+	price,
+	updatedAt,
+	country,
+	closeModal,
+	isOnModal = true,
+}) => {
 	const [imgValid, setImgValid] = useState(false)
 	const [date, setDate] = useState('')
 
 	const navigate = useNavigate()
 
 	useEffect(() => {
+		console.log(country)
 		isImgValid(image, setImgValid)
 		setDate(formatDate(updatedAt))
 	}, [image, updatedAt])
@@ -38,7 +48,8 @@ const CardSearch = ({ image, id, name, price, updatedAt, closeModal, isOnModal =
 				<div className='truncate'>
 					<h3 className='truncate text-lg md:text-2xl'>{name}</h3>
 					<p className='font-amaranth text-base md:text-xl'>
-						$ {price} <span className='text-xs md:text-base'>moneda</span>
+						{country?.currency?.symbol} {price}{' '}
+						<span className='text-xs md:text-base'>{country?.currency?.code}</span>
 					</p>
 					<p className='text-gray_dark text-xs md:text-base md:mt-4'>{date}</p>
 				</div>
