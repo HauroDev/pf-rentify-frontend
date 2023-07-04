@@ -58,7 +58,6 @@ export const loginGoogle = async () => {
 
 	// aqui va la route y la logica del login del back
 	const { data } = await axios.post(LOGIN_API, LogUser)
-	console.log(data)
 	return data
 }
 
@@ -69,10 +68,9 @@ export const loginUser = async ({ email, password }) => {
 		email: user.email,
 		uid: user.uid,
 	}
-
 	// aqui va la route y la logica del login del back
 	const { data } = await axios.post(LOGIN_API, LogUser)
-	console.log(data)
+
 	return data
 }
 
@@ -80,15 +78,12 @@ export const logoutUser = async () => {
 	const config = getTokenConfig()
 	await signOut(auth)
 	const res = await axios.get(LOGOUT_API, config)
-	console.log(res)
-
 	return res
 }
 
 export const setInitialUserDB = async ({ idUser, token }) => {
 	const config = getTokenConfig()
 	const { data } = await axios.get(`${USER_API}/${idUser}`, config)
-	console.log(data)
 	return { user: data, token: token }
 }
 

@@ -2,13 +2,18 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { getAllProducts, getProductById, createProduct } from '../../../services/productService'
 import { PRODUCTS_API } from '../../../utils/apiRoutes'
 
+const country = localStorage.getItem('geolocation')
+	? JSON.parse(localStorage.getItem('geolocation'))
+	: {}
+const countryID = country?.idCountry ? `?idCountry=${country.idCountry}` : ''
+
 const initialState = {
 	products: [],
 	productDetail: {},
 	status: 'idle',
 	error: null,
 	next: null,
-	endpoint: PRODUCTS_API,
+	endpoint: `${PRODUCTS_API}/${countryID}`,
 	idCategory: '',
 	offset: 0,
 	limit: 12,

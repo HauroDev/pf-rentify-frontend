@@ -17,3 +17,7 @@ export const LOGOUT_API = `${API_URL}/logout-google`
 export const COMMENT_API = `${API_URL}/comment`
 
 export const FORM_CONTACT_API = `${API_URL}/form-contact`
+
+export const GEOLOCATION_API = `${API_URL}/countries/geolocation`
+
+export const IP_API = `https://api.ipify.org?format=json'`

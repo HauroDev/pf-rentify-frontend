@@ -16,6 +16,5 @@ export const getProductById = async (id) => {
 export const createProduct = async (productDetail) => {
 	const config = getTokenConfig()
 	const { data } = await axios.post(PRODUCTS_API, productDetail, config)
-	console.log(data)
 	return data
 }

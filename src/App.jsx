@@ -10,6 +10,7 @@ import { ToastContext } from './context/ToastContext'
 import jwt_decode from 'jwt-decode'
 import AppRouter from './router/AppRouter'
 import Toast from './components/Toast/Toast'
+import { getGeolocation } from './utils/geolocationService'
 
 function App() {
 	const dispatch = useDispatch()
@@ -19,7 +20,16 @@ function App() {
 		? JSON.parse(localStorage.getItem(localStorageItems.userAuth))
 		: { loggin: false, user: {} }
 
+	// const geolocation = async () => {
+	// 	try {
+	// 		await getGeolocation()
+	// 	} catch (error) {
+	// 		console.log(error)
+	// 	}
+	// }
+
 	useEffect(() => {
+		getGeolocation()
 		const cart = getCart()
 		dispatch(setCart(cart))
 		if (userAuth.login) {

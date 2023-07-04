@@ -16,7 +16,6 @@ const Home = () => {
 	const productsState = useSelector((state) => state.products)
 
 	useEffect(() => {
-		console.log(productsState.products)
 		dispatch(fetchGetAllProductsAsync(productsState.endpoint))
 	}, [productsState.endpoint])
 
