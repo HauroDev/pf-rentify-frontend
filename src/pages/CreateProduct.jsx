@@ -10,7 +10,8 @@ import { saveAndGetImage } from '../services/imageFirebaseService'
 import { getCountryStates } from '../services/locationService';
 import ArrowUpCrPr from "../components/icons/ArrowUpCrPr";
 import ArrowDownCrPr from "../components/icons/ArrowDownCrPr";
-import ProductPreview from './ProductPreview'
+import ProductPreview from './ProductPreview';
+import Loader from '../components/Loader'
 
 const CreateProduct = () => {
 	const {
@@ -213,6 +214,8 @@ const CreateProduct = () => {
 				description: `${product.name} couldn't be added`,
 				type: 'danger',
 			})
+		} finally{
+			setIsLoading(false)
 		}
 	}
 
@@ -220,8 +223,8 @@ const CreateProduct = () => {
 	console.log(productData);
 	console.log(errors);
 	return (
-		<div className='container mx-auto flex items-center justify-center '>
-			<div className='bg-gray_medium dark:bg-card_dark p-4 rounded-md shadow-xl'>
+		<div className='container mx-auto flex max-xl:flex-col items-center justify-center gap-8'>
+			<div className='bg-gray_medium dark:bg-card_dark p-4 rounded-md shadow-xl flex-grow  min-[1700px]:w-auto xl:w-8/12 min-[1500px]:w-1/2 max-xl:w-8/12'>
 				<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
 					<h2 className='text-2xl font-bold mb-4'>Post a product</h2>
 					{/*  name */}
@@ -557,14 +560,24 @@ const CreateProduct = () => {
 						:
 						null
 					}
-
-					<input
-						type='submit'
-						value='Submit Product'
+					
+					{
+						isLoading
+						?
+						<button 
 						className='bg-dark_purple text-white text-lg py-2 px-6 rounded-md hover:bg-[#230069] hover:cursor-pointer '
-					/>
+						>
+							<Loader size='sm' />
+						</button>
+						:
+						<input
+							type='submit'
+							value="Submit Product"
+							className='bg-dark_purple text-white text-lg py-2 px-6 rounded-md hover:bg-[#230069] hover:cursor-pointer '
+						/>
+					}
 				</form>
-				{isLoading && <p>Loading...</p>}
+				
 			</div>
 
 			<ProductPreview

@@ -1,8 +1,4 @@
 import DetailsTop from "../components/Details/DetailsTop";
-import DetailsMid from "../components/Details/DetailsMid";
-import DetailInfo from "../components/Details/DetailInfo";
-import DeatilSectionContainer from "../components/Details/DeatilSectionContainer";
-import DetailCard from "../components/Details/DetailCard";
 import { useState, useEffect} from "react";
 import MapPinIcon from "../components/icons/MapPinIcon";
 import { useSelector } from "react-redux";
@@ -50,8 +46,8 @@ const ProductPreview = ({name,description,price,location,image,currency}) => {
   },[image])
     return(
         
-          <div className='mx-auto flex flex-col gap-5 bg-gray_medium rounded-md p-8 dark:bg-card_dark'>
-						<div className='flex justify-center gap-3'>
+          <div className='mx-auto w-auto flex flex-col gap-5 bg-gray_medium rounded-md p-8 dark:bg-card_dark'>
+						<div className='flex justify-center flex-wrap gap-3 '>
 							<div>
                 <h2 className="text-2xl font-bold mb-3">Post Preview</h2>
 								<DetailsTop image={imagePreview} />
@@ -91,7 +87,7 @@ const ProductPreview = ({name,description,price,location,image,currency}) => {
                 </section>
 							</div>
 
-							<div className='hidden xl:block top-12 h-full bg-white dark:bg-card_dark rounded-lg'>
+							<div className='xl:block top-12 h-full bg-white dark:bg-card_dark rounded-lg'>
                 <div className='flex flex-col gap-4 mt-4 p-8 min-w-[400px]'>
                   <div className='flex items-center'>
                     <h4 className='text-base text-gray_dark mb-2'>Product id: ##</h4>
