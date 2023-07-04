@@ -48,10 +48,10 @@ const HowItWork = () => {
         <div className="flex flex-col md:flex-row items-center justify-center w-full">
           <div className="h-60 md:w-1/2 bg-gray_light dark:bg-card_dark p-4 flex items-center justify-center">
             <div className="text-center">
-              <h2 className="text-5xl md:text-7xl font-bold text-medium_purple mb-4">
+              <h2 className="text-5xl md:text-6xl font-bold text-medium_purple mb-4">
                 How renting works
               </h2>
-              <p className="text-lg leading-7 text-text_light dark:text-text_dark">
+              <p className="text-xl leading-7 text-text_light dark:text-text_dark">
                 Explore placing an order, the advantages of renting, and our commitment to resource conservation.
               </p>
             </div>
@@ -65,7 +65,7 @@ const HowItWork = () => {
             <h3 className="text-4xl font-bold text-medium_purple">Getting started with Rent-ify</h3>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-12">
+          <div className="flex flex-col md:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-1">
             {slides.map((slide, index) => (
               <div
                 key={index}
@@ -75,8 +75,8 @@ const HowItWork = () => {
               >
                 <div className="text-justify flex flex-col items-center justify-between p-4 h-full">
                   <p className="text-2xl font-bold text-medium_purple">{index + 1}</p>
-                  <p className="text-lg font-bold mb-2">{slide.title}</p>
-                  <p className="text-base leading-6 text-text_light dark:text-text_dark">
+                  <p className="text-xl font-bold mb-2">{slide.title}</p>
+                  <p className="text-lg leading-6 text-text_light dark:text-text_dark">
                     {slide.description}
                   </p>
                   <img src={slide.image} alt={slide.title} className="mt-4" />
@@ -116,25 +116,25 @@ const HowItWork = () => {
 
           <div className="flex flex-col md:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-12">
             <div className="text-justify flex flex-col items-center justify-between p-4">
-              <p className="text-lg font-bold text-medium_purple">Low Monthly Costs</p>
+              <p className="text-xl font-bold text-medium_purple">Low Monthly Costs</p>
               <img src={handCoin} alt="hand-coin" className="my-4 h-20 w-20" />
-              <p className="text-base leading-6 text-text_light dark:text-text_dark">
+              <p className="text-lg leading-6 text-text_light dark:text-text_dark">
                 Say goodbye to high upfront costs and long-term commitments. Rent a wide range of products at budget-friendly prices.
               </p>
             </div>
 
             <div className="text-justify flex flex-col items-center justify-between p-4">
-              <p className="text-lg font-bold text-medium_purple">Flexible Rental Periods</p>
+              <p className="text-xl font-bold text-medium_purple">Flexible Rental Periods</p>
               <img src={calendar} alt="calendar" className="my-4 h-20 w-20" />
-              <p className="text-base leading-6 text-text_light dark:text-text_dark">
+              <p className="text-lg leading-6 text-text_light dark:text-text_dark">
                 Rent for as long as you need. Choose from flexible rental durations. Adjust your rental plan to match your changing needs.
               </p>
             </div>
 
             <div className="text-justify flex flex-col items-center justify-between p-4">
-              <p className="text-lg font-bold text-medium_purple">Environmental Impact</p>
+              <p className="text-xl font-bold text-medium_purple">Environmental Impact</p>
               <img src={greenWorld} alt="green-world" className="my-4 h-18 w-18" />
-              <p className="text-base leading-6 text-text_light dark:text-text_dark">
+              <p className="text-lg leading-6 text-text_light dark:text-text_dark">
                 By renting, you help extend the lifespan of products, minimizing unnecessary consumption and promoting sustainability.
               </p>
             </div>

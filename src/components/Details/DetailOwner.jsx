@@ -75,7 +75,7 @@ const DetailOwner = ({ user: owner, product }) => {
 						{userState.login && (
 							<button
 								className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg'
-								onClick={handleContact}>
+								onClick={handleContact} disabled={status==="loading"}>
 								{status === 'loading' ? 'Loading...' : 'Contact Me'}
 							</button>
 						)}
