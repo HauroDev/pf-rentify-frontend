@@ -27,13 +27,13 @@ const DetailProduct = () => {
 		})
 		try {
 			const data = await getProductById(id)
-			document.body.setAttribute('title', data.name)
 			console.log(data)
 			set({
 				status: 'success',
 				product: { ...data },
 				error: null,
 			})
+			document.title = data.name || 'Rent-ify'
 		} catch (error) {
 			set({
 				status: 'error',
@@ -47,6 +47,7 @@ const DetailProduct = () => {
 		getProduct(id, setState)
 		return () => {
 			setState(initalState)
+			document.title = 'Rent-ify'
 		}
 	}, [id])
 
@@ -83,6 +84,7 @@ const DetailProduct = () => {
 									commentes={state.product.reviews.comments}
 									star={state.product.reviews.stars}
 									average={state.product.reviews.average}
+									idcomment={state.product.reviews.comments}
 								/>
 							</div>
 

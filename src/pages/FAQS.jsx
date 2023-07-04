@@ -105,22 +105,22 @@ const FAQS = () => {
 
   return (
     <div className='max-w-6xl mx-auto px-4'>
-      <h2 className='text-4xl text-center mb-6'>FAQ's</h2>
+      <h2 className='text-5xl md:text-6xl text-center mb-6 font-bold text-medium_purple'>FAQ's</h2>
       <div className='bg-white dark:bg-card_dark shadow-md rounded-lg'>
         {faqsData.map((faq, index) => (
           <div
             key={index}
             className={`p-6 border-b dark:bg-card_dark border-gray_medium ${
-              activeIndex === index ? 'bg-gray_light' : ''
+              activeIndex === index ? 'bg-gray_light dark:bg-selected_dark'  : ''
             }`}
           >
             <div
               className={`flex justify-between items-center ${
-                activeIndex === index ? 'text-medium_purple' : 'text-text_light dark:text-white'
+                activeIndex === index ? 'text-medium_purple dark:text-light_purple' : 'text-text_light dark:text-white'
               }`}
               onClick={() => handleQuestionClick(index)}
             >
-              <h3 className='text-2xl font-semibold cursor-pointer'>{faq.question}</h3>
+              <h3 className='text-2xl cursor-pointer'>{faq.question}</h3>
               <button className='text-medium_purple focus:outline-none text-3xl'>
                 {activeIndex === index ? '−' : '+'}
               </button>
