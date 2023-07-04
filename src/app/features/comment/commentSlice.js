@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { postComment, getComment } from '../../../services/commentService'
+import { postComment, getComment,putComment,deletComment } from '../../../services/commentService'
 
 const initialState = {
 	comment: {},
@@ -25,6 +25,24 @@ export const AllComment = createAsyncThunk('allComment', async (comment) => {
 		throw new Error(error.message)
 	}
 })
+
+export const EditComment=createAsyncThunk ('EditComment',async (comment)=>{
+try {
+	console.log(comment)
+	return await putComment(comment)
+} catch (error) {
+	return Promise.reject(error.response.data.error)
+}
+})
+
+export const DeletComment=createAsyncThunk ('DeleteComment',async (comment)=>{
+	try {
+		console.log(comment)
+		return await deletComment(comment)
+	} catch (error) {
+		return Promise.reject(error.response.data.error)
+	}
+	})
 
 const commentSlice = createSlice({
 	name: 'comment',
@@ -57,19 +75,33 @@ const commentSlice = createSlice({
 				state.status = 'error'
 				state.error = action.error.message
 			})
-			// all comentarios
-			.addCase(AllComment.pending, (state) => {
+			// edit comment
+			.addCase(EditComment.pending, (state) => {
 				state.status = 'loading'
 			})
-			.addCase(AllComment.fulfilled, (state, action) => {
+			.addCase(EditComment.fulfilled, (state, action) => {
 				state.comment = action.payload
 				state.login = true
 				state.status = 'success'
 			})
-			.addCase(AllComment.rejected, (state, action) => {
+			.addCase(EditComment.rejected, (state, action) => {
 				state.status = 'error'
 				state.error = action.error.message
 			})
+			// delete comment
+			.addCase(DeletComment.pending, (state) => {
+				state.status = 'loading'
+			})
+			.addCase(DeletComment.fulfilled, (state, action) => {
+				state.comment = action.payload
+				state.login = true
+				state.status = 'success'
+			})
+			.addCase(DeletComment.rejected, (state, action) => {
+				state.status = 'error'
+				state.error = action.error.message
+			})
+
 	},
 })
 // exportacion de actions
