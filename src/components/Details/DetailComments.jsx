@@ -4,7 +4,7 @@ import ReviewIcon from '../../components/icons/ReviewIcon';
 import DetailCard from './DetailCard';
 import DeatilSectionContainer from './DeatilSectionContainer';
 import { CreateComment, EditComment, DeletComment } from '../../app/features/comment/commentSlice';
-
+import { ToastContext } from '../../context/ToastContext'
 const DetailComments = ({ idProd, commentes, star, average }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -16,7 +16,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
   const userState = useSelector((state) => state.user);
   const commentState = useSelector((state) => state.comment);
   const [showRating, setShowRating] = useState(false);
-  // const {addToast}=useContext(ToastContext);
+   const {addToast}=useContext(ToastContext);
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
@@ -34,14 +34,22 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
   };
   useEffect(() => {
     if (commentState.status === 'error') {
-      console.log(commentState.error)
+      return addToast({
+        title:'Error',
+        description:commentState.error,
+        type:'danger'
+      })
     }
   }, [commentState.status])
+
+
+
 
   const handleEditComment = (comment) => {
     setEditCommentId(comment.idComment);
     setEditRating(comment.puntuation);
     setEditComment(comment.comment);
+
   };
 
   const handleDeleteComment = (comment) => {
@@ -52,6 +60,11 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
         idComment: comment.idComment,
         commentStatus: false
       };
+      addToast({
+        title:'warning',
+        description:'Delet Comment',
+        type:'warning'
+      })
       dispatch(DeletComment(DelettComment));
       setCommentSubmitted(DelettComment);
 
@@ -67,6 +80,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
         idProd: idProd,
         idUser: userState.user.idUser
       };
+      
       dispatch(CreateComment(newComment));
       setCommentSubmitted(newComment);
     }
@@ -81,6 +95,11 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
         idUser: userState.user.idUser,
         idComment: editCommentId
       };
+      addToast({
+        title:'success',
+        description:'updated comment',
+        type:'success'
+      })
       dispatch(EditComment(editedComment));
       setCommentSubmitted(editedComment);
       setEditCommentId(null);
@@ -118,7 +137,15 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
 
   useEffect(() => {
     if (commentState.status === 'success') {
-      window.location.reload();
+          // addToast({
+          //   title:'success',
+          //   description:' comment added',
+          //   type:'success'
+          // })
+          setTimeout(() => {
+            
+            window.location.reload();
+          }, 300);
     }
   }, [commentState.status]);
 
@@ -176,8 +203,8 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
               className='w-full resize-none bg-white dark:text-black focus:outline-none focus:ring-2 focus:ring-blue-500'
             />
             <div className='py-2'>
-              <button className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg' onClick={handleSubmit}>
-                Submit
+              <button className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg' onClick={handleSubmit} >
+                 {commentState.status==='loading'? 'loading': 'submit ' }
               </button>
             </div>
           </div>
@@ -201,7 +228,7 @@ const DetailComments = ({ idProd, commentes, star, average }) => {
                   />
                   <div className='py-2'>
                     <button className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg' onClick={handleEditSubmit}>
-                      Submit
+                     {commentState.status==='loading'? 'loading': 'submit ' }
                     </button>
                   </div>
                 </div>
