@@ -21,6 +21,7 @@ const CreateProduct = () => {
 		setValue,
 		formState: { errors },
 		trigger,
+		reset
 	} = useForm()
 
 	const categoriesInfo = useSelector((state) => state.categories)
@@ -127,6 +128,7 @@ const CreateProduct = () => {
 			currency: countriesInfo.countries.find(c => c.geonameId === parseFloat(selectedOption))?.currency
 		}))
 		setValue('state', '')
+		setValue('location', '')
 	}
 
 
@@ -215,6 +217,7 @@ const CreateProduct = () => {
 				type: 'danger',
 			})
 		} finally{
+			reset();
 			setIsLoading(false)
 		}
 	}
@@ -519,7 +522,7 @@ const CreateProduct = () => {
 											aria-invalid={errors.categories ? 'true' : 'false'}
 											className='accent-dark_purple hover:cursor-pointer  h-4 w-4'
 										/>
-										<label htmlFor={category.idCategory} className='capitalize pl-2'>
+										<label htmlFor={category.idCategory} className='capitalize pl-2 inl'>
 											{category.name}
 										</label>
 									</div>
@@ -565,7 +568,7 @@ const CreateProduct = () => {
 						isLoading
 						?
 						<button 
-						className='bg-dark_purple text-white text-lg py-2 px-6 rounded-md hover:bg-[#230069] hover:cursor-pointer '
+						className='text-white text-lg py-2 px-6 rounded-md bg-[#230069] hover:cursor-pointer w-[166px] '
 						>
 							<Loader size='sm' />
 						</button>

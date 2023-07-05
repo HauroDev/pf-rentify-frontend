@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Input from '../Input'
@@ -10,10 +10,12 @@ import { localStorageItems } from '../../utils/localStorageItems'
 import Loader from '../Loader'
 import GoogleButtonSection from '../GoogleButtonSection'
 import { routesName } from '../../utils/routes_name'
-
+import { ToastContext } from '../../context/ToastContext'
 const FormUser = () => {
 	const dispatch = useDispatch()
 	const userState = useSelector((state) => state.user)
+	const [submitted,setSubmitted]=useState(false)
+	const { addToast } = useContext(ToastContext);
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -24,6 +26,16 @@ const FormUser = () => {
 		password: '',
 		confirmPassword: '',
 	})
+	useEffect(() => {
+		if (userState.status === 'error'&& submitted ) {
+			 addToast({
+				title: 'Error',
+				description: userState.error,
+				type: 'danger',
+			})
+			setSubmitted(false)
+		}
+	}, [userState.status,submitted])
 
 	useEffect(() => {
 		if (userState.status === 'success') {
@@ -49,6 +61,7 @@ const FormUser = () => {
 
 	const handleSumit = async (event) => {
 		event.preventDefault()
+		setSubmitted(true)
 		try {
 			if (!formData.email || !formData.password || !formData.confirmPassword) {
 				setError({ password: 'Please fill in all fields' })
@@ -67,6 +80,7 @@ const FormUser = () => {
 	}
 
 	const handleSignUpGoogle = async () => {
+		setSubmitted(true)
 		try {
 			dispatch(CreateUserGoogle({ email: formData.email, password: formData.password }))
 		} catch (error) {

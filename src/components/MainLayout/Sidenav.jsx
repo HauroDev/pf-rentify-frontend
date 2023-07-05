@@ -16,7 +16,8 @@ const Sidenav = ({ isOpen, closeModal }) => {
 	return (
 		<>
 			<div
-				className={`min-h-full flex justify-end items-start p-4 w-full fixed z-20 bg-modal_bg_50 top-0 left-0 md:opacity-0 md:invisible ${modalOpenClasses} backdrop-blur`}>
+				className={`min-h-full flex justify-end items-start p-4 w-full fixed z-20 bg-modal_bg_50 top-0 left-0 md:opacity-0 md:invisible ${modalOpenClasses} backdrop-blur`}
+				onClick={closeModal}>
 				<button onClick={closeModal}>
 					<CloseIcon className='stroke-white w-8 h-8' />
 				</button>
@@ -31,7 +32,7 @@ const Sidenav = ({ isOpen, closeModal }) => {
 						</Link>
 					</div>
 					<section className='w-full pr-4 flex flex-col gap-6 '>
-						<SearchBtn />
+						<SearchBtn closeSide={closeModal} />
 						{pathname === routesName.home && (
 							<>
 								<SelectCountry />
@@ -42,7 +43,8 @@ const Sidenav = ({ isOpen, closeModal }) => {
 						{pathname !== routesName.home && (
 							<Link
 								className='hover:text-dark_purple hover:font-bold dark:hover:text-light_purple transition-all'
-								to='/'>
+								to='/'
+								onClick={closeModal}>
 								Back to Home
 							</Link>
 						)}
@@ -56,7 +58,8 @@ const Sidenav = ({ isOpen, closeModal }) => {
 							isActive
 								? 'text-dark_purple font-bold dark:text-light_purple transition-all'
 								: 'font-bold hover:text-dark_purple dark:hover:text-light_purple'
-						}>
+						}
+						onClick={closeModal}>
 						Pricing
 					</NavLink>
 					<NavLink
@@ -65,7 +68,8 @@ const Sidenav = ({ isOpen, closeModal }) => {
 							isActive
 								? 'text-dark_purple font-bold dark:text-light_purple transition-all'
 								: 'font-bold hover:text-dark_purple dark:hover:text-light_purple'
-						}>
+						}
+						onClick={closeModal}>
 						How it works
 					</NavLink>
 					<NavLink
@@ -74,8 +78,19 @@ const Sidenav = ({ isOpen, closeModal }) => {
 							isActive
 								? 'text-dark_purple font-bold dark:text-light_purple transition-all'
 								: 'font-bold hover:text-dark_purple dark:hover:text-light_purple'
-						}>
+						}
+						onClick={closeModal}>
 						FAQ&apos;S
+					</NavLink>
+					<NavLink
+						to={routesName['about-Us']}
+						className={({ isActive }) =>
+							isActive
+								? 'text-dark_purple font-bold dark:text-light_purple transition-all'
+								: 'font-bold hover:text-dark_purple dark:hover:text-light_purple'
+						}
+						onClick={closeModal}>
+						About us
 					</NavLink>
 				</section>
 			</nav>
