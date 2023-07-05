@@ -8,6 +8,7 @@ import { ToastContext } from '../../context/ToastContext'
 import { useLocation } from 'react-router-dom'
 import Header from './Header'
 import Sidenav from './Sidenav'
+import jwtDecode from 'jwt-decode'
 
 const MainLayout = ({ children }) => {
 	const [isOpen, openModal, closeModal] = useModal()
@@ -25,6 +26,17 @@ const MainLayout = ({ children }) => {
 				description: 'User banned',
 				type: 'warning',
 			})
+		}
+		if (userState.token) {
+			const decode = jwtDecode(userState.token)
+			if (decode.exp < Date.now() / 1000) {
+				dispatch(LogoutUser())
+				addToast({
+					title: 'Expired Session',
+					description: 'Your session has expired',
+					type: 'warning',
+				})
+			}
 		}
 	}, [pathname])
 
