@@ -43,7 +43,11 @@ const Home = () => {
 				) : (
 					''
 				)}
-				{productsState.status === 'loading' && <Loader />}
+				{productsState.status === 'loading' && (
+					<div className='w-full grid place-content-center my-8'>
+						<Loader />
+					</div>
+				)}
 				{productsState.status === 'error' && <h3>Error: {productsState.error}</h3>}
 			</div>
 
