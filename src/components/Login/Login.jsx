@@ -15,6 +15,7 @@ const LoginUser = () => {
 	const dispatch = useDispatch()
 	const userState = useSelector((state) => state.user)
 	const { addToast } = useContext(ToastContext)
+	const [submitted,setSubmitted]=useState(false)
 	const [login, setLogin] = useState({
 		email: '',
 		password: '',
@@ -26,14 +27,15 @@ const LoginUser = () => {
 	})
 
 	useEffect(() => {
-		if (userState.status === 'error') {
-			return addToast({
+		if (userState.status === 'error'&& submitted ) {
+			 addToast({
 				title: 'Error',
 				description: userState.error,
 				type: 'danger',
 			})
+			setSubmitted(false)
 		}
-	}, [userState.status])
+	}, [userState.status,submitted])
 
 	const handleChange = (event) => {
 		setLogin({
@@ -53,9 +55,11 @@ const LoginUser = () => {
 		if (error.email || error.password) {
 			return
 		}
+		setSubmitted(true)
 		try {
 			//falta la ruta
 			dispatch(LoginUserDB({ email: login.email, password: login.password }))
+		
 		} catch (errors) {
 			console.log(errors.code)
 		}

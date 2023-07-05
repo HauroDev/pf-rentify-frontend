@@ -10,10 +10,11 @@ import { localStorageItems } from '../../utils/localStorageItems'
 import Loader from '../Loader'
 import GoogleButtonSection from '../GoogleButtonSection'
 import { routesName } from '../../utils/routes_name'
-
+// import { ToastContext } from '../../context/ToastContext'
 const FormUser = () => {
 	const dispatch = useDispatch()
 	const userState = useSelector((state) => state.user)
+	// const { addToast } = useContext(ToastContext);
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -24,7 +25,15 @@ const FormUser = () => {
 		password: '',
 		confirmPassword: '',
 	})
-
+	// useEffect(() => {
+	// 	if (userState.status === 'error') {
+	// 		return addToast({
+	// 			title: 'Error',
+	// 			description: 'mail alredy registerd',
+	// 			type: 'danger'
+	// 		})
+	// 	}
+	// }, [userState.status])
 	useEffect(() => {
 		if (userState.status === 'success') {
 			localStorage.setItem(
