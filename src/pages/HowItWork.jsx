@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import laptopYCajitas from '../assets/image/laptop-cajitas.jpg'
 import consola from '../assets/image/consola.jpg'
 import mobile from '../assets/image/mobile.png'
@@ -50,7 +50,7 @@ const HowItWork = () => {
 		<div className='container min-w-[350px] mx-auto'>
 			<div className='flex flex-col items-center'>
 				<section className='flex flex-col lg:flex-row items-center justify-center w-full'>
-					<article className='h-60 lg:w-1/2 bg-gray_light dark:bg-card_dark p-4 flex items-center justify-center order-2 lg:order-1'>
+					<article className='h-60 w-full lg:w-1/2 bg-gray_light dark:bg-card_dark p-4 flex items-center justify-center order-2 lg:order-1'>
 						<header className='text-center'>
 							<h2 className='text-3xl md:text-5xl xl:text-6xl font-bold text-medium_purple mb-4'>
 								How renting works
@@ -113,15 +113,15 @@ const HowItWork = () => {
 					</div>
 				</section>
 
-				<section className='bg-medium_purple'>
+				<section>
 					<div className='text-center mt-8'>
-						<p className='text-white font-bold text-md mb-5'>Buying is over</p>
-						<h3 className='text-4xl font-bold text-dark_purple'>The benefits of renting</h3>
+						<p className='text-text_gray font-bold text-md mb-5'>Buying is over</p>
+						<h3 className='text-4xl font-bold text-medium_purple'>The benefits of renting</h3>
 					</div>
 
 					<div className='flex flex-col lg:flex-row justify-center mt-8 space-y-8 md:space-y-0 md:space-x-12'>
 						<div className='text-center flex flex-col items-center justify-between p-4'>
-							<p className='text-xl font-bold text-dark_purple'>Low Monthly Costs</p>
+							<p className='text-xl font-bold text-medium_purple'>Low Monthly Costs</p>
 							<img src={handCoin} alt='hand-coin' className='my-4 h-20 w-20' />
 							<p className='text-lg leading-6 text-text_light dark:text-text_dark'>
 								Say goodbye to high upfront costs and long-term commitments. Rent a wide range of
@@ -130,7 +130,7 @@ const HowItWork = () => {
 						</div>
 
 						<div className='text-center flex flex-col items-center justify-between p-4'>
-							<p className='text-xl font-bold text-dark_purple'>Flexible Rental Periods</p>
+							<p className='text-xl font-bold text-medium_purple'>Flexible Rental Periods</p>
 							<img src={calendar} alt='calendar' className='my-4 h-20 w-20' />
 							<p className='text-lg leading-6 text-text_light dark:text-text_dark'>
 								Rent for as long as you need. Choose from flexible rental durations. Adjust your
@@ -139,7 +139,7 @@ const HowItWork = () => {
 						</div>
 
 						<div className='text-center flex flex-col items-center justify-between p-4'>
-							<p className='text-xl font-bold text-dark_purple'>Environmental Impact</p>
+							<p className='text-xl font-bold text-medium_purple'>Environmental Impact</p>
 							<img src={greenWorld} alt='green-world' className='my-4 h-18 w-18' />
 							<p className='text-lg leading-6 text-text_light dark:text-text_dark'>
 								By renting, you help extend the lifespan of products, minimizing unnecessary

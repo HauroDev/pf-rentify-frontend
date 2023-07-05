@@ -53,7 +53,12 @@ const DetailProduct = () => {
 		}
 	}, [id])
 
-	if (state.status === 'loading') return <Loader />
+	if (state.status === 'loading')
+		return (
+			<div className='w-full grid place-content-center my-8'>
+				<Loader />
+			</div>
+		)
 
 	if (state.status === 'error') return <h3>Error: {state.error}</h3>
 

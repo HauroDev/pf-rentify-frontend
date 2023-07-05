@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { contactContacUsService } from '../services/contactService'
 import { ToastContext } from '../context/ToastContext'
 import { useForm } from 'react-hook-form'
@@ -45,26 +45,6 @@ const FAQS = () => {
 				addToast({
 					title: 'Error',
 					description: 'Error submitting contact form',
-					type: 'danger',
-				})
-			}
-		} else {
-			try {
-				await contactOwnerService({
-					email: data.email,
-					name: data.name,
-					message: data.message,
-				})
-				addToast({
-					title: 'Success',
-					description: 'Message sent',
-					type: 'success',
-				})
-			} catch (error) {
-				console.error('Error sending message to owner:', error)
-				addToast({
-					title: 'Error',
-					description: 'Error sending message to owner',
 					type: 'danger',
 				})
 			}
