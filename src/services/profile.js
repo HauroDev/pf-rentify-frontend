@@ -37,11 +37,11 @@ export const updateUserPhone = async (id, phone) => {
     config
   );
 
-  return data;
+  return phone;
 };
 
-export const updateProductstatusPub = async (idProd, statusPub) => {
-  console.log(id, statusPub);
+export const updateProductstatusPub = async ({ idProd, statusPub }) => {
+  console.log(idProd, statusPub);
   console.log("INPUT STATUSPUBs");
   const config = getTokenConfig();
 

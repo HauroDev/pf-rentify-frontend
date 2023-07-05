@@ -3,7 +3,6 @@ import {
   getUserProducts,
   updateProductstatusPub,
 } from "../../../services/profile";
-import { localStorageItems } from "../../../utils/localStorageItems";
 
 const initialState = {
   product: [],
@@ -28,6 +27,7 @@ export const upDateUserProductStatus = createAsyncThunk(
       console.log("REDUX");
       return await updateProductstatusPub({ idProd, statusPub });
     } catch (error) {
+      console.log(error);
       return Promise.reject(error);
     }
   }
@@ -38,19 +38,18 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     setProductName: (state, action) => {
-      state.product = action.payload;
-      localStorage.setItem(
-        localStorageItems.userProducts,
-        JSON.stringify({ product: state.product })
-      );
-      updateLocalStorage(state);
-    },
-    setProductStatusPub: (state, action) => {
-      const { productId, statusPub } = action.payload;
+      const { idProd, name } = action.payload;
       const productFound = state.product.find(
-        (product) => product.idProd === productId
+        (product) => product.idProd === idProd
       );
-      productFound.statusPub = statusPub;
+      productFound.name = name;
+    },
+    setProductPrice: (state, action) => {
+      const { idProd, price } = action.payload;
+      const productFound = state.product.find(
+        (product) => product.idProd === idProd
+      );
+      productFound.price = price;
     },
   },
 
@@ -74,11 +73,17 @@ const productSlice = createSlice({
       .addCase(upDateUserProductStatus.fulfilled, (state, action) => {
         state.status = "success";
         const { idProd, statusPub } = action.payload;
-        const productFound = state.product.find(
-          (product) => product.idProd === idProd
-        );
-        console.log(productFound);
-        productFound.statusPub = statusPub;
+        if (statusPub !== "deleted") {
+          const productFound = state.product.find(
+            (product) => product.idProd === idProd
+          );
+          console.log(productFound);
+          productFound.statusPub = statusPub;
+        } else {
+          state.product = state.product.filter(
+            (product) => product.idProd !== idProd
+          );
+        }
       })
       .addCase(upDateUserProductStatus.rejected, (state, action) => {
         state.status = "error";
@@ -87,127 +92,7 @@ const productSlice = createSlice({
   },
 });
 
-export const { setProductName, setProductStatusPub } = productSlice.actions;
+export const { setProductName, setProductStatusPub, setProductPrice } =
+  productSlice.actions;
 
 export default productSlice.reducer;
-
-// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { getUserProducts } from "../../../services/profile";
-// import { localStorageItems } from "../../../utils/localStorageItems";
-// const initialState = {
-//   product: [],
-//   status: "idle",
-//   error: null,
-// };
-
-// export const fetchUserProducts = createAsyncThunk(
-//   "products/fetchUserProducts",
-//   async (id) => {
-//     try {
-//       return await getUserProducts(id);
-//     } catch (error) {
-//       return Promise.reject(error);
-//     }
-//   }
-// );
-
-// const productSlice = createSlice({
-//   name: "productsUser",
-//   initialState,
-//   reducers: {
-//     setProductName: (state, action) => {
-//       state.product = action.payload;
-//       localStorage.setItem(
-//         localStorageItems.userProducts,
-//         JSON.stringify({ product: state.product })
-//       );
-//     },
-//     setProductStatusPub: (state, action) => {
-//       state.product.statePub = action.payload.statePub; // Actualiza solo la propiedad statePub
-//       console.log(state.product);
-//       localStorage.setItem(
-//         localStorageItems.userProducts,
-//         JSON.stringify({ product: state.product })
-//       );
-//     },
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(fetchUserProducts.pending, (state) => {
-//         state.status = "loading";
-//       })
-//       .addCase(fetchUserProducts.fulfilled, (state, action) => {
-//         state.status = "success";
-//         state.product = action.payload;
-//       })
-//       .addCase(fetchUserProducts.rejected, (state, action) => {
-//         state.status = "error";
-//         state.error = action.error.message;
-//       });
-//   },
-// });
-
-// export const { setProductName, setProductStatusPub } = productSlice.actions;
-
-// export default productSlice.reducer;
-////////////
-// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { getUserProducts } from "../../../services/profile";
-// import { updateProductstatusPub } from "../../../services/profile";
-
-// const initialState = {
-//   product: [],
-//   status: "idle",
-//   error: null,
-// };
-
-// export const fetchUserProducts = createAsyncThunk(
-//   "products/fetchUserProducts",
-//   async (id) => {
-//     try {
-//       return await getUserProducts(id);
-//     } catch (error) {
-//       return Promise.reject(error);
-//     }
-//   }
-// );
-
-// const productSlice = createSlice({
-//   name: "product",
-//   initialState,
-//   reducers: {
-//     setProductName: (state, action) => {
-//       state.product.name = action.payload;
-//       localStorage.setItem(
-//         localStorageItems.userAuth,
-//         JSON.stringify({ product: state.product })
-//       );
-//     },
-//     setProductStatusPub: (state, action) => {
-//       state.product.statusPub = action.payload;
-//       localStorage.setItem(
-//         localStorageItems.userAuth,
-//         JSON.stringify({ product: state.product })
-//       );
-//     },
-//   },
-
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(fetchUserProducts.pending, (state) => {
-//         state.status = "loading";
-//       })
-//       .addCase(fetchUserProducts.fulfilled, (state, action) => {
-//         state.status = "success";
-//         state.product = action.payload;
-//       })
-//       .addCase(fetchUserProducts.rejected, (state, action) => {
-//         state.status = "error";
-//         state.error = action.error.message;
-//       });
-//   },
-// });
-
-// export const { setProductName, setProductStatusPub } = productSlice.actions;
-
-// export default productSlice.reducer;

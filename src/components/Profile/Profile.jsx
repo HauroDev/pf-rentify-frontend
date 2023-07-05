@@ -4,10 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserName, updateUserPhone } from "../../services/profile";
 import CardProfile from "./CardProfile";
 import { useState } from "react";
-import { setUserName } from "../../app/features/user/userSlice";
-
+import { setUserName, setUserPhone } from "../../app/features/user/userSlice";
+import { Link } from "react-router-dom";
+import { routesName } from "../../utils/routes_name";
+import EditIcon from "../icons/EditIcon";
 const UserProfile = ({ idUser, image, phone, email, membership }) => {
   const dispatch = useDispatch();
+  const userState = useSelector((state) => state.user);
   let name;
   const localStorageData = localStorage.getItem("userAuth");
   console.log(localStorage.getItem("userAuth"));
@@ -63,20 +66,7 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
       try {
         await updateUserPhone(idUser, newPhone);
         setIsEditingPhone(false);
-
-        if (localStorageData) {
-          const userData = JSON.parse(localStorageData);
-          const updatedUserData = {
-            ...userData,
-            user: {
-              ...userData.user,
-              phone: newPhone,
-            },
-          };
-
-          // Actualizar el contenido en el localStorage
-          localStorage.setItem("userAuth", JSON.stringify(updatedUserData));
-        }
+        dispatch(setUserPhone(newPhone));
       } catch (error) {
         console.error(error);
       }
@@ -84,18 +74,18 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row justify-between">
-      <div className=" shadow-md w-full lg:w-1/3 bg-white dark:bg-card_dark   rounded-lg m-4 lg:m-0 flex flex-col items-center">
+    <div className="min-h-screen flex flex-col lg:flex-row justify-center items-center lg:items-start">
+      <div className="shadow-md w-max h-max lg:w-1/3 bg-white dark:bg-card_dark rounded-lg m-4 lg:m-0 flex flex-col items-center justify-center">
         <div className="flex justify-center items-center mt-12">
           <img
             src={image}
             alt={name}
-            className="w-48 h-48 rounded-full aspect-w-1 aspect-h-1 "
+            className="shadow-sm shadow-purple-900 w-48 h-48 rounded-full aspect-w-1 aspect-h-1"
           />
         </div>
         <div className="text-center">
           <h2
-            className="text-xl p-4 font-bold"
+            className=" text-xl p-4 font-bold flex items-center justify-center"
             onDoubleClick={handleDoubleClick}
           >
             {isEditing ? (
@@ -104,14 +94,19 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
                 value={newName}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
-                className=" bg-white dark:bg-card_dark "
+                className=" bg-inherit"
               />
             ) : (
               newName
             )}
+            <EditIcon
+              width={20}
+              height={20}
+              className="stroke-dark_purple dark:stroke-light_purple ml-2"
+            />
           </h2>
           <h3
-            className="text-xl p-1 font-bold"
+            className="text-xl p-4 font-bold flex items-center justify-center"
             onDoubleClick={handlePhoneDoubleClick}
           >
             {isEditingPhone ? (
@@ -120,30 +115,40 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
                 value={newPhone}
                 onChange={handlePhoneChange}
                 onKeyDown={handlePhoneKeyDown}
-                className="text-zinc-950"
+                className="bg-inherit"
               />
             ) : (
-              newPhone
+              userState.user.phone
             )}
+            <EditIcon
+              width={20}
+              height={20}
+              className="stroke-dark_purple dark:stroke-light_purple ml-2"
+            />
           </h3>
-          <h3 className="text-xl p-1 font-bold">{email}</h3>
+          <h3 className="text-xl p-4 font-bold flex items-center justify-center">
+            {email}
+          </h3>
         </div>
         <div className="justify-center">
-          <h2 className="text-xl p-2 font-bold flex items-center">
-            Membership: {membership && membership.toUpperCase()}{" "}
+          <h2 className="text-xl p-4 font-bold flex items-center justify-center">
+            {membership && membership.toUpperCase()}{" "}
             {membership === "premium" && <span>💎</span>}
           </h2>
         </div>
-
-        <div className="text-center py-6">
-          {/**
-           * 
-           *           <button className="bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg">
-            Edit Profile
-          </button>
-           */}
+        <div className="m-5">
+          <Link
+            to={routesName.user["create-product"]}
+            className="block bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg"
+            title="Create your publication"
+          >
+            <p className="block text-center truncate">
+              Create your publication
+            </p>
+          </Link>
         </div>
       </div>
+
       <div className="flex-grow  dark:bg-body_dark border-none rounded-lg m-4 flex flex-col justify-center items-center ">
         <div className="px-12">
           <CardProfile />

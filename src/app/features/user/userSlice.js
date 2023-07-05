@@ -122,15 +122,18 @@ const userSlice = createSlice({
       );
     },
     setUserPhone: (state, action) => {
-      state.user.phone = action.payload;
+      const user = state.user;
+      user.phone = action.payload;
       localStorage.setItem(
         localStorageItems.userAuth,
         JSON.stringify({
-          user: state.user,
+          user: user,
           login: state.login,
           token: state.token,
         })
       );
+      state.user.phone = action.payload;
+      console.log("setUserPhone");
     },
     resetUser: (state) => {
       state.user = {};

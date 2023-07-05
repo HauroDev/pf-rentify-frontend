@@ -5,17 +5,22 @@ import { useEffect, useRef, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ToastContext } from "../../context/ToastContext";
 import { updateProductName, updateProductPrice } from "../../services/profile";
-import { upDateUserProductStatus } from "../../app/features/product/product";
-
+import {
+  setProductName,
+  upDateUserProductStatus,
+  setProductPrice,
+} from "../../app/features/product/product";
+import DeleteIcon from "../icons/DeleteIcon";
+import Hourglas from "../icons/Hourglass";
+import HourglasOff from "../icons/HourglassOff";
 const CardProfile = ({ product }) => {
+  const { addToast } = useContext(ToastContext);
   const dispatch = useDispatch();
   const [newName, setNewName] = useState(product.name);
   const [newPrice, setNewPrice] = useState(product.price);
-  const { addToast } = useContext(ToastContext);
-  const idUser = useSelector((state) => state.user.user.idUser);
-
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingPrice, setIsEditingPrice] = useState(false);
+
   const handleDoubleClick = () => {
     setIsEditing(true);
   };
@@ -33,9 +38,10 @@ const CardProfile = ({ product }) => {
   const handleKeyDown = async (event) => {
     if (event.key === "Enter") {
       try {
-        dispatch(updateProductName({ idProd: product.idProd, name: newName }));
+        await updateProductName({ idProd: product.idProd, name: newName });
+
         setIsEditing(false);
-        dispatch(setNewName(newName));
+        dispatch(setProductName({ idProd: product.idProd, name: newName }));
       } catch (error) {
         console.error(error);
       }
@@ -45,14 +51,17 @@ const CardProfile = ({ product }) => {
   const handlePriceKeyDown = async (event) => {
     if (event.key === "Enter") {
       try {
+        await updateProductPrice({
+          idProd: product.idProd,
+          price: newPrice,
+        });
+        handlePriceDoubleClick(false);
         dispatch(
-          updateProductPrice({
+          setProductPrice({
             idProd: product.idProd,
             price: newPrice,
           })
         );
-        handlePriceDoubleClick(false);
-        dispatch(setNewPrice(newPrice));
       } catch (error) {
         console.error(error);
       }
@@ -93,7 +102,10 @@ const CardProfile = ({ product }) => {
   const handleActive = async (e) => {
     try {
       dispatch(
-        upDateUserProductStatus({ idProd: product.idProd, statusPub: "active" })
+        upDateUserProductStatus({
+          idProd: product.idProd,
+          statusPub: "active",
+        })
       );
 
       addToast({
@@ -124,12 +136,40 @@ const CardProfile = ({ product }) => {
       addToast({ title: "Error", description: error.message, type: "warning" });
     }
   };
+
+  const handleDeleted = async (e) => {
+    try {
+      dispatch(
+        upDateUserProductStatus({
+          idProd: product.idProd,
+          statusPub: "deleted",
+        })
+      );
+
+      addToast({
+        title: "Success",
+        description: `${product.name} was deleted`,
+        type: "danger",
+      });
+    } catch (error) {
+      addToast({ title: "Error", description: error.message, type: "warning" });
+    }
+  };
   const classStatusProd =
     product.statusPub === "inactive"
       ? "card hover:scale-110 transition-transform duration-200  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-gradient-to-t from-amber-600 via-transparent to-transparent dark:bg-card_dark p-4"
       : "card hover:scale-110 transition-transform duration-200  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4";
   return (
     <div key={product.idProd} ref={cardRef} className={`${classStatusProd}`}>
+      <button
+        className="absolute top-0 right-0 p-2 text-white bg-red-500 rounded hover:scale-125 transition-transform duration-200"
+        onClick={handleDeleted}
+        title="Deleted"
+      >
+        <svg className="flex items-center w-5 h-5">
+          <DeleteIcon width={20} height={20} className=" stroke-body_dark" />
+        </svg>
+      </button>
       <div className="flex flex-col justify-between h-full">
         <Link to={`/product/${product.idProd}`}>
           <div className="h-48 rounded overflow-hidden mb-4">
@@ -148,7 +188,7 @@ const CardProfile = ({ product }) => {
             />
           </div>
         </Link>
-        <div
+        <span
           className="flex justify-between items-end text-2xl font-cabin font-bold mb-2"
           onDoubleClick={handlePriceDoubleClick}
         >
@@ -156,18 +196,19 @@ const CardProfile = ({ product }) => {
           {isEditingPrice ? (
             <input
               type="text"
+              maxLength="6"
               value={newPrice}
               onChange={handlePriceChange}
               onKeyDown={handlePriceKeyDown}
-              className=" bg-white dark:bg-card_dark"
+              className="appearance-none bg-transparent w-full"
             />
           ) : (
-            product.price
+            newPrice
           )}
           <span className="text-sm text-gray_dark mb-2">
             {formatDate(product.updatedAt)}
           </span>
-        </div>
+        </span>
         <span
           to={`/product/${product.idProd}`}
           className="text-2xl font-amaranth font-bold mb-2"
@@ -179,7 +220,7 @@ const CardProfile = ({ product }) => {
                 value={newName}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
-                className=" bg-white dark:bg-card_dark"
+                className="appearance-none bg-transparent w-full h-6"
               />
             ) : (
               newName
@@ -202,12 +243,25 @@ const CardProfile = ({ product }) => {
             {product.location},{product.statusPub}
           </p>
           <button
-            className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer"
+            className="w-7 h-7 bg-medium_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer flex justify-center items-center hover:scale-125 transition-transform duration-200"
+            title={product.statusPub === "inactive" ? "Play" : "Stop"}
             onClick={
               product.statusPub === "inactive" ? handleActive : handleInactive
             }
           >
-            {product.statusPub === "inactive" ? <>⏳</> : <>✖️</>}️
+            {product.statusPub === "inactive" ? (
+              <HourglasOff
+                width={20}
+                height={20}
+                className="stroke-dark_purple dark:stroke-light_purple "
+              />
+            ) : (
+              <Hourglas
+                width={20}
+                height={20}
+                className="stroke-dark_purple dark:stroke-light_purple"
+              />
+            )}
           </button>
         </div>
       </div>
