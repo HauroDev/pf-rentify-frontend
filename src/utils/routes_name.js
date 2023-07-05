@@ -1,12 +1,13 @@
 export const routesName = {
-	home: '/',
-	detail_product: '/product/:id',
-	search_products: '/search',
-	signup: '/signup',
-	login: '/login',
-	user: {
+	'home': '/',
+	'detail_product': '/product/:id',
+	'search_products': '/search',
+	'signup': '/signup',
+	'login': '/login',
+	'about-Us': 'about-us',
+	'user': {
 		'create-product': '/user/create-product',
-		'profile':'/profile',
+		'profile': '/profile',
 	},
 
 	'checkout': {
@@ -19,4 +20,3 @@ export const routesName = {
 	'how-it-works': 'how-it-works',
 	'faqs': 'faqs',
 }
-

@@ -82,6 +82,16 @@ const Sidenav = ({ isOpen, closeModal }) => {
 						onClick={closeModal}>
 						FAQ&apos;S
 					</NavLink>
+					<NavLink
+						to={routesName['about-Us']}
+						className={({ isActive }) =>
+							isActive
+								? 'text-dark_purple font-bold dark:text-light_purple transition-all'
+								: 'font-bold hover:text-dark_purple dark:hover:text-light_purple'
+						}
+						onClick={closeModal}>
+						About us
+					</NavLink>
 				</section>
 			</nav>
 		</>
