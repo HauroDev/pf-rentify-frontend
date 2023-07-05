@@ -202,13 +202,22 @@ const CreateProduct = () => {
 
 			if (!response.payload) {
 				throw Error(`Api error`)
+			}else{
+				setIsLoading(false);
+				addToast({
+					title: 'Success',
+					description: `${product.name} was added successfully`,
+					type: 'success',
+				})
+				setProductData({
+					name: '',
+					description: '',
+					price: '',
+					location: '',
+					currency: null
+				});
+				setImageProduct(null);
 			}
-			setIsLoading(false)
-			addToast({
-				title: 'Success',
-				description: `${product.name} was added successfully`,
-				type: 'success',
-			})
 		} catch (error) {
 			setIsLoading(false)
 			addToast({
