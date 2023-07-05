@@ -114,7 +114,7 @@ const ProductPreview = ({name,description,price,location,image,currency}) => {
 
 							
 						</div>
-					
+
 				</div>
 
 
