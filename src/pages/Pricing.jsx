@@ -6,7 +6,7 @@ import handDiamond from '../assets/image/hand-diamond.png'
 import securePayment from '../assets/image/secure-payment.png'
 import membershipIcon from '../assets/image/membership-icon.png'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { membershipService, cancelMembershipService } from '../services/membershipService'
 
@@ -15,17 +15,24 @@ import { MERCADOPAGO_PUBLIC_KEY } from '../mercadopacgo.config'
 import { Wallet } from '@mercadopago/sdk-react'
 
 import Loader from '../components/Loader'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router';
+
+import { routesName } from '../utils/routes_name';
+import { ToastContext } from '../context/ToastContext'
+
+import { setUser } from '../app/features/user/userSlice'
 
 initMercadoPago(MERCADOPAGO_PUBLIC_KEY)
 
 const Pricing = () => {
 	const { user } = useSelector((state) => state.user)
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [isReady, setIsReady] = useState(false)
 	const [mPUrl, setMPUrl] = useState(null)
 	const [loading, setIsLoading] = useState(false)
-	const [idUser, setIdUser] = useState('')
+	const [idUser, setIdUser] = useState('');
+	const { addToast } = useContext(ToastContext)
 
 	console.log(user)
 
@@ -33,16 +40,6 @@ const Pricing = () => {
 		setIsReady(true)
 	}
 
-	// const renderCheckoutButton = (url) => {
-	// 	if (!url) return null
-	// 	console.log(url);
-	// 	return (
-	// 		<Wallet
-	// 			initialization={{ preferenceId: url, redirectMode: 'self' }}
-	// 			onReady={handleOnReady}
-	// 		/>
-	// 	)
-	// }
 	useEffect(() => {
 		if (user) {
 			setIdUser(user.idUser)
@@ -84,11 +81,33 @@ const Pricing = () => {
 		try {
 			const data = await cancelMembershipService(idUser);
 			console.log(data);
-					} catch (error) {
-			console.log(error)
+			if(!data.message){
+				throw Error("Api error")
+			}else{
+				addToast({
+					title: 'Success',
+					description: `Subscription canceled successfully`,
+					type: 'success',
+				})
+				setTimeout(() => {
+            
+					window.location.reload();
+				}, 100);
+			}
+		} catch (error) {
+			addToast({
+				title: `${error.message}`,
+				description: `The subscription could not be canceled`,
+				type: 'danger',
+			})
 		} finally {
 			setIsLoading(false)
 		}
+	}
+
+
+	const handleRegister = () =>{
+		navigate(routesName.signup)
 	}
 
 
@@ -154,7 +173,9 @@ const Pricing = () => {
 								<li>Standard transaction fees.</li>
 								<li>Enjoy Rent-ify for free.</li>
 							</ul>
-							{user.membership === 'basic' ? (
+							{Object.keys(user).length
+							?
+							user.membership === 'basic' ? (
 								<p className='text-green_medium font-bold leading-6 text-xl text-center mt-8'>
 									Current plan
 								</p>
@@ -162,10 +183,15 @@ const Pricing = () => {
 								<button
 									className='bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded'
 									value='basic'
-									onClick={handleClick}>
+									onClick={handleCancelClick}>
 									Downgrade
 								</button>
-							)}
+							):<button
+								className='bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded'
+								value='basic'
+								onClick={handleRegister}>
+								Register
+						</button>}
 						</div>
 
 						<div className=' w-9/12 lg:w-[300px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
@@ -175,7 +201,8 @@ const Pricing = () => {
 								<li>Standard transaction fees.</li>
 								<li className='text-medium_purple'>Price: $569.99 per month</li>
 							</ul>
-							{user.membership === 'premium' || user.membership === 'basic' ? (
+							{Object.keys(user).length
+							?user.membership === 'premium' || user.membership === 'basic' ? (
 								<button
 									className='bg-medium_purple text-white font-bold py-2 px-4 mt-4 text-lg rounded'
 									value='standard'
@@ -187,7 +214,8 @@ const Pricing = () => {
 								<p className='text-green_medium font-bold leading-6 text-xl text-center mt-8'>
 									Current plan
 								</p>
-							)}
+							)
+							:<div></div>}
 						</div>
 
 						<div className='w-9/12 lg:w-[300px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
@@ -199,7 +227,8 @@ const Pricing = () => {
 								<li>No transaction fees.</li>
 								<li className='text-medium_purple'>Price: $999.99 per month</li>
 							</ul>
-							{user.membership === 'premium' ? (
+							{Object.keys(user).length
+							?user.membership === 'premium' ? (
 								<p className='text-green_medium font-bold leading-6 text-xl text-center mt-8'>
 									Current plan
 								</p>
@@ -210,7 +239,8 @@ const Pricing = () => {
 									onClick={handleClick}>
 									Upgrade
 								</button>
-							)}
+							)
+							:<div></div>}
 						</div>
 					</article>
 				</section>

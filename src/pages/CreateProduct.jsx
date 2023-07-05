@@ -128,6 +128,7 @@ const CreateProduct = () => {
 			currency: countriesInfo.countries.find(c => c.geonameId === parseFloat(selectedOption))?.currency
 		}))
 		setValue('state', '')
+		setValue('location', '')
 	}
 
 
