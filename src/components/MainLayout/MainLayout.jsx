@@ -19,6 +19,7 @@ const MainLayout = ({ children }) => {
 	const { addToast } = useContext(ToastContext)
 
 	useEffect(() => {
+		window.scrollTo(0, 0)
 		if (userState.status === 'success' && userState.user?.status === 'banned') {
 			dispatch(LogoutUser())
 			addToast({
