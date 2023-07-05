@@ -8,7 +8,7 @@ import membershipIcon from '../assets/image/membership-icon.png'
 
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { membershipService } from '../services/membershipService';
+import { membershipService, cancelMembershipService } from '../services/membershipService';
 
 import { initMercadoPago } from '@mercadopago/sdk-react';
 import { MERCADOPAGO_PUBLIC_KEY } from '../mercadopacgo.config';
@@ -54,7 +54,7 @@ const Pricing = () => {
 		setIsLoading(true)
 		const email = user.email;
 		const type = e.target.value;
-		const backURL = "https://pf-rentify-frontend.vercel.app";
+		
 		const price = e.target.value === "premium" ? 869.99 : 569.99;
 
 		const paymentInfo = {
@@ -78,8 +78,22 @@ const Pricing = () => {
 		} finally {
 			setIsLoading(false)
 		}
-
 	}
+
+	const handleCancelClick = async () => {
+		setIsLoading(true)
+		try {
+			const data = await cancelMembershipService(idUser);
+			console.log(data);
+			
+		} catch (error) {
+			console.log(error)
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
+
 
 	return (
 		<div className='max-w-6xl mx-auto p-8'>
@@ -113,61 +127,59 @@ const Pricing = () => {
 					<h3 className='text-4xl font-bold text-medium_purple'>Membership Plans</h3>
 				</div>
 
-				<div className="flex flex-col md:flex-row  mt-8 space-y-9 md:space-y-0 md:space-x-4">
-					<div className=" md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col  w-[300px]">
+				<div className="flex flex-col md:flex-row justify-center mt-8 space-y-9 md:space-y-0 md:space-x-4">
+					<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col items-center ">
 						<p className="text-medium_purple font-bold leading-6 text-xl">Basic Membership (Free)</p>
-						<ul className="text-text_light dark:text-text_dark mt-6 text-md">
+						<ul className="text-text_light dark:text-text_dark mt-4 text-lg">
 							<li>Up to 5 items listings per month.</li>
 							<li>Standard transaction fees.</li>
 							<li>Enjoy Rent-ify for free.</li>
 						</ul>
 						{user.membership === 'basic' ? (
-							<p className="text-green_medium font-bold leading-6 text-xl text-center mt-8">Current plan</p>
+							<p className="text-medium_purple">Current</p>
 						) : (
 							<button
-								className="bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded"
+								className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 rounded"
 								value="basic"
-								onClick={handleClick}
+								onClick={handleCancelClick}
 							>
-								Downgrade
+								Upgrade
 							</button>
 						)}
 					</div>
 
-					<div className="md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col w-[300px]">
+					<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col items-center justify-between">
 						<p className="text-medium_purple font-bold leading-6 text-xl">Standard Membership</p>
-						<ul className="text-text_light dark:text-text_dark mt-6 text-md">
+						<ul className="text-text_light dark:text-text_dark mt-4 text-lg">
 							<li>Up to 5 items listings per month.</li>
 							<li>Standard transaction fees.</li>
-							<li className="text-medium_purple">Price: $569.99 per month</li>
+							<li>Price: $569.99 per month</li>
 						</ul>
-						{user.membership === 'premium' || user.membership === 'basic' ? (
-							<button
-							className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 text-lg rounded"
-							value="standard"
-							onClick={handleClick}
-							>
-							{user.membership === 'premium' ? 'Downgrade' : ''}
-							{user.membership === 'basic' ? 'Upgrade' : ''}
-							</button>
+						{user.membership === 'standard' ? (
+							<p className="text-medium_purple">Current</p>
 						) : (
-							<p className="text-green_medium font-bold leading-6 text-xl text-center mt-8">Current plan</p>
+							<button
+								className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 rounded"
+								value="standard"
+								onClick={handleClick}
+							>
+								Upgrade
+							</button>
 						)}
 					</div>
 
-
-					<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col">
+					<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col items-center justify-between">
 						<p className="text-medium_purple font-bold leading-6 text-xl">Premium Membership 💎</p>
-						<ul className="text-text_light dark:text-text_dark mt-6 text-md">
+						<ul className="text-text_light dark:text-text_dark mt-4 text-lg">
 							<li>Unlimited items listings per month.</li>
 							<li>No transaction fees.</li>
-							<li className="text-medium_purple">Price: $999.99 per month</li>
+							<li>Price: $999.99 per month</li>
 						</ul>
 						{user.membership === 'premium' ? (
-							<p className="text-green_medium font-bold leading-6 text-xl text-center mt-8">Current plan</p>
-							) : (
+							<p className="text-medium_purple">Current</p>
+						) : (
 							<button
-								className="bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded"
+								className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 rounded"
 								value="premium"
 								onClick={handleClick}
 							>
@@ -176,6 +188,7 @@ const Pricing = () => {
 						)}
 
 					</div>
+
 				</div>
 
 

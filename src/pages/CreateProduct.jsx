@@ -507,7 +507,7 @@ const CreateProduct = () => {
 						{categoriesInfo.categories.length ? (
 							<div className={`w-full flex flex-col ${isExpanded ? 'block' : 'hidden'}`}>
 								{categoriesInfo.categories.map((category) => (
-									<div key={category.idCategory} className='flex items-center w-1/2 bg-gray_dark rounded-md'>
+									<div key={category.idCategory} className='flex items-center w-1/2'>
 										<input
 											type='checkbox'
 											id={category.idCategory}
