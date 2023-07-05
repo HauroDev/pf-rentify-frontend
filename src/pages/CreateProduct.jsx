@@ -236,9 +236,11 @@ const CreateProduct = () => {
 	console.log(errors);
 	return (
 		<div className='container mx-auto flex max-xl:flex-col items-start justify-center gap-8'>
-			<div className='bg-gray_medium dark:bg-card_dark p-4 rounded-md shadow-xl flex-grow  min-[1700px]:w-auto xl:w-8/12 min-[1500px]:w-1/2 max-xl:w-8/12'>
+			<div className='bg-gray_light dark:bg-card_dark p-4 rounded-md shadow-xl flex-grow  min-[1700px]:w-auto xl:w-8/12 min-[1500px]:w-1/2 max-xl:w-8/12'>
 				<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
-					<h2 className='text-2xl font-bold mb-4'>Post a product</h2>
+				<h2 className="text-3xl font-bold mb-4 text-center text-text_light dark:text-text_dark">
+					Create a product
+				</h2>
 					{/*  name */}
 					<div>
 						<label htmlFor='name' className='block font-bold mb-1'>
@@ -288,78 +290,74 @@ const CreateProduct = () => {
 					</div>
 
 					{/* description */}
-					<div>
-						<label htmlFor='description' className='block font-bold mb-1'>
-							Description:
-						</label>
-						<textarea
-							id='description'
-							{...register('description', {
-								required: true,
-								maxLength: 1200,
-								onChange: () => {
-									trigger('description');
-									setProductData((prevInput)=>({
-										...prevInput,
-										description: watch("description")
-									}))
-								},
-							})}
-							aria-invalid={errors.description ? 'true' : 'false'}
-							className={`w-full dark:bg-body_dark border rounded px-2 py-1 ${
-								errors.description ? 'border-red-500' : 'border-gray-300'
-							}`}
-						/>
-						{errors.description && errors.description.type === 'required' && (
-							<p role='alert' className='text-red-500 text-sm'>
-								Description is required
-							</p>
-						)}
+					{/* description */}
+				<div>
+					<label htmlFor="description" className="block font-bold mb-1 text-md">
+						Description:
+					</label>
+					<textarea
+						id="description"
+						{...register('description', {
+						required: true,
+						maxLength: 1200,
+						onChange: () => {
+							trigger('description');
+							setProductData((prevInput) => ({
+							...prevInput,
+							description: watch('description'),
+							}));
+						},
+						})}
+						aria-invalid={errors.description ? 'true' : 'false'}
+						className={`w-full h-40 resize-none bg-gray-100 dark:bg-body_dark border rounded px-2 py-1 ${
+						errors.description ? 'border-red-500' : 'border-gray-300'
+						} overflow-y-auto scrollbar-thin scrollbar-thumb-dark_purple scrollbar-thumb-rounded-md scrollbar-track-light_purple`}
+					/>
+					{errors.description && errors.description.type === 'required' && (
+						<p role="alert" className="text-red-500 text-sm">
+						Description is required
+						</p>
+					)}
 					</div>
 
 					{/* image */}
-					<div>
-						<label htmlFor='image' className='block font-bold mb-1'>
-							Suba una imagen:
-						</label>
-						<input
-							type='file'
-							id='image'
-							{...register('image', {
-								required: true,
-								validate: { validateFileType, validateFileSize },
-								onChange: handleImageChange,
-							})}
-							aria-invalid={errors.image ? 'true' : 'false'}
-							className={`border-2 ${
-								errors.image ? 'border-red-500' : 'border-gray-300'
-							} rounded-md block w-full text-base  text-slate-500
+
+				<div>
+					<label htmlFor="image" className="block font-bold mb-1">
+						Upload an image:
+					</label>
+					<input
+						type="file"
+						id="image"
+						{...register("image", {
+						required: "Image is required",
+						validate: {
+							validateFileType: validateFileType,
+							validateFileSize: validateFileSize,
+						},
+						onChange: handleImageChange,
+						})}
+						aria-invalid={errors.image ? "true" : "false"}
+						className={`border-2 ${
+						errors.image ? "border-red-500" : "border-gray-300"
+						} rounded-md block w-full text-base text-gray-500
 						file:mr-4 file:py-2 file:px-4 file:w-1/2 file:dark:bg-body_dark
 						file:rounded-md file:border-0
 						file:font-semibold
 						file:bg-violet-50 file:text-violet-700 file:dark:text-violet-300
 						hover:file:bg-violet-100 hover:file:cursor-pointer`}
-						/>
-						{errors.image && errors.image.type === 'required' && (
-							<p role='alert' className='text-red-500 text-sm'>
-								Image is required
-							</p>
-						)}
-						{errors.image && errors.image.type === 'validateFileType' && (
-							<p role='alert' className='text-red-500 text-sm'>
-								{errors.image.message}
-							</p>
-						)}
-						{errors.image && errors.image.type === 'validateFileSize' && (
-							<p role='alert' className='text-red-500 text-sm'>
-								{errors.image.message}
-							</p>
-						)}
-					</div>
+					/>
+					{errors.image && (
+						<p role="alert" className="text-red-500 text-sm">
+						{errors.image.message}
+						</p>
+					)}
+				</div>
 
-					{/* price */}
+
+				{/* price */}
 					<div>
-						<label htmlFor='price' className='block font-bold mb-1'>
+						<label htmlFor='price' className='block font-bold mb-1 text-md'>
 							Price per day:
 						</label>
 						<input
@@ -388,15 +386,16 @@ const CreateProduct = () => {
 						)}
 						{errors.price && errors.price.type === 'min' && (
 							<p role='alert' className='text-red-500 text-sm'>
-								Please enter a valid price, negative values are invalid
+								Please enter a valid price! Negative values are invalid.
 							</p>
 						)}
-					</div>
+				</div>
 
-					<hr className='border-gray_dark' />
-					{/* country */}
+				<hr className='border-gray_dark' />
+					
+				{/* country */}
 					<div>
-						<label htmlFor='country' className='block font-bold mb-1'>
+						<label htmlFor='country' className='block font-bold mb-1 text-md '>
 							Select Country:
 						</label>
 						{countriesInfo.countries.length ? (
@@ -407,7 +406,7 @@ const CreateProduct = () => {
 								className={`w-1/2 dark:bg-body_dark  border rounded px-2 py-1 ${
 									errors.country ? 'border-red-500' : 'border-gray-300'
 								} hover:cursor-pointer focus:outline-none focus:ring focus:border-blue-500`}>
-								<option value='' disabled>
+								<option value='' disabled selected>
 									Countries
 								</option>
 								{countriesInfo.countries.map((country) => (
@@ -429,11 +428,11 @@ const CreateProduct = () => {
 								Country is required
 							</p>
 						)}
-					</div>
+				</div>
 
-					{/* state */}
+				{/* state */}
 					<div>
-						<label htmlFor='state' className='block font-bold mb-1'>
+						<label htmlFor='state' className='block font-bold mb-1 text-md'>
 							Select State:
 						</label>
 						{dataStates.length ? (
@@ -446,7 +445,7 @@ const CreateProduct = () => {
 								className={`w-1/2 dark:bg-body_dark border rounded px-2 py-1 ${
 									errors.country ? 'border-red-500' : 'border-gray-300'
 								} hover:cursor-pointer focus:outline-none focus:ring focus:border-blue-500`}>
-								<option value='' disabled>
+								<option value='' disabled selected>
 									States
 								</option>
 								{dataStates.map((state) => (
@@ -465,11 +464,11 @@ const CreateProduct = () => {
 								State is required
 							</p>
 						)}
-					</div>
+				</div>
 
-					{/* location */}
+				{/* location */}
 					<div>
-						<label htmlFor='location' className='block font-bold mb-1'>
+						<label htmlFor='location' className='block font-bold mb-1 text-md'>
 							Select Location:
 						</label>
 						{dataLocations.length ? (
@@ -480,7 +479,7 @@ const CreateProduct = () => {
 								className={`w-1/2 dark:bg-body_dark border rounded px-2 py-1 ${
 									errors.country ? 'border-red-500' : 'border-gray-300'
 								} hover:cursor-pointer focus:outline-none focus:ring focus:border-blue-500`}>
-								<option value='' disabled>
+								<option value='' disabled selected>
 									Locations
 								</option>
 								{dataLocations.map((location) => (
@@ -502,51 +501,51 @@ const CreateProduct = () => {
 								Location is required{' '}
 							</p>
 						)}
+				</div>
+
+				<hr className='border-gray_dark' />
+
+				{/* categories */}
+				<div>
+					<div className="flex hover:cursor-pointer items-center justify-between w-1/2 px-1 py-1" onClick={toggleDropdown}>
+						<label htmlFor="categories" className="font-bold mb-1 text-md">
+						Select Categories
+						</label>
+						<i>{isExpanded ? <ArrowUpCrPr /> : <ArrowDownCrPr />}</i>
 					</div>
-
-					<hr className='border-gray_dark' />
-
-					{/* categories */}
-					<div>
-						<div className='flex hover:cursor-pointer items-center justify-between w-1/2 border-b-2 px-1 py-1 '  onClick={toggleDropdown}>
-							<label htmlFor='categories' className='font-bold mb-1 text-lg'>
-								Select categories
+					{categoriesInfo.categories.length ? (
+						<div className={`w-full ${isExpanded ? "block" : "hidden"}`}>
+						{categoriesInfo.categories.map((category) => (
+							<div key={category.idCategory} className="flex items-center w-1/2 py-1">
+							<input
+								type="checkbox"
+								id={category.idCategory}
+								{...register("categories", {
+								required: true,
+								onChange: () => {
+									trigger("categories");
+								},
+								})}
+								value={category.idCategory}
+								aria-invalid={errors.categories ? "true" : "false"}
+								className="accent-dark_purple hover:cursor-pointer h-4 w-4"
+							/>
+							<label htmlFor={category.idCategory} className="capitalize pl-2">
+								{category.name}
 							</label>
-							<i>{isExpanded?<ArrowUpCrPr/>:<ArrowDownCrPr/>}</i>
-						</div>
-						{categoriesInfo.categories.length ? (
-							<div className={`w-full flex flex-col ${isExpanded ? 'block' : 'hidden'}`}>
-								{categoriesInfo.categories.map((category) => (
-									<div key={category.idCategory} className='flex items-center w-1/2'>
-										<input
-											type='checkbox'
-											id={category.idCategory}
-											{...register('categories', {
-												required: true,
-												onChange: () => {
-													trigger('categories')
-												},
-											})}
-											value={category.idCategory}
-											aria-invalid={errors.categories ? 'true' : 'false'}
-											className='accent-dark_purple hover:cursor-pointer  h-4 w-4'
-										/>
-										<label htmlFor={category.idCategory} className='capitalize pl-2 inl'>
-											{category.name}
-										</label>
-									</div>
-								))}
 							</div>
-						) : (
-							<select className={`w-1/2 border rounded px-2 py-1 border-gray-300`}>
-								<option value=''>Loading categories...</option>
-							</select>
-						)}
-						{errors.categories && errors.categories.type === 'required' && (
-							<p role='alert' className='text-red-500 text-sm'>
-								Please select a category
-							</p>
-						)}
+						))}
+						</div>
+					) : (
+						<select className="w-1/2 border rounded px-2 py-1 border-gray-300">
+						<option value="">Loading categories...</option>
+						</select>
+					)}
+					{errors.categories && errors.categories.type === "required" && (
+						<p role="alert" className="text-red-500 text-sm">
+						Please select at least one category
+						</p>
+					)}
 					</div>
 
 					<hr className='border-gray_dark' />

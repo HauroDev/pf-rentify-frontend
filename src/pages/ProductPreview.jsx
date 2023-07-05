@@ -52,11 +52,29 @@ const ProductPreview = ({name,description,price,location,image,currency}) => {
   },[image,user])
     return(
         
-          <div className='mx-auto w-auto flex flex-col gap-5 bg-gray_medium rounded-md p-8 dark:bg-card_dark max-xl:w-10/12'>
-                <h2 className="text-2xl font-bold mb-3">Post Preview</h2>
+          <div className='mx-auto w-auto flex flex-col gap-5 bg-white rounded-md p-8 dark:bg-card_dark max-xl:w-10/12'>
+                <h2 className="text-3xl font-bold text-center">Product Preview</h2>
 						<div className='flex justify-center flex-wrap gap-8 '>
 							<div>
 								<DetailsTop image={imagePreview} />
+
+                <div className='bg-white dark:bg-card_dark rounded-lg'>
+                <div className='flex flex-col gap-4 p-7 w-[300px] md:w-[450px]'>
+                  <div className='flex items-center'>
+                    <h4 className='text-base text-gray_dark mb-2'>Product id: ##</h4>
+                    <span className='text-base text-gray_dark mx-1'>|</span>
+                    <h4 className='text-base  text-gray_dark  mb-2'>{today}</h4>
+                  </div>
+                  <h2 className='text-2xl xl:text-3xl mb-2'>{name}</h2>
+                  <h4 className='text-2xl text-dark_purple dark:text-light_purple md:text-4xl mb-2'>
+                    {currency?.symbol} {isNaN(price)?``:`${price}`} <span className='text-base'>{currency?.code}</span>
+                  </h4>
+                  <div className='flex items-center mb-8'>
+                    <MapPinIcon className='stroke-card_dark dark:stroke-white w-4 h-4 md:w-6 md:h-6' />
+                    <h4 className='text-base md:text-xl ml-2'>City: {location}</h4>
+                  </div>
+                </div>
+							</div>
 
 								<section className='w-full grid justify-center content-center md:items-start gap-8 xl:gap-12 mb-8'>
                   <div className='w-[300px] md:w-[450px]  h-full min-h-40 md:min-h-[200px] p-8 bg-gray_light dark:bg-card_dark rounded-lg shadow-md'>
@@ -94,23 +112,7 @@ const ProductPreview = ({name,description,price,location,image,currency}) => {
                 </section>
 							</div>
 
-							<div className='h-full bg-white dark:bg-card_dark rounded-lg'>
-                <div className='flex flex-col gap-4 p-7 w-[300px] md:w-[450px]'>
-                  <div className='flex items-center'>
-                    <h4 className='text-base text-gray_dark mb-2'>Product id: ##</h4>
-                    <span className='text-base text-gray_dark mx-1'>|</span>
-                    <h4 className='text-base  text-gray_dark  mb-2'>{today}</h4>
-                  </div>
-                  <h2 className='text-2xl xl:text-3xl mb-2'>{name}</h2>
-                  <h4 className='text-2xl text-dark_purple dark:text-light_purple md:text-4xl mb-2'>
-                    {currency?.symbol} {isNaN(price)?``:`${price}`} <span className='text-base'>{currency?.code}</span>
-                  </h4>
-                  <div className='flex items-center mb-8'>
-                    <MapPinIcon className='stroke-card_dark dark:stroke-white w-4 h-4 md:w-6 md:h-6' />
-                    <h4 className='text-base md:text-xl ml-2'>City: {location}</h4>
-                  </div>
-                </div>
-							</div>
+							
 						</div>
 					
 				</div>
