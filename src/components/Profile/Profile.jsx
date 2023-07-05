@@ -8,6 +8,7 @@ import { setUserName, setUserPhone } from "../../app/features/user/userSlice";
 import { Link } from "react-router-dom";
 import { routesName } from "../../utils/routes_name";
 import EditIcon from "../icons/EditIcon";
+
 const UserProfile = ({ idUser, image, phone, email, membership }) => {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.user);
