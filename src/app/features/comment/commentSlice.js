@@ -10,7 +10,7 @@ const initialState = {
 
 export const CreateComment = createAsyncThunk('', async (comment) => {
 	try {
-		console.log(comment)
+	
 		return await postComment(comment)
 	} catch (error) {
 		return Promise.reject(error.response.data.error)
@@ -19,7 +19,7 @@ export const CreateComment = createAsyncThunk('', async (comment) => {
 
 export const AllComment = createAsyncThunk('allComment', async (comment) => {
 	try {
-		console.log(comment)
+		
 		return await getComment(comment)
 	} catch (error) {
 		throw new Error(error.message)
@@ -28,7 +28,7 @@ export const AllComment = createAsyncThunk('allComment', async (comment) => {
 
 export const EditComment=createAsyncThunk ('EditComment',async (comment)=>{
 try {
-	console.log(comment)
+	
 	return await putComment(comment)
 } catch (error) {
 	return Promise.reject(error.response.data.error)
@@ -37,7 +37,7 @@ try {
 
 export const DeletComment=createAsyncThunk ('DeleteComment',async (comment)=>{
 	try {
-		console.log(comment)
+		
 		return await deletComment(comment)
 	} catch (error) {
 		return Promise.reject(error.response.data.error)

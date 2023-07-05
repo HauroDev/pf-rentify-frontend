@@ -20,13 +20,6 @@ function App() {
 		? JSON.parse(localStorage.getItem(localStorageItems.userAuth))
 		: { loggin: false, user: {} }
 
-	// const geolocation = async () => {
-	// 	try {
-	// 		await getGeolocation()
-	// 	} catch (error) {
-	// 		console.log(error)
-	// 	}
-	// }
 
 	useEffect(() => {
 		getGeolocation()

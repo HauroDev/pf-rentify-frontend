@@ -70,7 +70,7 @@ const DetailComments = ({ idProd, commentes, star, average,updated }) => {
       dispatch(DeletComment(DelettComment));
       setCommentSubmitted(DelettComment);
 
-      console.log(DelettComment)
+    
     }
   };
 
@@ -106,7 +106,7 @@ const DetailComments = ({ idProd, commentes, star, average,updated }) => {
       setCommentSubmitted(editedComment);
       setEditCommentId(null);
 
-      console.log(editedComment)
+    
     }
   };
 

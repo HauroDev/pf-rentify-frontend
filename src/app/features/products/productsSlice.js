@@ -72,7 +72,7 @@ export const fetchPostProductAsync = createAsyncThunk(
     try {
       return await createProduct(productDetail);
     } catch (error) {
-      console.log(error);
+    
       return Promise.reject(error.response.data.error);
     }
   }

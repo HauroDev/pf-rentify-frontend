@@ -45,7 +45,7 @@ const DetailOwner = ({ user: owner, product }) => {
 			})
 			setStatus('success')
 		} catch (error) {
-			console.log(error)
+		
 			setStatus('error')
 			setError(error)
 		}

@@ -25,7 +25,7 @@ export const upDateUserProductStatus = createAsyncThunk(
     try {
       return await updateProductstatusPub({ idProd, statusPub });
     } catch (error) {
-      console.log(error);
+    
       return Promise.reject(error);
     }
   }
@@ -75,7 +75,7 @@ const productSlice = createSlice({
           const productFound = state.product.find(
             (product) => product.idProd === idProd
           );
-          console.log(productFound);
+         
           productFound.statusPub = statusPub;
         } else {
           state.product = state.product.filter(

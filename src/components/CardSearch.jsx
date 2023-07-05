@@ -21,7 +21,7 @@ const CardSearch = ({
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		console.log(country)
+	
 		isImgValid(image, setImgValid)
 		setDate(formatDate(updatedAt))
 	}, [image, updatedAt])

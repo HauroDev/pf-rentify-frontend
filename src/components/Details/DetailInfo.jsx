@@ -9,7 +9,7 @@ const DetailInfo = ({ idProd, name, price, location, updatedAt, country, image, 
 	const [date, setDate] = useState('')
 
 	useEffect(() => {
-		console.log(status)
+	
 		setDate(formatDate(updatedAt))
 	}, [updatedAt])
 

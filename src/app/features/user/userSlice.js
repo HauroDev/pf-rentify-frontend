@@ -24,7 +24,7 @@ export const CreatePostUser = createAsyncThunk(
   "user/CreatPostUser",
   async (user) => {
     try {
-      console.log(user);
+     
       return await registerUser(user);
     } catch (error) {
       if (error.code.includes("auth")) {
@@ -133,7 +133,7 @@ const userSlice = createSlice({
         })
       );
       state.user.phone = action.payload;
-      console.log("setUserPhone");
+   
     },
     resetUser: (state) => {
       state.user = {};
