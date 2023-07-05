@@ -53,12 +53,10 @@ export const updateProductstatusPub = async ({ idProd, statusPub }) => {
     },
     config
   );
-  console.log(data);
   return { idProd, statusPub };
 };
 
 export const updateProductName = async ({ idProd, name }) => {
-  console.log(idProd, name);
   const config = getTokenConfig();
   const { data } = await axios.put(
     `${PRODUCTS_API}/update-name`,
@@ -72,7 +70,6 @@ export const updateProductName = async ({ idProd, name }) => {
 };
 
 export const updateProductPrice = async ({ idProd, price }) => {
-  console.log(idProd, price);
   const config = getTokenConfig();
   const { data } = await axios.put(
     `${PRODUCTS_API}/update-price`,
