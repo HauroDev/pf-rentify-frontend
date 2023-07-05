@@ -15,9 +15,9 @@ import { MERCADOPAGO_PUBLIC_KEY } from '../mercadopacgo.config'
 import { Wallet } from '@mercadopago/sdk-react'
 
 import Loader from '../components/Loader'
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router'
 
-import { routesName } from '../utils/routes_name';
+import { routesName } from '../utils/routes_name'
 import { ToastContext } from '../context/ToastContext'
 
 import { setUser } from '../app/features/user/userSlice'
@@ -26,12 +26,12 @@ initMercadoPago(MERCADOPAGO_PUBLIC_KEY)
 
 const Pricing = () => {
 	const { user } = useSelector((state) => state.user)
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
 	const [isReady, setIsReady] = useState(false)
 	const [mPUrl, setMPUrl] = useState(null)
 	const [loading, setIsLoading] = useState(false)
-	const [idUser, setIdUser] = useState('');
+	const [idUser, setIdUser] = useState('')
 	const { addToast } = useContext(ToastContext)
 
 	console.log(user)
@@ -48,10 +48,10 @@ const Pricing = () => {
 
 	const handleClick = async (e) => {
 		setIsLoading(true)
-		const email = user.email;
-		const type = e.target.value;
-		
-		const price = e.target.value === "premium" ? 869.99 : 569.99;
+		const email = user.email
+		const type = e.target.value
+
+		const price = e.target.value === 'premium' ? 869.99 : 569.99
 
 		const paymentInfo = {
 			reason: `Suscripción mensual`,
@@ -79,20 +79,19 @@ const Pricing = () => {
 	const handleCancelClick = async () => {
 		setIsLoading(true)
 		try {
-			const data = await cancelMembershipService(idUser);
-			console.log(data);
-			if(!data.message){
-				throw Error("Api error")
-			}else{
+			const data = await cancelMembershipService(idUser)
+			console.log(data)
+			if (!data.message) {
+				throw Error('Api error')
+			} else {
 				addToast({
 					title: 'Success',
 					description: `Subscription canceled successfully`,
 					type: 'success',
 				})
 				setTimeout(() => {
-            
-					window.location.reload();
-				}, 100);
+					window.location.reload()
+				}, 100)
 			}
 		} catch (error) {
 			addToast({
@@ -105,12 +104,9 @@ const Pricing = () => {
 		}
 	}
 
-
-	const handleRegister = () =>{
+	const handleRegister = () => {
 		navigate(routesName.signup)
 	}
-
-
 
 	return (
 		<div className='min-w-[350px] mx-auto '>
@@ -142,16 +138,16 @@ const Pricing = () => {
 
 						<div className='flex flex-col lg:flex-row justify-between items-center gap-8 mt-8 space-y-1 md:space-y-0'>
 							<div className='text-justify flex flex-col items-center lg:w-[300px] p-4'>
-								<p className='text-lg leading-6 text-text_light dark:text-text_dark'>
+								<p className='text-lg leading-6 text-text_dark'>
 									Gain unlimited access to a wide range of items, enjoy discounted transaction fees,
 									and receive top-notch support.
 								</p>
 							</div>
 
 							<div className='text-justify flex flex-col items-center lg:w-[300px] p-4'>
-								<p className='text-lg leading-6 text-text_light dark:text-text_dark'>
-									Whether you're a frequent renter or a savvy item owner, our membership offers a
-									host of benefits tailored to enhance your renting experience.
+								<p className='text-lg leading-6 text-text_dark'>
+									Whether you&apos;re a frequent renter or a savvy item owner, our membership offers
+									a host of benefits tailored to enhance your renting experience.
 								</p>
 							</div>
 						</div>
@@ -173,25 +169,27 @@ const Pricing = () => {
 								<li>Standard transaction fees.</li>
 								<li>Enjoy Rent-ify for free.</li>
 							</ul>
-							{Object.keys(user).length
-							?
-							user.membership === 'basic' ? (
-								<p className='text-green_medium font-bold leading-6 text-xl text-center mt-8'>
-									Current plan
-								</p>
+							{Object.keys(user).length ? (
+								user.membership === 'basic' ? (
+									<p className='text-green_medium font-bold leading-6 text-xl text-center mt-8'>
+										Current plan
+									</p>
+								) : (
+									<button
+										className='bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded'
+										value='basic'
+										onClick={handleCancelClick}>
+										Downgrade
+									</button>
+								)
 							) : (
 								<button
 									className='bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded'
 									value='basic'
-									onClick={handleCancelClick}>
-									Downgrade
+									onClick={handleRegister}>
+									Register
 								</button>
-							):<button
-								className='bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded'
-								value='basic'
-								onClick={handleRegister}>
-								Register
-						</button>}
+							)}
 						</div>
 
 						<div className=' w-9/12 lg:w-[300px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
@@ -201,21 +199,23 @@ const Pricing = () => {
 								<li>Standard transaction fees.</li>
 								<li className='text-medium_purple'>Price: $569.99 per month</li>
 							</ul>
-							{Object.keys(user).length
-							?user.membership === 'premium' || user.membership === 'basic' ? (
-								<button
-									className='bg-medium_purple text-white font-bold py-2 px-4 mt-4 text-lg rounded'
-									value='standard'
-									onClick={handleClick}>
-									{user.membership === 'premium' ? 'Downgrade' : ''}
-									{user.membership === 'basic' ? 'Upgrade' : ''}
-								</button>
+							{Object.keys(user).length ? (
+								user.membership === 'premium' || user.membership === 'basic' ? (
+									<button
+										className='bg-medium_purple text-white font-bold py-2 px-4 mt-4 text-lg rounded'
+										value='standard'
+										onClick={handleClick}>
+										{user.membership === 'premium' ? 'Downgrade' : ''}
+										{user.membership === 'basic' ? 'Upgrade' : ''}
+									</button>
+								) : (
+									<p className='text-green_medium font-bold leading-6 text-xl text-center mt-8'>
+										Current plan
+									</p>
+								)
 							) : (
-								<p className='text-green_medium font-bold leading-6 text-xl text-center mt-8'>
-									Current plan
-								</p>
-							)
-							:<div></div>}
+								<div></div>
+							)}
 						</div>
 
 						<div className='w-9/12 lg:w-[300px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
@@ -227,20 +227,22 @@ const Pricing = () => {
 								<li>No transaction fees.</li>
 								<li className='text-medium_purple'>Price: $999.99 per month</li>
 							</ul>
-							{Object.keys(user).length
-							?user.membership === 'premium' ? (
-								<p className='text-green_medium font-bold leading-6 text-xl text-center mt-8'>
-									Current plan
-								</p>
+							{Object.keys(user).length ? (
+								user.membership === 'premium' ? (
+									<p className='text-green_medium font-bold leading-6 text-xl text-center mt-8'>
+										Current plan
+									</p>
+								) : (
+									<button
+										className='bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded'
+										value='premium'
+										onClick={handleClick}>
+										Upgrade
+									</button>
+								)
 							) : (
-								<button
-									className='bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded'
-									value='premium'
-									onClick={handleClick}>
-									Upgrade
-								</button>
-							)
-							:<div></div>}
+								<div></div>
+							)}
 						</div>
 					</article>
 				</section>
