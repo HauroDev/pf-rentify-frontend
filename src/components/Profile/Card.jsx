@@ -13,6 +13,7 @@ import {
 import DeleteIcon from "../icons/DeleteIcon";
 import Hourglas from "../icons/Hourglass";
 import HourglasOff from "../icons/HourglassOff";
+import EditIcon from "../icons/EditIcon";
 const CardProfile = ({ product }) => {
   const { addToast } = useContext(ToastContext);
   const dispatch = useDispatch();
@@ -172,7 +173,7 @@ const CardProfile = ({ product }) => {
       </button>
       <div className="flex flex-col justify-between h-full">
         <Link to={`/product/${product.idProd}`}>
-          <div className="h-48 rounded overflow-hidden mb-4">
+          <div className="block h-48 rounded overflow-hidden mb-4">
             {product.isFeatured && (
               <div className="flex items-center gap-2 bg-dark_purple py-1">
                 <FeaturedIcon className="w-7 h-7" />
@@ -189,22 +190,23 @@ const CardProfile = ({ product }) => {
           </div>
         </Link>
         <span
-          className="flex justify-between items-end text-2xl font-cabin font-bold mb-2"
+          className="flex justify-between items-end text-2xl font-cabin font-bold mb-2 truncate"
           onDoubleClick={handlePriceDoubleClick}
         >
           $
           {isEditingPrice ? (
             <input
               type="text"
-              maxLength="6"
+              maxLength="7"
               value={newPrice}
               onChange={handlePriceChange}
               onKeyDown={handlePriceKeyDown}
-              className="appearance-none bg-transparent w-full"
+              className=" appearance-none bg-transparent w-full"
             />
           ) : (
             newPrice
           )}
+          {}
           <span className="text-sm text-gray_dark mb-2">
             {formatDate(product.updatedAt)}
           </span>
