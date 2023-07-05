@@ -21,6 +21,7 @@ const CreateProduct = () => {
 		setValue,
 		formState: { errors },
 		trigger,
+		reset
 	} = useForm()
 
 	const categoriesInfo = useSelector((state) => state.categories)
@@ -215,6 +216,7 @@ const CreateProduct = () => {
 				type: 'danger',
 			})
 		} finally{
+			reset();
 			setIsLoading(false)
 		}
 	}
@@ -565,7 +567,7 @@ const CreateProduct = () => {
 						isLoading
 						?
 						<button 
-						className='bg-dark_purple text-white text-lg py-2 px-6 rounded-md hover:bg-[#230069] hover:cursor-pointer '
+						className='text-white text-lg py-2 px-6 rounded-md bg-[#230069] hover:cursor-pointer w-[166px] '
 						>
 							<Loader size='sm' />
 						</button>

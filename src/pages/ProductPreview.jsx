@@ -5,10 +5,13 @@ import { useSelector } from "react-redux";
 import imgNotFound from "../assets/image/image-not-found.jpg";
 import PremiumIcon from "../components/icons/PremiumIcon";
 import DescriptionIcon from "../components/icons/DescriptionIcon";
+import { isImgValid } from "../utils/isImgValid";
 
 const ProductPreview = ({name,description,price,location,image,currency}) => {
   console.log({name,description,price,location,image});
   const [imagePreview, setImagePreview] = useState(null);
+  const [imgExist, setImgExist] = useState(false);
+
   const [today,setToday] = useState("");
   const {user} = useSelector(state => state.user)
   
@@ -43,18 +46,22 @@ const ProductPreview = ({name,description,price,location,image,currency}) => {
   useEffect(()=>{
     handleImageUpload()
     setDate()
-  },[image])
+    if(user.image){
+      isImgValid(user.image, setImgExist)
+    }
+  },[image,user])
     return(
         
-          <div className='mx-auto w-auto flex flex-col gap-5 bg-gray_medium rounded-md p-8 dark:bg-card_dark'>
-						<div className='flex justify-center flex-wrap gap-3 '>
-							<div>
+          <div className='mx-auto w-auto flex flex-col gap-5 bg-gray_medium rounded-md p-8 dark:bg-card_dark max-xl:w-10/12'>
                 <h2 className="text-2xl font-bold mb-3">Post Preview</h2>
+						<div className='flex justify-center flex-wrap gap-8 '>
+							<div>
 								<DetailsTop image={imagePreview} />
+
 								<section className='w-full grid justify-center content-center md:items-start gap-8 xl:gap-12 mb-8'>
-                  <div className='w-[370px] md:w-[480px] lg:w-[527px] h-full min-h-40 md:min-h-[225px] p-8 bg-gray_light dark:bg-card_dark rounded-lg shadow-md'>
+                  <div className='w-[300px] md:w-[450px]  h-full min-h-40 md:min-h-[200px] p-8 bg-gray_light dark:bg-card_dark rounded-lg shadow-md'>
                     <div className='flex items-center'>
-                      <DescriptionIcon className='mr-4' />
+                      <DescriptionIcon className='mr-3' />
                       <h2 className='text-3xl md:text-2xl'>Description</h2>
                     </div>
                     <div className='mt-8'>
@@ -64,12 +71,12 @@ const ProductPreview = ({name,description,price,location,image,currency}) => {
                 </section>
 
                 <section className='w-full grid justify-center content-center md:items-start gap-8 xl:gap-12 mb-8'>
-                  <div className='w-[370px] md:w-[480px] lg:w-[527px] h-full min-h-40 md:min-h-[225px] p-8 bg-gray_light dark:bg-card_dark rounded-lg shadow-md' >
+                  <div className='w-[300px] md:w-[450px] h-full min-h-40 md:min-h-[200px] p-8 bg-gray_light dark:bg-card_dark rounded-lg shadow-md' >
                     <h4 className='text-base md:text-lg text-gray_dark mb-2'>Owner</h4>
                     <div className='flex items-center mb-4'>
                       {' '}
                       <img
-                        src={user.image ? user.image : imgNotFound}
+                        src={imgExist ? imgExist : imgNotFound}
                         alt={user.name}
                         className='w-24 h-24 rounded-md'
                         style={{ border: '1px solid #999999'}}
@@ -87,8 +94,8 @@ const ProductPreview = ({name,description,price,location,image,currency}) => {
                 </section>
 							</div>
 
-							<div className='xl:block top-12 h-full bg-white dark:bg-card_dark rounded-lg'>
-                <div className='flex flex-col gap-4 mt-4 p-8 min-w-[400px]'>
+							<div className='h-full bg-white dark:bg-card_dark rounded-lg'>
+                <div className='flex flex-col gap-4 p-7 w-[300px] md:w-[450px]'>
                   <div className='flex items-center'>
                     <h4 className='text-base text-gray_dark mb-2'>Product id: ##</h4>
                     <span className='text-base text-gray_dark mx-1'>|</span>
