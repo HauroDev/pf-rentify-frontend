@@ -40,14 +40,15 @@ export const updateUserPhone = async (id, phone) => {
   return data;
 };
 
-export const updateProductstatusPub = async (id, statusPub) => {
-  console.log(id);
+export const updateProductstatusPub = async (idProd, statusPub) => {
+  console.log(id, statusPub);
+  console.log("INPUT STATUSPUBs");
   const config = getTokenConfig();
 
   const { data } = await axios.put(
     `${PRODUCTS_API}/update-status`,
     {
-      idProd: id, // Reemplaza "yourUserId" con el ID de usuario correcto
+      idProd: idProd, // Reemplaza "yourUserId" con el ID de usuario correcto
       statusPub: statusPub,
     },
     config
@@ -58,18 +59,28 @@ export const updateProductstatusPub = async (id, statusPub) => {
 
 export const updateProductName = async ({ idProd, name }) => {
   console.log(idProd, name);
-  const { data } = await axios.put(`${PRODUCTS_API}/update-name`, {
-    idProd: idProd, // Reemplaza "yourUserId" con el ID de usuario correcto
-    name: name,
-  });
+  const config = getTokenConfig();
+  const { data } = await axios.put(
+    `${PRODUCTS_API}/update-name`,
+    {
+      idProd: idProd, // Reemplaza "yourUserId" con el ID de usuario correcto
+      name: name,
+    },
+    config
+  );
   return { idProd, name };
 };
 
 export const updateProductPrice = async ({ idProd, price }) => {
   console.log(idProd, price);
-  const { data } = await axios.put(`${PRODUCTS_API}/update-price`, {
-    idProd: idProd, // Reemplaza "yourUserId" con el ID de usuario correcto
-    price: price,
-  });
+  const config = getTokenConfig();
+  const { data } = await axios.put(
+    `${PRODUCTS_API}/update-price`,
+    {
+      idProd: idProd, // Reemplaza "yourUserId" con el ID de usuario correcto
+      price: price,
+    },
+    config
+  );
   return { idProd, price };
 };

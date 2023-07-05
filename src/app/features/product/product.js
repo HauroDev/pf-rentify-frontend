@@ -24,6 +24,8 @@ export const upDateUserProductStatus = createAsyncThunk(
   "productsUser/upDateUserProductStatus",
   async ({ idProd, statusPub }) => {
     try {
+      console.log(idProd, statusPub);
+      console.log("REDUX");
       return await updateProductstatusPub({ idProd, statusPub });
     } catch (error) {
       return Promise.reject(error);

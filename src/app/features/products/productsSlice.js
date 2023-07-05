@@ -11,11 +11,6 @@ const country = localStorage.getItem("geolocation")
   : {};
 const countryID = country?.idCountry ? `?idCountry=${country.idCountry}` : "";
 
-const country = localStorage.getItem("geolocation")
-  ? JSON.parse(localStorage.getItem("geolocation"))
-  : {};
-const countryID = country?.idCountry ? `?idCountry=${country.idCountry}` : "";
-
 const initialState = {
   products: [],
   productDetail: {},
