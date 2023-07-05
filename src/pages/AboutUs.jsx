@@ -6,7 +6,7 @@ const AboutUs = () => {
 	return (
 		<div className='flex flex-col xl:flex-row gap-8'>
 			<section className='xl:w-1/2'>
-				<p className='text-4xl font-bold'>Our Team</p>
+				<p className='text-4xl font-bold'>Our Team 🔥</p>
 				<p className='text-sm mt-3 leading-6'>
 					We are a passionate group of web developers with a common vision: to create engaging and
 					functional digital experiences that bring your ideas to life in the online world.
