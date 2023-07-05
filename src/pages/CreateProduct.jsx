@@ -507,7 +507,7 @@ const CreateProduct = () => {
 						{categoriesInfo.categories.length ? (
 							<div className={`w-full flex flex-col ${isExpanded ? 'block' : 'hidden'}`}>
 								{categoriesInfo.categories.map((category) => (
-									<div key={category.idCategory} className='flex items-center w-1/2'>
+									<div key={category.idCategory} className='flex items-center w-1/2 bg-gray_dark rounded-md'>
 										<input
 											type='checkbox'
 											id={category.idCategory}
@@ -521,7 +521,7 @@ const CreateProduct = () => {
 											aria-invalid={errors.categories ? 'true' : 'false'}
 											className='accent-dark_purple hover:cursor-pointer  h-4 w-4'
 										/>
-										<label htmlFor={category.idCategory} className='capitalize pl-2'>
+										<label htmlFor={category.idCategory} className='capitalize pl-2 inl'>
 											{category.name}
 										</label>
 									</div>

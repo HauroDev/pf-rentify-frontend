@@ -76,7 +76,7 @@ const ProductPreview = ({name,description,price,location,image,currency}) => {
                     <div className='flex items-center mb-4'>
                       {' '}
                       <img
-                        src={imgExist ? imgExist : imgNotFound}
+                        src={imgExist ? user.image : imgNotFound}
                         alt={user.name}
                         className='w-24 h-24 rounded-md'
                         style={{ border: '1px solid #999999'}}
