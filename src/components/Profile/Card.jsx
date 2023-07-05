@@ -1,25 +1,63 @@
-/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import FeaturedIcon from "../icons/FeaturedIcon";
 import { formatDate } from "../../utils/formatDate";
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ToastContext } from "../../context/ToastContext";
-import { updateProductstatusPub } from "../../services/profile";
-import { setProductStatusPub } from "../../app/features/product/product";
+import { updateProductName, updateProductPrice } from "../../services/profile";
+import { upDateUserProductStatus } from "../../app/features/product/product";
 
 const CardProfile = ({ product }) => {
-  console.log(product);
-  console.log(product.categories);
-  //const { product } = useSelector((state) => state.products);
   const dispatch = useDispatch();
+  const [newName, setNewName] = useState(product.name);
+  const [newPrice, setNewPrice] = useState(product.price);
   const { addToast } = useContext(ToastContext);
-  //
-  console.log(product.idProd);
   const idUser = useSelector((state) => state.user.user.idUser);
-  // let idProdIdUser = 0;
-  // if (idProdIdUser == 0) idProdIdUser = product.UserProduct.idUser;
-  //
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingPrice, setIsEditingPrice] = useState(false);
+  const handleDoubleClick = () => {
+    setIsEditing(true);
+  };
+  const handlePriceDoubleClick = () => {
+    setIsEditingPrice(true);
+  };
+
+  const handleChange = (event) => {
+    setNewName(event.target.value);
+  };
+  const handlePriceChange = (event) => {
+    setNewPrice(event.target.value);
+  };
+
+  const handleKeyDown = async (event) => {
+    if (event.key === "Enter") {
+      try {
+        dispatch(updateProductName({ idProd: product.idProd, name: newName }));
+        setIsEditing(false);
+        dispatch(setNewName(newName));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handlePriceKeyDown = async (event) => {
+    if (event.key === "Enter") {
+      try {
+        dispatch(
+          updateProductPrice({
+            idProd: product.idProd,
+            price: newPrice,
+          })
+        );
+        handlePriceDoubleClick(false);
+        dispatch(setNewPrice(newPrice));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
   const cardRef = useRef(null);
   useEffect(() => {
     const card = cardRef.current;
@@ -27,8 +65,7 @@ const CardProfile = ({ product }) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           card.classList.remove("opacity-0");
-          card.classList.add("blur-in-expand"); // index.css
-          // card.classList.add('scale-up-top') // index.css
+          card.classList.add("blur-in-expand");
         }
       });
     };
@@ -38,6 +75,7 @@ const CardProfile = ({ product }) => {
       observer.disconnect();
     };
   }, []);
+
   const getCategoryNames = () => {
     if (product && product.categories.length > 0) {
       const categoryNames = product.categories.map((category) => {
@@ -55,48 +93,43 @@ const CardProfile = ({ product }) => {
   const handleActive = async (e) => {
     try {
       dispatch(
-        setProductStatusPub(
-          await updateProductstatusPub(product.idProd, "active")
-        )
+        upDateUserProductStatus({ idProd: product.idProd, statusPub: "active" })
       );
+
       addToast({
         title: "Success",
-        description: `${product.name}
-        was activated`,
+        description: `${product.name} was activated`,
         type: "success",
       });
     } catch (error) {
-      console.log(error);
       addToast({ title: "Error", description: error.message, type: "warning" });
     }
   };
+
   const handleInactive = async (e) => {
     try {
       dispatch(
-        setProductStatusPub(
-          await updateProductstatusPub(product.idProd, "inactive")
-        )
+        upDateUserProductStatus({
+          idProd: product.idProd,
+          statusPub: "inactive",
+        })
       );
+
       addToast({
         title: "Success",
         description: `${product.name} was paused`,
         type: "success",
       });
     } catch (error) {
-      // console.log(error.message)
       addToast({ title: "Error", description: error.message, type: "warning" });
     }
   };
+  const classStatusProd =
+    product.statusPub === "inactive"
+      ? "card opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-gradient-to-t from-amber-600 via-transparent to-transparent dark:bg-card_dark p-4"
+      : "card  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4";
   return (
-    <div
-      key={product.idProd}
-      ref={cardRef}
-      className={
-        product.statusPub == "inactive"
-          ? "card opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-gradient-to-t from-amber-600 via-transparent to-transparent dark:bg-card_dark p-4"
-          : "card  opacity-0 shadow-md rounded-lg h-100 overflow-hidden bg-white dark:bg-card_dark p-4"
-      }
-    >
+    <div key={product.idProd} ref={cardRef} className={`${classStatusProd}`}>
       <div className="flex flex-col justify-between h-full">
         <Link to={`/product/${product.idProd}`}>
           <div className="h-48 rounded overflow-hidden mb-4">
@@ -115,18 +148,44 @@ const CardProfile = ({ product }) => {
             />
           </div>
         </Link>
-        <div className="flex justify-between items-end text-2xl font-cabin font-bold mb-2">
-          ${product.price}
+        <div
+          className="flex justify-between items-end text-2xl font-cabin font-bold mb-2"
+          onDoubleClick={handlePriceDoubleClick}
+        >
+          $
+          {isEditingPrice ? (
+            <input
+              type="text"
+              value={newPrice}
+              onChange={handlePriceChange}
+              onKeyDown={handlePriceKeyDown}
+              className=" bg-white dark:bg-card_dark"
+            />
+          ) : (
+            product.price
+          )}
           <span className="text-sm text-gray_dark mb-2">
             {formatDate(product.updatedAt)}
           </span>
         </div>
-        <Link
+        <span
           to={`/product/${product.idProd}`}
           className="text-2xl font-amaranth font-bold mb-2"
         >
-          <p className="truncate max-w-full">{product.name}</p>
-        </Link>
+          <p className="truncate max-w-full" onDoubleClick={handleDoubleClick}>
+            {isEditing ? (
+              <input
+                type="text"
+                value={newName}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                className=" bg-white dark:bg-card_dark"
+              />
+            ) : (
+              newName
+            )}
+          </p>
+        </span>
         {/* Categories */}
         <div className="mb-2 flex gap-1 flex-wrap text-medium_fuchsia truncate ">
           {getCategoryNames(product.idProd).map((category, index) => (
@@ -140,7 +199,7 @@ const CardProfile = ({ product }) => {
         </div>
         <div className="flex justify-between items-end">
           <p className="text-sm text-gray_dark">
-            {product.location},{product.state}
+            {product.location},{product.statusPub}
           </p>
           <button
             className=" bg-medium_purple hover:bg-dark_purple text-white px-0.5 py-0.5 rounded-lg cursor-pointer"

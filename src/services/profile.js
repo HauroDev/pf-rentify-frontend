@@ -27,12 +27,28 @@ export const updateUserPhone = async (id, phone) => {
   return data;
 };
 
-export const updateProductstatusPub = async (id, statusPub) => {
-  console.log(id);
+export const updateProductstatusPub = async ({ idProd, statusPub }) => {
   const { data } = await axios.put(`${PRODUCTS_API}/update-status`, {
-    idProd: id, // Reemplaza "yourUserId" con el ID de usuario correcto
+    idProd: idProd, // Reemplaza "yourUserId" con el ID de usuario correcto
     statusPub: statusPub,
   });
-  console.log(data);
-  return data;
+  return { idProd, statusPub };
+};
+
+export const updateProductName = async ({ idProd, name }) => {
+  console.log(idProd, name);
+  const { data } = await axios.put(`${PRODUCTS_API}/update-name`, {
+    idProd: idProd, // Reemplaza "yourUserId" con el ID de usuario correcto
+    name: name,
+  });
+  return { idProd, name };
+};
+
+export const updateProductPrice = async ({ idProd, price }) => {
+  console.log(idProd, price);
+  const { data } = await axios.put(`${PRODUCTS_API}/update-price`, {
+    idProd: idProd, // Reemplaza "yourUserId" con el ID de usuario correcto
+    price: price,
+  });
+  return { idProd, price };
 };

@@ -20,9 +20,6 @@ const CardProfile = () => {
     dispatch(fetchUserProducts(userId));
   }, [dispatch, userId]);
 
-  console.log(productsState);
-  console.log(productsState.product);
-  console.log("esto es producto");
   // const [stateProduct, setStateProduct] = useState(initalStateProduct);
 
   // const state = useSelector((state) => state.user);
@@ -52,17 +49,14 @@ const CardProfile = () => {
   //   }
   // };
 
-  // useEffect(() => {
-  //   getProductId(id, setStateProduct);
-  //   return () => {
-  //     setStateProduct(initalStateProduct);
-  //   };
-  // }, [id]);
+  useEffect(() => {
+    if (productsState.status === "success") console.log(productsState.product);
+  }, [productsState.status]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
       {productsState?.status === "success" ? (
-        Object.values(productsState?.product).map((product) => (
+        (productsState?.product).map((product) => (
           <Card key={product.idProd} product={product} />
         ))
       ) : (
