@@ -34,7 +34,9 @@ export const addToCart = (product) => {
 	const founfProduct = cart.items.find((prod) => prod.idProd === product.idProd)
 
 	if (founfProduct) {
-		founfProduct.quantity += 1
+		if (founfProduct.quantity < 30) {
+			founfProduct.quantity += 1
+		}
 	} else {
 		cart.items.push({ ...product, quantity: 1 })
 	}

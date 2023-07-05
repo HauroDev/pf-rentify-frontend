@@ -8,7 +8,7 @@ export const ToastProvider = ({ children }) => {
 
 	const addToast = ({ title = '', description = '', type = '' }) => {
 		let id = crypto.randomUUID()
-		if (toastList.length >= 3) {
+		if (toastList.length >= 1) {
 			const newList = [...toastList]
 			newList.shift()
 			setToastList([...newList, { id, title, description, type }])

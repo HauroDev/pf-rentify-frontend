@@ -1,12 +1,8 @@
 import axios from 'axios'
 import { FORM_CONTACT_API } from '../utils/apiRoutes'
+import { getTokenConfig } from './tokenConfig'
 
-export const contactOwnerService = async ({
-	userEmail,
-	userName,
-	ownerEmail,
-	product,
-}) => {
+export const contactOwnerService = async ({ userEmail, userName, ownerEmail, product }) => {
 	console.log({
 		userEmail: userEmail,
 		userName: userName || null,
@@ -14,13 +10,18 @@ export const contactOwnerService = async ({
 		product: product,
 		page: window.location.href,
 	})
+	const config = getTokenConfig()
 
-	await axios.post(`${FORM_CONTACT_API}/contact-owner`, {
-		emailUser: userEmail,
-		nameUser: userName,
-		ownerEmail: ownerEmail,
-		product,
-	})
+	await axios.post(
+		`${FORM_CONTACT_API}/contact-owner`,
+		{
+			emailUser: userEmail,
+			nameUser: userName,
+			ownerEmail: ownerEmail,
+			product,
+		},
+		config
+	)
 
 	return true
 }

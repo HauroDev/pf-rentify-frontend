@@ -16,6 +16,10 @@ import SelectCustomOption from './SelectCustomOption'
 import CustomSelect from './CustomSelect'
 import SelectState from './SelectState'
 
+const initialCountry = localStorage.getItem('geolocation')
+	? JSON.parse(localStorage.getItem('geolocation'))
+	: {}
+
 const SelectCountry = () => {
 	const [isOpen, openModal, closeModal] = useModal()
 	const [countryName, setCountryName] = useState('')
@@ -30,9 +34,31 @@ const SelectCountry = () => {
 			const data = await getCountryStates(id)
 			setDataStates(data)
 		} catch (error) {
-			// console.log(error)
+			setDataStates([])
 		}
 	}
+
+	useEffect(() => {
+		if (initialCountry.idCountry) {
+			setCountryName(initialCountry.name)
+			setCountryapi(initialCountry.geonameId)
+			const endpointSplited = productState.endpoint.split('?')[0]
+			const query = filterQuery({
+				offset: 0,
+				limit: productState.limit,
+				orderBy: productState.order.orderBy,
+				orderType: productState.order.orderType,
+				idCategory: productState.idCategory,
+				idCountry: initialCountry.idCountry,
+				location: '',
+				state: '',
+			})
+			dispatch(setEndpoint(`${endpointSplited}?${query}`))
+			dispatch(setCountry(initialCountry.idCountry))
+			dispatch(resetStateLoc())
+			dispatch(resetLocation())
+		}
+	}, [])
 
 	useEffect(() => {
 		if (!countriesState.countries.length) {

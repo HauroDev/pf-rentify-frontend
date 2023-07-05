@@ -3,6 +3,7 @@ import { PRODUCTS_API } from '../utils/apiRoutes'
 
 export const getProductByName = async (name) => {
 	const { data } = await axios.get(`${PRODUCTS_API}/?name=${name}`)
+	console.log(data)
 	return data
 }
 export const getMoreProductByName = async (url) => {

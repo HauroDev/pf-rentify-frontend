@@ -21,7 +21,7 @@ const Checkout = () => {
 	const [isReady, setIsReady] = useState(false)
 	const [preferenceId, setPreferenceId] = useState(null)
 	const [loading, setIsLoading] = useState(false)
-	const [isHovered, setIsHovered] = useState(false)
+	// const [isHovered, setIsHovered] = useState(false)
 	const { addToast } = useContext(ToastContext)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
@@ -76,7 +76,7 @@ const Checkout = () => {
 	const handleEmptyCart = () => {
 		deleteAllItemsFromCart()
 		dispatch(resetCart())
-		setIsHovered(false)
+		// setIsHovered(false)
 	}
 
 	const handleIncreaseDays = (product) => {
@@ -106,13 +106,13 @@ const Checkout = () => {
 										onMouseLeave={() => setIsHovered(false)}
 										className='flex items-center'>
 										<DeleteIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
-										{isHovered && (
+										{/* {isHovered && (
 											<div className='ml-2'>
 												<span className='text-md text-text_gray dark:text-gray_dark'>
 													Empty Cart
 												</span>
 											</div>
-										)}
+										)} */}
 									</button>
 
 									<span className='text-xl text-text_gray dark:text-gray_dark'>Price</span>

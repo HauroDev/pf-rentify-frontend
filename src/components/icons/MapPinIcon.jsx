@@ -1,11 +1,22 @@
-const MapPinIcon = () => {
+const MapPinIcon = (props) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" enableBackground="new 0 0 64 64" version="1.1" viewBox="0 0 64 64" xmlSpace="preserve" width="30" height="30">
-      <g id="Glyph_copy_2" fill="#353535">
-        <path d="M42.138,23.162c0-5.566-4.548-10.094-10.138-10.094s-10.138,4.528-10.138,10.094S26.41,33.256,32,33.256S42.138,28.728,42.138,23.162z" />
-        <path d="M31.995,63.996l4.109-5.375c4.289-5.678,18.282-25.024,18.282-35.601C54.387,9.253,45.391,0.004,32,0.004S9.613,9.253,9.613,23.021c0,11.39,16.432,33.166,18.301,35.605L31.995,63.996z M17.862,23.162c0-7.771,6.342-14.094,14.138-14.094s14.138,6.323,14.138,14.094S39.796,37.256,32,37.256S17.862,30.934,17.862,23.162z" />
-      </g>
-    </svg>
+    <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={28}
+    height={28}
+    fill="none"
+    stroke="#2c3e50"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={1.5}
+    className="icon icon-tabler icon-tabler-map-pin"
+    viewBox="0 0 24 24"
+    {...props}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" />
+    <path d="M9 11a3 3 0 1 0 6 0 3 3 0 0 0-6 0" />
+    <path d="M17.657 16.657 13.414 20.9a2 2 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z" />
+  </svg>
   );
 };
 
