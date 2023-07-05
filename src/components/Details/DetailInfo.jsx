@@ -5,15 +5,26 @@ import BtnAddCart from '../BtnAddCart'
 import MapPinIcon from '../icons/MapPinIcon'
 import { formatDate } from '../../utils/formatDate'
 
-const DetailInfo = ({ idProd, name, price, location, updatedAt, country, image }) => {
+const DetailInfo = ({ idProd, name, price, location, updatedAt, country, image, status }) => {
 	const [date, setDate] = useState('')
 
 	useEffect(() => {
+		console.log(status)
 		setDate(formatDate(updatedAt))
 	}, [updatedAt])
 
+	const statusClass =
+		status === 'inactive'
+			? 'bg-amber-200 text-amber-700'
+			: status === 'deleted'
+			? 'bg-red-300 text-red-600'
+			: ''
+
 	return (
-		<div className='flex flex-col gap-4 mt-4 p-8 min-w-[400px]'>
+		<div className='flex flex-col gap-4 mt-4 p-8 min-w-[400px] '>
+			{status !== 'active' && (
+				<p className={`${statusClass} max-w-[100px] text-center rounded-md`}>{status}</p>
+			)}
 			<div className='flex items-center'>
 				<h4 className='text-base text-gray_dark mb-2'>Product id: {idProd}</h4>
 				<span className='text-base text-gray_dark mx-1'>|</span>
@@ -28,18 +39,20 @@ const DetailInfo = ({ idProd, name, price, location, updatedAt, country, image }
 				<h4 className='text-base md:text-xl ml-2'>City: {location}</h4>
 			</div>
 
-			<div>
-				<BtnAddCart
-					size='lg'
-					product={{
-						name: name,
-						price: price,
-						image: image,
-						idProd: idProd,
-						country: country,
-					}}
-				/>
-			</div>
+			{status === 'active' && (
+				<div>
+					<BtnAddCart
+						size='lg'
+						product={{
+							name: name,
+							price: price,
+							image: image,
+							idProd: idProd,
+							country: country,
+						}}
+					/>
+				</div>
+			)}
 		</div>
 	)
 }

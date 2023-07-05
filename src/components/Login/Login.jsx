@@ -66,6 +66,7 @@ const LoginUser = () => {
 	}
 
 	const handleSignUpGoogle = async () => {
+		setSubmitted(true)
 		try {
 			dispatch(LoginUserGoogle({ email: login.email, password: login.password }))
 			console.log('google')

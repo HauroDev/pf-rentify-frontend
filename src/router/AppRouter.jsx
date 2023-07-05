@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
 import { routesName } from '../utils/routes_name'
-import MainLayout from '../components/MainLayout/MainLayout'
 import Home from '../pages/Home'
 import DetailProduct from '../pages/DetailProduct'
 import SearchProducts from '../pages/SearchProducts'
@@ -16,6 +15,7 @@ import FAQS from '../pages/FAQS'
 import PublicRoutes from './PublicRoutes'
 import PrivateRoutes from './PrivateRoutes'
 import AccesRoutes from './AccesRoutes'
+import Page404 from '../pages/Page404'
 
 const AppRouter = () => {
 	return (
@@ -43,6 +43,8 @@ const AppRouter = () => {
 				<Route path={routesName['how-it-works']} element={<HowItWork />} />
 				<Route path={routesName.faqs} element={<FAQS />} />
 			</Route>
+
+			<Route path='*' element={<Page404 />} />
 		</Routes>
 	)
 }

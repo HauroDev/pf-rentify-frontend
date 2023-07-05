@@ -113,59 +113,61 @@ const Pricing = () => {
 					<h3 className='text-4xl font-bold text-medium_purple'>Membership Plans</h3>
 				</div>
 
-				<div className="flex flex-col md:flex-row justify-center mt-8 space-y-9 md:space-y-0 md:space-x-4">
-					<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col items-center ">
+				<div className="flex flex-col md:flex-row  mt-8 space-y-9 md:space-y-0 md:space-x-4">
+					<div className=" md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col  w-[300px]">
 						<p className="text-medium_purple font-bold leading-6 text-xl">Basic Membership (Free)</p>
-						<ul className="text-text_light dark:text-text_dark mt-4 text-lg">
+						<ul className="text-text_light dark:text-text_dark mt-6 text-md">
 							<li>Up to 5 items listings per month.</li>
 							<li>Standard transaction fees.</li>
 							<li>Enjoy Rent-ify for free.</li>
 						</ul>
 						{user.membership === 'basic' ? (
-							<p className="text-medium_purple">Current</p>
+							<p className="text-green_medium font-bold leading-6 text-xl text-center mt-8">Current plan</p>
 						) : (
 							<button
-								className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 rounded"
+								className="bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded"
 								value="basic"
 								onClick={handleClick}
 							>
-								Upgrade
+								Downgrade
 							</button>
 						)}
 					</div>
 
-					<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col items-center justify-between">
+					<div className="md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col w-[300px]">
 						<p className="text-medium_purple font-bold leading-6 text-xl">Standard Membership</p>
-						<ul className="text-text_light dark:text-text_dark mt-4 text-lg">
+						<ul className="text-text_light dark:text-text_dark mt-6 text-md">
 							<li>Up to 5 items listings per month.</li>
 							<li>Standard transaction fees.</li>
-							<li>Price: $569.99 per month</li>
+							<li className="text-medium_purple">Price: $569.99 per month</li>
 						</ul>
-						{user.membership === 'standard' ? (
-							<p className="text-medium_purple">Current</p>
-						) : (
+						{user.membership === 'premium' || user.membership === 'basic' ? (
 							<button
-								className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 rounded"
-								value="standard"
-								onClick={handleClick}
+							className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 text-lg rounded"
+							value="standard"
+							onClick={handleClick}
 							>
-								Upgrade
+							{user.membership === 'premium' ? 'Downgrade' : ''}
+							{user.membership === 'basic' ? 'Upgrade' : ''}
 							</button>
+						) : (
+							<p className="text-green_medium font-bold leading-6 text-xl text-center mt-8">Current plan</p>
 						)}
 					</div>
 
-					<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col items-center justify-between">
+
+					<div className="w-full md:w-1/3 bg-gray_light dark:bg-card_dark p-8 flex flex-col">
 						<p className="text-medium_purple font-bold leading-6 text-xl">Premium Membership 💎</p>
-						<ul className="text-text_light dark:text-text_dark mt-4 text-lg">
+						<ul className="text-text_light dark:text-text_dark mt-6 text-md">
 							<li>Unlimited items listings per month.</li>
 							<li>No transaction fees.</li>
-							<li>Price: $999.99 per month</li>
+							<li className="text-medium_purple">Price: $999.99 per month</li>
 						</ul>
 						{user.membership === 'premium' ? (
-							<p className="text-medium_purple">Current</p>
-						) : (
+							<p className="text-green_medium font-bold leading-6 text-xl text-center mt-8">Current plan</p>
+							) : (
 							<button
-								className="bg-medium_purple text-white font-bold py-2 px-4 mt-4 rounded"
+								className="bg-medium_purple text-white leading-6 text-lg py-2 px-4 mt-8 rounded"
 								value="premium"
 								onClick={handleClick}
 							>
@@ -174,7 +176,6 @@ const Pricing = () => {
 						)}
 
 					</div>
-
 				</div>
 
 

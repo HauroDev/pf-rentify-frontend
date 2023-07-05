@@ -19,7 +19,7 @@ const LoggedInMenu = ({user, refMenu, login, setMenuOpen}) => {
     return (
         <div
             ref={refMenu}
-            className='absolute top-14 right-0 bg-white dark:bg-card_dark shadow-md w-52 mt-2 rounded-md'
+            className='absolute top-10 right-0 bg-white dark:bg-card_dark shadow-md w-52 mt-2 rounded-md'
             onClick={(e) => e.stopPropagation()}>
             <div className='flex items-center pt-2 pb-1 gap-2 px-4 py-1 truncate'>
                 <img
@@ -35,9 +35,6 @@ const LoggedInMenu = ({user, refMenu, login, setMenuOpen}) => {
                 <Link to={routesName.user.profile} className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
                     Profile
                 </Link>
-                <span className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>
-                    My Products
-                </span>
                 <Link
                     to={routesName.user['create-product']}
                     className='text-left cursor-pointer w-full px-4 py-2 hover:bg-dark_purple hover:text-white'>

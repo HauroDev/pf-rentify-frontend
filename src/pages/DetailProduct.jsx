@@ -8,6 +8,7 @@ import DetailComments from '../components/Details/DetailComments'
 import Loader from '../components/Loader'
 import DetailOwner from '../components/Details/DetailOwner'
 import DetailInfo from '../components/Details/DetailInfo'
+import { useSelector } from 'react-redux'
 
 const initalState = {
 	product: {},
@@ -17,6 +18,7 @@ const initalState = {
 
 const DetailProduct = () => {
 	const [state, setState] = useState(initalState)
+	const userState = useSelector((state) => state.user)
 	const { id } = useParams()
 
 	const getProduct = async (id, set) => {
@@ -59,7 +61,7 @@ const DetailProduct = () => {
 		<>
 			{state.status === 'success' && (
 				<div className='w-full min-h-full mx-auto flex flex-col gap-8'>
-					{state.product.idProd && (
+					{state.product.statusPub === 'active' && (
 						<div className='flex justify-center gap-6'>
 							<div>
 								<DetailsTop image={state.product.image} />
@@ -72,6 +74,7 @@ const DetailProduct = () => {
 										updatedAt={state.product.updatedAt}
 										country={state.product.country}
 										image={state.product.image}
+										status={state.product.statusPub}
 									/>
 								</div>
 
@@ -98,8 +101,64 @@ const DetailProduct = () => {
 									updatedAt={state.product.updatedAt}
 									country={state.product.country}
 									image={state.product.image}
+									status={state.product.statusPub}
 								/>
 							</div>
+						</div>
+					)}
+
+					{state.product.statusPub === 'inactive' &&
+					state.product.users[0].idUser === userState.user.idUser ? (
+						<div className='flex justify-center gap-6'>
+							<div>
+								<DetailsTop image={state.product.image} />
+								<div className='xl:hidden'>
+									<DetailInfo
+										idProd={state.product.idProd}
+										location={state.product.location}
+										name={state.product.name}
+										price={state.product.price}
+										updatedAt={state.product.updatedAt}
+										country={state.product.country}
+										image={state.product.image}
+										status={state.product.statusPub}
+									/>
+								</div>
+
+								<DetailsMid description={state.product.description} />
+
+								<DetailOwner user={state.product.users[0]} product={state.product} />
+
+								<DetailComments
+									idProd={state.product.idProd}
+									commentes={state.product.reviews.comments}
+									star={state.product.reviews.stars}
+									average={state.product.reviews.average}
+									idcomment={state.product.reviews.comments}
+									updated={state.product.reviews.updatedAt}
+								/>
+							</div>
+
+							<div className='hidden xl:block sticky top-12 h-full bg-white dark:bg-card_dark rounded-lg'>
+								<DetailInfo
+									idProd={state.product.idProd}
+									location={state.product.location}
+									name={state.product.name}
+									price={state.product.price}
+									updatedAt={state.product.updatedAt}
+									country={state.product.country}
+									image={state.product.image}
+									status={state.product.statusPub}
+								/>
+							</div>
+						</div>
+					) : (
+						''
+					)}
+
+					{state.product.statusPub === 'deleted' && (
+						<div className='flex justify-center gap-6'>
+							<h3>Product not avilable</h3>
 						</div>
 					)}
 				</div>

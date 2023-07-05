@@ -17,11 +17,11 @@ initMercadoPago(MERCADOPAGO_PUBLIC_KEY)
 
 const Checkout = () => {
 	const cartState = useSelector((state) => state.cart)
-	// const userState = useSelector((state) => state.user)
+	
 	const [isReady, setIsReady] = useState(false)
 	const [preferenceId, setPreferenceId] = useState(null)
 	const [loading, setIsLoading] = useState(false)
-	// const [isHovered, setIsHovered] = useState(false)
+	
 	const { addToast } = useContext(ToastContext)
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
@@ -76,7 +76,7 @@ const Checkout = () => {
 	const handleEmptyCart = () => {
 		deleteAllItemsFromCart()
 		dispatch(resetCart())
-		// setIsHovered(false)
+		
 	}
 
 	const handleIncreaseDays = (product) => {
@@ -101,18 +101,12 @@ const Checkout = () => {
 								<h2 className='text-4xl font'>Rental Cart</h2>
 								<div className='flex mt-4 justify-between items-center'>
 									<button
+										title='Empty cart'
 										onClick={handleEmptyCart}
 										onMouseEnter={() => setIsHovered(true)}
 										onMouseLeave={() => setIsHovered(false)}
 										className='flex items-center'>
-										<DeleteIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer' />
-										{/* {isHovered && (
-											<div className='ml-2'>
-												<span className='text-md text-text_gray dark:text-gray_dark'>
-													Empty Cart
-												</span>
-											</div>
-										)} */}
+										<DeleteIcon className='stroke-dark_purple dark:stroke-light_purple cursor-pointer h-6 w-6' />
 									</button>
 
 									<span className='text-xl text-text_gray dark:text-gray_dark'>Price</span>
@@ -130,19 +124,19 @@ const Checkout = () => {
 									<div className='flex flex-col justify-between px-4 h-full w-2/3'>
 										<div>
 											<h3 className='text-2xl truncate'>{product.name}</h3>
-											<p className='text-text_gray dark:text-gray_dark'>${product.price}</p>
+											<p className='text-text_gray dark:text-gray_dark text-sm'>${product.price}</p>
 										</div>
 										<div className='flex flex-col md:flex-row md:items-end justify-between mt-4 gap-2'>
 											{!preferenceId ? (
 												<div className='flex items-center gap-4 text-text_gray dark:text-gray_dark '>
 													<button
-														className='px-2 text-md text-white bg-medium_purple rounded-full'
+														className='px-2 text-lg text-white bg-medium_purple rounded-full'
 														onClick={() => handleDecreaseDays(product)}>
 														-
 													</button>
 													<span>{product.quantity}</span>
 													<button
-														className='px-2 text-sm text-white bg-medium_purple rounded-full'
+														className='px-2 text-lg text-white bg-medium_purple rounded-full'
 														onClick={() => handleIncreaseDays(product)}>
 														+
 													</button>
@@ -151,9 +145,9 @@ const Checkout = () => {
 											) : (
 												<div></div>
 											)}
-											<span className='font-semibold text-2xl md:self-end'>
+											<span className='font-semibold text-lg md:self-end'>
 												${(product.price * product.quantity).toFixed(2)}{' '}
-												<span className='text-base'>{cartState.cart.currency}</span>
+												<span className='text-sm'>{cartState.cart.currency}</span>
 											</span>
 										</div>
 									</div>
@@ -163,19 +157,19 @@ const Checkout = () => {
 						<div className='md:col-span-4'>
 							<div className='bg-white dark:bg-card_dark rounded-md shadow p-4 min-h-[200px] max-h-[250px]'>
 								<div className='flex items-center justify-between mb-4'>
-									<span className='text-xl md:text-2xl'>
+									<span className='text-md md:text-lg'>
 										{' '}
 										Total ({cartState.cart.items.length} items):
 									</span>
-									<span className='text-3xl font-semibold'>
+									<span className='text-xl font-semibold'>
 										${cartState.cart.total}
-										{''}
-										<span className='text-lg'>{cartState.cart.currency}</span>
+										{' '}
+										<span className='text-sm'>{cartState.cart.currency}</span>
 									</span>
 								</div>
 								{!preferenceId && !loading ? (
 									<button
-										className='text-center text-xl w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple'
+										className='text-center text-lg w-full px-4 py-2 bg-medium_purple text-white rounded hover:bg-dark_purple'
 										onClick={handleCheckout}
 										disabled={loading}>
 										Checkout
