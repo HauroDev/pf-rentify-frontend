@@ -176,7 +176,7 @@ const DetailComments = ({ idProd, commentes, star, average,updated }) => {
                   <span className='text-gray-700 text-md font-semibold dark:text-text_dark'>{num}</span>
                   <span className='text-yellow-400 mr-2 '>★</span>
                   <div className='flex items-center h-4 w-64 bg-gray-300 rounded-lg overflow-hidden'>
-                    <div className='h-full bg-green-400' style={{ width: `${progressWidth}%` }}></div>
+                    <div className='h-full bg-green_medium' style={{ width: `${progressWidth}%` }}></div>
                   </div>
                   <span className='ml-2 text-sm text-gray-600 dark:text-text_dark'>{star['s' + num]}</span>
                 </div>
