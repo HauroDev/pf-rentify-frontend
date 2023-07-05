@@ -226,7 +226,7 @@ const CreateProduct = () => {
 	console.log(productData);
 	console.log(errors);
 	return (
-		<div className='container mx-auto flex max-xl:flex-col items-center justify-center gap-8'>
+		<div className='container mx-auto flex max-xl:flex-col items-start justify-center gap-8'>
 			<div className='bg-gray_medium dark:bg-card_dark p-4 rounded-md shadow-xl flex-grow  min-[1700px]:w-auto xl:w-8/12 min-[1500px]:w-1/2 max-xl:w-8/12'>
 				<form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
 					<h2 className='text-2xl font-bold mb-4'>Post a product</h2>
