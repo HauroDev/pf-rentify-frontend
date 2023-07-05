@@ -32,6 +32,7 @@ export default {
 				'warning-hover': '#EDBA19',
 				'success': '#0BCF82',
 				'success-hover': '#0AA769',
+				'green_medium': 'rgb(34 197 94 / var(--tw-text-opacity))',
 			},
 		},
 	},
