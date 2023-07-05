@@ -16,6 +16,7 @@ export default {
 				'body_dark': '#252525',
 				'body_light': '#F5F6F8',
 				'card_dark': '#353535',
+				'selected_dark': '#464646',
 				'text_dark': '#F5F6F8',
 				'text_gray': '#565959',
 				'gray_dark': '#999999',

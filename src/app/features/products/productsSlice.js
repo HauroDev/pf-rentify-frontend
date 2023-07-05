@@ -6,13 +6,23 @@ import {
 } from "../../../services/productService";
 import { PRODUCTS_API } from "../../../utils/apiRoutes";
 
+const country = localStorage.getItem("geolocation")
+  ? JSON.parse(localStorage.getItem("geolocation"))
+  : {};
+const countryID = country?.idCountry ? `?idCountry=${country.idCountry}` : "";
+
+const country = localStorage.getItem("geolocation")
+  ? JSON.parse(localStorage.getItem("geolocation"))
+  : {};
+const countryID = country?.idCountry ? `?idCountry=${country.idCountry}` : "";
+
 const initialState = {
   products: [],
   productDetail: {},
   status: "idle",
   error: null,
   next: null,
-  endpoint: PRODUCTS_API,
+  endpoint: `${PRODUCTS_API}/${countryID}`,
   idCategory: "",
   offset: 0,
   limit: 12,
@@ -33,7 +43,7 @@ export const fetchGetAllProductsAsync = createAsyncThunk(
     try {
       return await getAllProducts(url);
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error.response.data.error);
     }
   }
 );
@@ -44,7 +54,7 @@ export const fetchGetProductByIdAsync = createAsyncThunk(
     try {
       return await getProductById(id);
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error.response.data.error);
     }
   }
 );
@@ -55,7 +65,7 @@ export const fetchGetAllProductsToFillAsync = createAsyncThunk(
     try {
       return await getAllProducts(url);
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(error.response.data.error);
     }
   }
 );
@@ -67,7 +77,8 @@ export const fetchPostProductAsync = createAsyncThunk(
     try {
       return await createProduct(productDetail);
     } catch (error) {
-      return Promise.reject(error);
+      console.log(error);
+      return Promise.reject(error.response.data.error);
     }
   }
 );

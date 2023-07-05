@@ -7,7 +7,8 @@ import {
 } from 'firebase/auth'
 import { auth, providerGoogle } from '../firebase.config'
 import axios from 'axios'
-import { LOGIN_API, USER_API } from '../utils/apiRoutes'
+import { LOGIN_API, LOGOUT_API, USER_API } from '../utils/apiRoutes'
+import { getTokenConfig } from './tokenConfig'
 
 export const registerUser = async ({ email, password }) => {
 	const { user } = await createUserWithEmailAndPassword(auth, email, password)
@@ -57,7 +58,6 @@ export const loginGoogle = async () => {
 
 	// aqui va la route y la logica del login del back
 	const { data } = await axios.post(LOGIN_API, LogUser)
-	console.log(data)
 	return data
 }
 
@@ -68,16 +68,23 @@ export const loginUser = async ({ email, password }) => {
 		email: user.email,
 		uid: user.uid,
 	}
-
 	// aqui va la route y la logica del login del back
 	const { data } = await axios.post(LOGIN_API, LogUser)
-	console.log(data)
+
 	return data
 }
 
 export const logoutUser = async () => {
+	const config = getTokenConfig()
 	await signOut(auth)
-	return null
+	const res = await axios.get(LOGOUT_API, config)
+	return res
+}
+
+export const setInitialUserDB = async ({ idUser, token }) => {
+	const config = getTokenConfig()
+	const { data } = await axios.get(`${USER_API}/${idUser}`, config)
+	return { user: data, token: token }
 }
 
 // export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (user) => {
