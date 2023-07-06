@@ -155,7 +155,7 @@ const Pricing = () => {
 					</article>
 
 					<article className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 justify-items-center gap-5 w-full'>
-						<div className='w-9/12 lg:w-[300px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
+						<div className='w-9/12 lg:w-[330px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
 							<p className='text-medium_purple font-bold leading-6 text-xl'>
 								Basic Membership (Free)
 							</p>
@@ -187,7 +187,7 @@ const Pricing = () => {
 							)}
 						</div>
 
-						<div className=' w-9/12 lg:w-[300px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
+						<div className=' w-9/12 lg:w-[330px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
 							<p className='text-medium_purple font-bold leading-6 text-xl'>Standard Membership</p>
 							<ul className='text-text_light dark:text-text_dark mt-6 text-md'>
 								<li>Up to 20 items listings per month.</li>
@@ -213,13 +213,15 @@ const Pricing = () => {
 							)}
 						</div>
 
-						<div className='w-9/12 lg:w-[300px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
+						<div className='w-9/12 lg:w-[330px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
 							<p className='text-medium_purple font-bold leading-6 text-xl'>
 								Premium Membership 💎
 							</p>
 							<ul className='text-text_light dark:text-text_dark mt-6 text-md'>
 								<li>Unlimited items listings per month.</li>
-								<li>No transaction fees.</li>
+								<li>Reduced transaction fees.</li>
+								<li>Premium Customer Support.</li>
+								<li>Priority highlighting in search results.</li>
 								<li className='text-medium_purple'>Price: $999.99 per month</li>
 							</ul>
 							{Object.keys(user).length ? (
