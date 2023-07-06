@@ -29,7 +29,7 @@ const DetailProduct = () => {
 		})
 		try {
 			const data = await getProductById(id)
-			
+
 			set({
 				status: 'success',
 				product: { ...data },
@@ -80,6 +80,7 @@ const DetailProduct = () => {
 										country={state.product.country}
 										image={state.product.image}
 										status={state.product.statusPub}
+										user={state.product.users[0]}
 									/>
 								</div>
 
@@ -94,6 +95,7 @@ const DetailProduct = () => {
 									average={state.product.reviews.average}
 									idcomment={state.product.reviews.comments}
 									updated={state.product.reviews.updatedAt}
+									owner={state.product.users[0]}
 								/>
 							</div>
 
@@ -107,6 +109,7 @@ const DetailProduct = () => {
 									country={state.product.country}
 									image={state.product.image}
 									status={state.product.statusPub}
+									user={state.product.users[0]}
 								/>
 							</div>
 						</div>
@@ -127,6 +130,7 @@ const DetailProduct = () => {
 										country={state.product.country}
 										image={state.product.image}
 										status={state.product.statusPub}
+										user={state.product.users[0]}
 									/>
 								</div>
 
@@ -141,6 +145,7 @@ const DetailProduct = () => {
 									average={state.product.reviews.average}
 									idcomment={state.product.reviews.comments}
 									updated={state.product.reviews.updatedAt}
+									owner={state.product.users[0]}
 								/>
 							</div>
 
@@ -154,6 +159,7 @@ const DetailProduct = () => {
 									country={state.product.country}
 									image={state.product.image}
 									status={state.product.statusPub}
+									user={state.product.users[0]}
 								/>
 							</div>
 						</div>

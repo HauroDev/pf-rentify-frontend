@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react'
 import BtnAddCart from '../BtnAddCart'
 import MapPinIcon from '../icons/MapPinIcon'
 import { formatDate } from '../../utils/formatDate'
+import { useSelector } from 'react-redux'
 
-const DetailInfo = ({ idProd, name, price, location, updatedAt, country, image, status }) => {
+const DetailInfo = ({ idProd, name, price, location, updatedAt, country, image, status, user }) => {
 	const [date, setDate] = useState('')
+	const userState = useSelector((state) => state.user)
 
 	useEffect(() => {
-	
 		setDate(formatDate(updatedAt))
 	}, [updatedAt])
 
@@ -39,7 +40,7 @@ const DetailInfo = ({ idProd, name, price, location, updatedAt, country, image, 
 				<h4 className='text-base md:text-xl ml-2'>City: {location}</h4>
 			</div>
 
-			{status === 'active' && (
+			{status === 'active' && userState.user.idUser !== user.idUser ? (
 				<div>
 					<BtnAddCart
 						size='lg'
@@ -52,6 +53,8 @@ const DetailInfo = ({ idProd, name, price, location, updatedAt, country, image, 
 						}}
 					/>
 				</div>
+			) : (
+				''
 			)}
 		</div>
 	)

@@ -45,7 +45,6 @@ const DetailOwner = ({ user: owner, product }) => {
 			})
 			setStatus('success')
 		} catch (error) {
-		
 			setStatus('error')
 			setError(error)
 		}
@@ -72,12 +71,15 @@ const DetailOwner = ({ user: owner, product }) => {
 								{owner.membership === 'premium' && <PremiumIcon className='ml-2 w-4 h-4' />}
 							</span>
 						</h5>
-						{userState.login && (
+						{userState.login && userState.user.idUser !== owner.idUser ? (
 							<button
 								className='bg-medium_purple hover:bg-dark_purple text-white px-4 py-2 rounded-lg'
-								onClick={handleContact} disabled={status==="loading"}>
+								onClick={handleContact}
+								disabled={status === 'loading'}>
 								{status === 'loading' ? 'Loading...' : 'Contact Me'}
 							</button>
+						) : (
+							''
 						)}
 					</div>
 				</div>
