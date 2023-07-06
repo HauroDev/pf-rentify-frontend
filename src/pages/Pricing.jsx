@@ -34,8 +34,6 @@ const Pricing = () => {
 	const [idUser, setIdUser] = useState('')
 	const { addToast } = useContext(ToastContext)
 
-	
-
 	const handleOnReady = () => {
 		setIsReady(true)
 	}
@@ -60,16 +58,14 @@ const Pricing = () => {
 			idUser: idUser,
 		}
 
-	
 		try {
 			const data = await membershipService(paymentInfo)
-		
+
 			setMPUrl(data.url)
 			if (data.url) {
 				window.location.href = data.url
 			}
 		} catch (error) {
-		
 		} finally {
 			setIsLoading(false)
 		}
@@ -79,7 +75,7 @@ const Pricing = () => {
 		setIsLoading(true)
 		try {
 			const data = await cancelMembershipService(idUser)
-			
+
 			if (!data.message) {
 				throw Error('Api error')
 			} else {
@@ -194,7 +190,7 @@ const Pricing = () => {
 						<div className=' w-9/12 lg:w-[300px] h-80 bg-gray_light dark:bg-card_dark p-8 flex flex-col justify-between'>
 							<p className='text-medium_purple font-bold leading-6 text-xl'>Standard Membership</p>
 							<ul className='text-text_light dark:text-text_dark mt-6 text-md'>
-								<li>Up to 5 items listings per month.</li>
+								<li>Up to 20 items listings per month.</li>
 								<li>Standard transaction fees.</li>
 								<li className='text-medium_purple'>Price: $569.99 per month</li>
 							</ul>
