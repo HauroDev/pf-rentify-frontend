@@ -30,16 +30,16 @@ const AppRouter = () => {
 				<Route path={routesName.user['create-product']} element={<CreateProduct />} />
 				<Route path={routesName.user['profile']} element={<Profile />} />
 				<Route path={routesName.checkout.checkout} element={<Checkout />} />
-				<Route path={routesName.checkout.error} element={<CheckoutResponse />} />
-				<Route path={routesName.checkout.pending} element={<CheckoutResponse />} />
-				<Route path={routesName.checkout.successfull} element={<CheckoutResponse />} />
+				
 			</Route>
 
 			<Route to='/' element={<AccesRoutes />}>
 				<Route path={routesName.home} element={<Home />} />
 				<Route path={routesName.detail_product} element={<DetailProduct />} />
 				<Route path={routesName.search_products} element={<SearchProducts />} />
-
+				<Route path={routesName.checkout.error} element={<CheckoutResponse />} />
+				<Route path={routesName.checkout.pending} element={<CheckoutResponse />} />
+				<Route path={routesName.checkout.successfull} element={<CheckoutResponse />} />
 				<Route path={routesName.pricing} element={<Pricing />} />
 				<Route path={routesName['how-it-works']} element={<HowItWork />} />
 				<Route path={routesName.faqs} element={<FAQS />} />
