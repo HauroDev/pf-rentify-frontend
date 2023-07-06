@@ -61,7 +61,7 @@ const LoginUser = () => {
 			dispatch(LoginUserDB({ email: login.email, password: login.password }))
 		
 		} catch (errors) {
-			console.log(errors.code)
+			
 		}
 	}
 
@@ -69,10 +69,9 @@ const LoginUser = () => {
 		setSubmitted(true)
 		try {
 			dispatch(LoginUserGoogle({ email: login.email, password: login.password }))
-			console.log('google')
+
 		} catch (error) {
-			console.log(error.code)
-			console.log(error.message)
+
 		}
 	}
 

@@ -44,7 +44,7 @@ const CardProfile = ({ product }) => {
         setIsEditing(false);
         dispatch(setProductName({ idProd: product.idProd, name: newName }));
       } catch (error) {
-        console.error(error);
+     
       }
     }
   };
@@ -64,7 +64,7 @@ const CardProfile = ({ product }) => {
           })
         );
       } catch (error) {
-        console.error(error);
+      
       }
     }
   };

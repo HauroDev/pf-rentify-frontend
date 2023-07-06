@@ -41,7 +41,7 @@ const FAQS = () => {
 					type: 'success',
 				})
 			} catch (error) {
-				console.error('Error submitting contact form:', error)
+			
 				addToast({
 					title: 'Error',
 					description: 'Error submitting contact form',

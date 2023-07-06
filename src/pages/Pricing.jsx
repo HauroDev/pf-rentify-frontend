@@ -34,7 +34,7 @@ const Pricing = () => {
 	const [idUser, setIdUser] = useState('')
 	const { addToast } = useContext(ToastContext)
 
-	console.log(user)
+	
 
 	const handleOnReady = () => {
 		setIsReady(true)
@@ -60,17 +60,16 @@ const Pricing = () => {
 			idUser: idUser,
 		}
 
-		console.log(paymentInfo)
-		console.log(type)
+	
 		try {
 			const data = await membershipService(paymentInfo)
-			console.log(data)
+		
 			setMPUrl(data.url)
 			if (data.url) {
 				window.location.href = data.url
 			}
 		} catch (error) {
-			console.log(error)
+		
 		} finally {
 			setIsLoading(false)
 		}
@@ -80,7 +79,7 @@ const Pricing = () => {
 		setIsLoading(true)
 		try {
 			const data = await cancelMembershipService(idUser)
-			console.log(data)
+			
 			if (!data.message) {
 				throw Error('Api error')
 			} else {

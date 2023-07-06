@@ -87,11 +87,3 @@ export const setInitialUserDB = async ({ idUser, token }) => {
 	return { user: data, token: token }
 }
 
-// export const LoginUserGoogle = createAsyncThunk('user/LoginUserGoogle', async (user) => {
-// try {
-// return await loginGoogle(user);
-// } catch (error) {
-// console.log('Error during Google login:', error);
-// throw error;
-// }
-// });

@@ -74,8 +74,7 @@ const FormUser = () => {
 
 			dispatch(CreatePostUser({ email: formData.email, password: formData.password }))
 		} catch (error) {
-			console.log(error.code)
-			console.log(error.message)
+	
 		}
 	}
 
@@ -84,8 +83,7 @@ const FormUser = () => {
 		try {
 			dispatch(CreateUserGoogle({ email: formData.email, password: formData.password }))
 		} catch (error) {
-			console.log(error.code)
-			console.log(error.message)
+	
 		}
 	}
 	return (

@@ -14,12 +14,11 @@ const RentalCartMenu = () => {
 
 	const handleMenuClick = (event) => {
 		event.stopPropagation()
-		// console.log('Menu clicked');
+		
 		setMenuOpen((prevMenuOpen) => !prevMenuOpen)
 	}
 
-	// console.log('isMenuOpen:', isMenuOpen);
-
+	
 	const handleEmptyCart = () => {
 		deleteAllItemsFromCart()
 		dispatch(resetCart())
@@ -42,7 +41,7 @@ const RentalCartMenu = () => {
 	const menuRef = useRef(null)
 
 	useEffect(() => {
-		// console.log(cartState.cart)
+		
 		const handleClickOutside = (event) => {
 			if (menuRef.current && !menuRef.current.contains(event.target)) {
 				handleOutsideClick()

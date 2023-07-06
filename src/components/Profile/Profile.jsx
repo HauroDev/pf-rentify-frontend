@@ -14,14 +14,13 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
   const userState = useSelector((state) => state.user);
   let name;
   const localStorageData = localStorage.getItem("userAuth");
-  console.log(localStorage.getItem("userAuth"));
   if (localStorageData) {
     const user = JSON.parse(localStorageData).user;
 
     // Obtener el nombre del usuario
 
     // Imprimir el nombre del usuario en la consola
-    console.log(user.name);
+  
     name = user.name;
   }
   const [newName, setNewName] = useState(name);
@@ -29,7 +28,7 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
 
-  console.log(localStorage);
+ 
   // Obtener el contenido del localStorage
 
   // Verificar si existe el contenido y parsearlo a un objeto
@@ -57,7 +56,7 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
         setIsEditing(false);
         dispatch(setUserName(newName));
       } catch (error) {
-        console.error(error);
+     
       }
     }
   };
@@ -69,7 +68,7 @@ const UserProfile = ({ idUser, image, phone, email, membership }) => {
         setIsEditingPhone(false);
         dispatch(setUserPhone(newPhone));
       } catch (error) {
-        console.error(error);
+       
       }
     }
   };

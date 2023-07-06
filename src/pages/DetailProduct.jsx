@@ -29,7 +29,7 @@ const DetailProduct = () => {
 		})
 		try {
 			const data = await getProductById(id)
-			console.log(data)
+			
 			set({
 				status: 'success',
 				product: { ...data },

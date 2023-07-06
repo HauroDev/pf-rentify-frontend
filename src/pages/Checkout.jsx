@@ -54,12 +54,12 @@ const Checkout = () => {
 		const userAuth = localStorage.getItem(localStorageItems.userAuth)
 			? JSON.parse(localStorage.getItem(localStorageItems.userAuth))
 			: { loggin: false, user: {} }
-		console.log(userAuth.user)
+	
 		try {
 			const data = await postOrdenPago({ items: arrayItems, idUser: userAuth.user.idUser })
 			setPreferenceId(data.preferenceId)
 		} catch (error) {
-			console.log(error)
+			
 			if (error.response.data.error === 'user not exist') {
 				addToast({
 					title: 'Error',

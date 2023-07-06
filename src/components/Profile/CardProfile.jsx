@@ -20,9 +20,7 @@ const CardProfile = () => {
     dispatch(fetchUserProducts(userId));
   }, [dispatch, userId]);
 
-  useEffect(() => {
-    if (productsState.status === "success") console.log(productsState.product);
-  }, [productsState.status]);
+
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">

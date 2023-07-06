@@ -8,7 +8,7 @@ import DescriptionIcon from "../components/icons/DescriptionIcon";
 import { isImgValid } from "../utils/isImgValid";
 
 const ProductPreview = ({name,description,price,location,image,currency}) => {
-  console.log({name,description,price,location,image});
+  
   const [imagePreview, setImagePreview] = useState(null);
   const [imgExist, setImgExist] = useState(false);
 

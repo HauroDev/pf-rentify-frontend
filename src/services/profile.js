@@ -4,14 +4,14 @@ import { getTokenConfig } from "./tokenConfig";
 
 export const getUserProducts = async (id) => {
   const config = getTokenConfig();
-  console.log(id);
+
   const { data } = await axios.get(`${PRODUCTS_API}/user/${id}`, config);
 
   return data;
 };
 
 export const updateUserName = async (id, name) => {
-  console.log(id);
+
   const config = getTokenConfig();
   const { data } = await axios.put(
     `${USER_API}/update-name`,
@@ -25,7 +25,7 @@ export const updateUserName = async (id, name) => {
   return data;
 };
 export const updateUserPhone = async (id, phone) => {
-  console.log(id);
+
   const config = getTokenConfig();
 
   const { data } = await axios.put(
@@ -41,8 +41,7 @@ export const updateUserPhone = async (id, phone) => {
 };
 
 export const updateProductstatusPub = async ({ idProd, statusPub }) => {
-  console.log(idProd, statusPub);
-  console.log("INPUT STATUSPUBs");
+
   const config = getTokenConfig();
 
   const { data } = await axios.put(

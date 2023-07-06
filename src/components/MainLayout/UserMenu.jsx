@@ -39,7 +39,7 @@ const UserMenu = () => {
 		event.stopPropagation()
 		setMenuOpen((prev) => !prev)
 	}
-	// console.log('user menu open', isMenuOpen)
+
 
 
 

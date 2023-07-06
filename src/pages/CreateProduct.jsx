@@ -63,7 +63,7 @@ const CreateProduct = () => {
 			const data = await getCountryStates(id)
 			setDataStates(data)
 		} catch (error) {
-			console.log(error)
+			
 		}
 	}
 
@@ -72,7 +72,7 @@ const CreateProduct = () => {
 			const data = await getCountryStates(id)
 			setDataLocations(data)
 		} catch (error) {
-			console.log(error)
+			
 		}
 	}
 
@@ -97,7 +97,7 @@ const CreateProduct = () => {
 		}
 	}, [countryApiId, stateApiId, userinfo])
 
-	console.log(userinfo);
+
 
 	const handleImageChange = () => {
 		trigger('image');
@@ -136,7 +136,7 @@ const CreateProduct = () => {
 	const handleStateSelect = (e) => {
 		trigger('state')
 		const selectedOption = e.target.options[e.target.selectedIndex].getAttribute('data-geonameid')
-		// console.log(e.target.value)
+		
 		setStateApiId(selectedOption)
 		setValue('location', '')
 	}
@@ -172,7 +172,7 @@ const CreateProduct = () => {
 
 	const onSubmit = async (data) => {
 		setIsLoading(true)
-		console.log(data)
+		
 		const filteredCategories = [...categoriesInfo.categories]
 			.filter((category) => data.categories.includes(String(category.idCategory)))
 			.map((category) => ({ idCategory: category.idCategory, name: category.name }))
@@ -189,15 +189,15 @@ const CreateProduct = () => {
 			idCountry: parseFloat(data.country),
 		}
 
-		console.log(product)
+		
 		try {
 			const imgURL = await saveAndGetImage(data.image[0], 'products')
-			console.log(imgURL)
+			
 			if (!imgURL) {
 				throw Error('Firebase Error')
 			}
 			const updatedProduct = { ...product, image: imgURL }
-			console.log(updatedProduct)
+		
 			const response = await dispatch(fetchPostProductAsync(updatedProduct))
 
 			if (!response.payload) {
@@ -232,8 +232,7 @@ const CreateProduct = () => {
 	}
 
 
-	console.log(productData);
-	console.log(errors);
+
 	return (
 		<div className='container mx-auto flex max-xl:flex-col items-start justify-center gap-8'>
 			<div className='bg-gray_light dark:bg-card_dark p-4 rounded-md shadow-xl flex-grow  min-[1700px]:w-auto xl:w-8/12 min-[1500px]:w-1/2 max-xl:w-8/12'>
@@ -406,7 +405,7 @@ const CreateProduct = () => {
 								className={`w-1/2 dark:bg-body_dark  border rounded px-2 py-1 ${
 									errors.country ? 'border-red-500' : 'border-gray-300'
 								} hover:cursor-pointer focus:outline-none focus:ring focus:border-blue-500`}>
-								<option value='' disabled selected>
+								<option value='country' disabled >
 									Countries
 								</option>
 								{countriesInfo.countries.map((country) => (
@@ -445,7 +444,7 @@ const CreateProduct = () => {
 								className={`w-1/2 dark:bg-body_dark border rounded px-2 py-1 ${
 									errors.country ? 'border-red-500' : 'border-gray-300'
 								} hover:cursor-pointer focus:outline-none focus:ring focus:border-blue-500`}>
-								<option value='' disabled selected>
+								<option value='' disabled>
 									States
 								</option>
 								{dataStates.map((state) => (
@@ -473,13 +472,14 @@ const CreateProduct = () => {
 						</label>
 						{dataLocations.length ? (
 							<select
+								defaultValue='country'
 								id='location'
 								{...register('location', { required: true, onChange: handleLocationSelect })}
 								aria-invalid={errors.location ? 'true' : 'false'}
 								className={`w-1/2 dark:bg-body_dark border rounded px-2 py-1 ${
 									errors.country ? 'border-red-500' : 'border-gray-300'
 								} hover:cursor-pointer focus:outline-none focus:ring focus:border-blue-500`}>
-								<option value='' disabled selected>
+								<option value='country' disabled >
 									Locations
 								</option>
 								{dataLocations.map((location) => (
